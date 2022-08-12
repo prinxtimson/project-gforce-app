@@ -4,7 +4,9 @@ import Authenticated from "../Layouts/Authenticated";
 const Profile = () => {
     return (
         <Authenticated>
-            <div className="">Profile</div>
+            <div className="">
+                <div className="tw-rounded-lg"></div>
+            </div>
         </Authenticated>
     );
 };
