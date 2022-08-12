@@ -18,44 +18,56 @@ const TwoFactorAuth = () => {
 
     return (
         <Guest>
-            <div className="form-demo tw-mb-4">
-                <div className="flex justify-content-center">
-                    <div className="card">
-                        <h5 className="text-center">Two-factor Confirmation</h5>
-                        <div class="tw-mb-4 tw-text-sm tw-text-gray-600">
-                            <template>
-                                Please confirm access to your account by
-                                entering the authentication code provided by
-                                your authenticator application.
-                            </template>
+            <div className="tw-p-6">
+                <div className="form-demo tw-mb-4 tw-text-white">
+                    <div className="flex justify-content-center tw-flex-col tw-items-center">
+                        <div className="tw-my-3">
+                            <img
+                                src="/blacky_logo.jpg"
+                                style={{ height: 85 }}
+                                alt="Blacky Restaurant"
+                            />
+                        </div>
+                        <div className="card">
+                            <h5 className="text-center">
+                                Two-factor Confirmation
+                            </h5>
+                            <div class="tw-mb-4 tw-text-sm tw-text-gray-600">
+                                <template>
+                                    Please confirm access to your account by
+                                    entering the authentication code provided by
+                                    your authenticator application.
+                                </template>
 
-                            {/* <template >
+                                {/* <template >
                 Please confirm access to your account by entering one of your emergency recovery codes.
             </template> */}
-                        </div>
-                        <form onSubmit={submit} className="tw-py-5 p-fluid">
-                            <div className="field">
-                                <span className="p-float-label p-input-icon-right">
-                                    <i className="pi pi-envelope" />
-                                    <InputText
-                                        id="code"
-                                        name="code"
-                                        value={data.code}
-                                        className=""
-                                        onChange={handleOnChange}
-                                    />
-                                    <label htmlFor="code" className="">
-                                        Code*
-                                    </label>
-                                </span>
                             </div>
+                            <form onSubmit={submit} className="tw-py-5 p-fluid">
+                                <div className="field">
+                                    <span className="p-float-label custom-label p-input-icon-right">
+                                        <i className="pi pi-envelope" />
+                                        <InputText
+                                            id="code"
+                                            name="code"
+                                            value={data.code}
+                                            className=""
+                                            onChange={handleOnChange}
+                                        />
+                                        <label htmlFor="code" className="">
+                                            Code*
+                                        </label>
+                                    </span>
+                                </div>
 
-                            <Button
-                                className="tw-ml-4 mt-2"
-                                type="submit"
-                                label="Submit"
-                            />
-                        </form>
+                                <Button
+                                    className="tw-ml-4 mt-2 custom-btn "
+                                    id="custom"
+                                    type="submit"
+                                    label="Submit"
+                                />
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

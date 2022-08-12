@@ -19,7 +19,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/dashboard"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlineHome size={20} className="tw-mr-2" />
                             Dashboard
@@ -27,8 +27,8 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            to="/orders"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlineAssignment
                                 size={20}
@@ -39,8 +39,8 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            to="/payments"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlinePayment size={20} className="tw-mr-2" />
                             Payment
@@ -48,8 +48,8 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            to="/customers"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlineGroup size={20} className="tw-mr-2" />
                             Customers
@@ -57,8 +57,8 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            to="/tasks"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlineNoteAlt size={20} className="tw-mr-2" />
                             Tasks
@@ -66,16 +66,17 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            to="/reviews"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
+                            <MdOutlinePoll size={20} className="tw-mr-2" />
                             Reviews
                         </Link>
                     </li>
                     <li>
                         <Link
                             to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             Reservations
                         </Link>
@@ -83,7 +84,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlineReceipt size={20} className="tw-mr-2" />
                             Billing & Invoice
@@ -92,7 +93,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="#"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             Marketing
                         </Link>
@@ -100,7 +101,7 @@ const Sidebar = () => {
                     <li>
                         <Link
                             to="/create-user"
-                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-sky-500 dark:tw-text-sky-400"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
                             <MdOutlineGroupAdd size={20} className="tw-mr-2" />
                             User Profile

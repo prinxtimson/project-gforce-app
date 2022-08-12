@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Badge } from "primereact/badge";
+import { Tag } from "primereact/tag";
 import { Dropdown } from "primereact/dropdown";
 
 const StatusColumn = ({ data }) => {
@@ -57,7 +57,7 @@ const StatusColumn = ({ data }) => {
                 </div>
             ) : (
                 <span className="tw-text-center" onClick={handleOpen}>
-                    <Badge value={status} severity="success" />
+                    <Tag value={status} severity="success"></Tag>
                 </span>
             )}
         </div>

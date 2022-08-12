@@ -1,0 +1,12 @@
+[
+    {
+        "id": "272",
+        "first_name": "John",
+        "last_name": "Doe",
+        "username": "admin",
+        "email": "admin@blackyrestuarant.com",
+        "password": "Blacky22",
+        "role": "super-admin",
+        "avatar": ""
+    }
+]

@@ -36,7 +36,7 @@ const Dashboard = () => {
             <div className="">
                 <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 xl:tw-grid-cols-4 tw-gap-4">
                     <div className="">
-                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md">
+                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md tw-bg-white">
                             <div className="tw-flex tw-justify-between tw-mb-3">
                                 <div>
                                     <span className="tw-block tw-text-500 tw-font-medium tw-mb-3">
@@ -65,7 +65,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="">
-                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md">
+                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md tw-bg-white">
                             <div className="tw-flex tw-justify-between tw-mb-3">
                                 <div>
                                     <span className="tw-block tw-text-500 tw-font-medium tw-mb-3">
@@ -92,7 +92,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-12">
-                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md">
+                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md tw-bg-white">
                             <div className="tw-flex tw-justify-between tw-mb-3">
                                 <div>
                                     <span className="tw-block tw-text-500 tw-font-medium tw-mb-3">
@@ -121,7 +121,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="">
-                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md">
+                        <div className="tw-surface tw-shadow-md tw-p-3 tw-border tw-rounded-md tw-bg-white">
                             <div className="tw-flex tw-justify-between tw-mb-3">
                                 <div>
                                     <span className="tw-block tw-text-500 tw-font-medium tw-mb-3">
@@ -150,7 +150,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="tw-py-10 tw-grid tw-grid-cols-1 xl:tw-grid-cols-2 tw-gap-4">
-                    <div className="tw-p-4 tw-shadow-lg tw-rounded-md">
+                    <div className="tw-p-4 tw-shadow-lg tw-rounded-md tw-bg-white">
                         <div className="tw-mt-4 tw-mb-2 tw-border-b tw-pb-2">
                             <h5>Revenue</h5>
                         </div>
@@ -160,7 +160,7 @@ const Dashboard = () => {
                             options={basicOptions}
                         />
                     </div>
-                    <div className="tw-p-4 tw-shadow-lg tw-rounded-md">
+                    <div className="tw-p-4 tw-shadow-lg tw-rounded-md tw-bg-white">
                         <div className="tw-mt-4 tw-mb-2 tw-border-b tw-pb-2">
                             <h5>Daily Trending Menu</h5>
                         </div>

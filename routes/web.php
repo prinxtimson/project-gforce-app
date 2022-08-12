@@ -32,6 +32,10 @@ Route::middleware(['guest'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
     Route::get('/dashboard', function () {
         return view('welcome');
     });
@@ -41,6 +45,18 @@ Route::middleware(['guest'])->group(function () {
     });
 
     Route::get('/orders', function () {
+        return view('welcome');
+    });
+
+    Route::get('/customers', function () {
+        return view('welcome');
+    });
+
+    Route::get('/payments', function () {
+        return view('welcome');
+    });
+
+    Route::get('/orders/{id}', function () {
         return view('welcome');
     });
 

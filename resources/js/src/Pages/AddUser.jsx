@@ -19,17 +19,16 @@ const AddUser = () => {
     return (
         <Authenticated>
             <div className="tw-flex tw-items-center tw-justify-center">
-                <div className="tw-card tw-p-6 tw-shadow-md tw-rounded-md tw-w-full md:tw-w-[36.5rem]">
+                <div className="tw-card tw-bg-white tw-p-6 tw-shadow-md tw-rounded-md tw-w-full md:tw-w-[36.5rem]">
                     <div className="tw-text-center tw-mb-5">
-                        <div className="tw-text-900 tw-text-3xl tw-font-medium tw-mb-3">
+                        <div className="tw-text-900 tw-text-xl tw-font-medium tw-mb-12">
                             Add User
                         </div>
                     </div>
 
                     <form className="p-fluid">
                         <div className="field tw-mb-6">
-                            <span className="p-float-label p-input-icon-right">
-                                <i className="pi pi-user" />
+                            <span className="p-float-label ">
                                 <InputText
                                     id="first_name"
                                     type="text"
@@ -45,8 +44,7 @@ const AddUser = () => {
                             </span>
                         </div>
                         <div className="field tw-mb-6">
-                            <span className="p-float-label p-input-icon-right">
-                                <i className="pi pi-user" />
+                            <span className="p-float-label ">
                                 <InputText
                                     id="last_name"
                                     type="text"
@@ -109,11 +107,7 @@ const AddUser = () => {
                                 </label>
                             </span>
                         </div>
-                        <Button
-                            label="Sign In"
-                            icon="pi pi-user"
-                            className="tw-w-full"
-                        />
+                        <Button label="Submit" className="tw-w-full" />
                     </form>
                 </div>
             </div>

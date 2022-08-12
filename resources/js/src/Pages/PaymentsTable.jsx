@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
@@ -7,12 +6,10 @@ import { Column } from "primereact/column";
 import { Menu } from "primereact/menu";
 
 import Authenticated from "../Layouts/Authenticated";
-import StatusColumn from "../components/StatusColumn";
 
-const OrdersTable = () => {
-    const navigate = useNavigate();
-    const [orders, setOrders] = useState([]);
-    const [selectedOrders, setSelectedOrders] = useState(null);
+const PaymentsTable = () => {
+    const [payments, setPayments] = useState([]);
+    const [selectedPayments, setSelectedPayments] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
@@ -21,17 +18,18 @@ const OrdersTable = () => {
     const [first, setFirst] = useState(0);
 
     useEffect(() => {
-        setOrders(exmples);
+        setPayments(exmples);
         setLoading(false);
     }, []);
 
     const columns = [
         { field: "id", header: "ID", width: "3rem" },
+        { field: "name", header: "Name", width: "14rem" },
         { field: "created_at", header: "Date", width: "10rem" },
-        { field: "customer_name", header: "Customer Name", width: "14rem" },
-        { field: "location", header: "Location", width: "12rem" },
-        { field: "amount", header: "Amount", width: "6rem" },
-        { field: "status", header: "Status", width: "8rem" },
+        { field: "payment_type", header: "Payment Type", width: "10rem" },
+        { field: "payment_method", header: "Payment Method", width: "10rem" },
+        { field: "amount", header: "Amount", width: "5rem" },
+        { field: "status", header: "Status", width: "5rem" },
         { field: "menu", header: "", width: "3rem" },
     ];
 
@@ -47,7 +45,7 @@ const OrdersTable = () => {
     const renderHeader = () => {
         return (
             <div className="tw-flex tw-justify-between tw-items-center">
-                <h5 className="tw-m-0">Orders</h5>
+                <h5 className="tw-m-0">Payments</h5>
                 <span className="p-input-icon-left">
                     <i className="pi pi-search" />
                     <InputText
@@ -60,61 +58,43 @@ const OrdersTable = () => {
         );
     };
 
-    const statusBodyTemplate = (rowData) => {
-        return <StatusColumn data={rowData} />;
-    };
-
     const dynamicColumns = columns.map((col, i) => {
-        if (col.field === "status") {
-            return (
-                <Column
-                    key={col.field}
-                    //field={col.field}
-                    header={col.header}
-                    body={statusBodyTemplate}
-                    style={{ minWidth: col.width }}
-                />
-            );
-        }
+        let menu = null;
+        let items = [
+            { label: "Refund", icon: "pi pi-fw pi-check" },
+            { label: "Delete", icon: "pi pi-fw pi-trash" },
+        ];
+        // if (col.field === "status") {
+        //     return (
+        //         <Column
+        //             key={col.field}
+        //             //field={col.field}
+        //             header={col.header}
+        //             body={statusBodyTemplate}
+        //         />
+        //     );
+        // }
 
         if (col.field === "menu") {
             return (
                 <Column
                     key={col.field}
                     //field={col.field}
-                    body={(data) => {
-                        let menu = null;
-                        let items = [
-                            {
-                                label: "View order",
-                                icon: "pi pi-fw pi-eye",
-                                command: () => navigate(data.id),
-                            },
-                            {
-                                label: "Accept order",
-                                icon: "pi pi-fw pi-check",
-                            },
-                            {
-                                label: "Reject order",
-                                icon: "pi pi-fw pi-times",
-                            },
-                        ];
-                        return (
-                            <span className="">
-                                <Menu
-                                    model={items}
-                                    popup
-                                    ref={(ref) => (menu = ref)}
-                                />
-                                <button
-                                    className="tw-border-0"
-                                    onClick={(event) => menu.toggle(event)}
-                                >
-                                    <i className="pi pi-ellipsis-v"></i>
-                                </button>
-                            </span>
-                        );
-                    }}
+                    body={() => (
+                        <span className="">
+                            <Menu
+                                model={items}
+                                popup
+                                ref={(ref) => (menu = ref)}
+                            />
+                            <button
+                                className="tw-border-0"
+                                onClick={(event) => menu.toggle(event)}
+                            >
+                                <i className="pi pi-ellipsis-v"></i>
+                            </button>
+                        </span>
+                    )}
                     headerStyle={{ width: col.width, textAlign: "center" }}
                     bodyStyle={{ textAlign: "center", overflow: "visible" }}
                 />
@@ -136,21 +116,21 @@ const OrdersTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <DataTable
-                    value={orders}
+                    value={payments}
                     className="p-datatable-customers"
                     header={header}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     rowsPerPageOptions={[10, 25, 50]}
                     dataKey="id"
                     rowHover
-                    selection={selectedOrders}
-                    emptyMessage="No order found."
+                    selection={selectedPayments}
+                    emptyMessage="No payments found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={loading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedOrders(e.value)}
+                    onSelectionChange={(e) => setSelectedPayments(e.value)}
                     paginator
                     rows={10}
                     first={first}
@@ -167,31 +147,43 @@ const OrdersTable = () => {
     );
 };
 
-export default OrdersTable;
+export default PaymentsTable;
 
 const exmples = [
     {
-        id: "57556",
+        id: "57",
         created_at: "01/01/21 13PM",
-        customer_name: "Hunter Bidden",
-        location: "212 Lagos St",
+        name: "Hunter Bidden",
+        payment_type: "Apple pay",
+        payment_method: "Online",
         amount: "£13.99",
-        status: "New Order",
+        status: "Paid",
     },
     {
-        id: "57557",
+        id: "5",
         created_at: "01/01/21 13PM",
-        customer_name: "Hunter Bidden",
-        location: "212 Lagos St",
+        name: "Hunter Bidden",
+        payment_type: "Credit card",
+        payment_method: "indoors",
         amount: "£13.99",
-        status: "Delivered",
+        status: "Paid",
     },
     {
-        id: "57558",
+        id: "72",
         created_at: "01/01/21 13PM",
-        customer_name: "Hunter Bidden",
-        location: "212 Lagos St",
+        name: "Hunter Bidden",
+        payment_type: "Bank Transfer",
+        payment_method: "On phone",
         amount: "£13.99",
-        status: "On Delivery",
+        status: "Paid",
+    },
+    {
+        id: "30",
+        created_at: "01/01/21 13PM",
+        name: "Hunter Bidden",
+        payment_type: "Cash",
+        payment_method: "indoors",
+        amount: "£13.99",
+        status: "Paid",
     },
 ];
