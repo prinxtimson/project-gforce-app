@@ -5,7 +5,7 @@ const Profile = () => {
     return (
         <Authenticated>
             <div className="">
-                <div className="tw-rounded-lg"></div>
+                <div className="tw-rounded-lg">Profile</div>
             </div>
         </Authenticated>
     );
