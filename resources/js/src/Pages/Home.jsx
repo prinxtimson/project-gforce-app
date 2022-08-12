@@ -8,7 +8,7 @@ const Home = () => {
                 <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-0">
                     <div className="tw-relative">
                         <img
-                            src="/blacky_restaurant.jpg"
+                            src="/blacky_restaurant.JPG"
                             alt=""
                             style={{ width: "100%", minHeight: "100%" }}
                         />
