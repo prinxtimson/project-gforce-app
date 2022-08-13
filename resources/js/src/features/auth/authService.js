@@ -14,7 +14,13 @@ const register = async (userData) => {
     sessionStorage.setItem(userData.email, JSON.stringify(userData));
 
     if (userData) {
-        localStorage.setItem("user", JSON.stringify(userData));
+        localStorage.setItem(
+            "user",
+            JSON.stringify({
+                user: userData,
+                token: "HH2i93nind0303ndKLsidw2obZh0",
+            })
+        );
         localStorage.setItem("profile", JSON.stringify({ user: userData }));
     }
 
@@ -44,12 +50,14 @@ const login = async (userData) => {
             message:
                 "Sorry, your login is invalid. Please re-enter your details carefully.",
         };
-    } else {
-        localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("profile", JSON.stringify({ user }));
     }
 
-    return { user, token: "HH2i93nind0303ndKLsidw2obZh0" };
+    let newUser = { user, token: "HH2i93nind0303ndKLsidw2obZh0" };
+
+    localStorage.setItem("user", JSON.stringify(newUser));
+    localStorage.setItem("profile", JSON.stringify({ user }));
+
+    return newUser;
 };
 
 const forgotPass = async (email) => {

@@ -36,7 +36,19 @@ Route::middleware(['guest'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/reviews', function () {
+        return view('welcome');
+    });
+
+    Route::get('/staffs', function () {
+        return view('welcome');
+    });
+
     Route::get('/dashboard', function () {
+        return view('welcome');
+    });
+
+    Route::get('/account', function () {
         return view('welcome');
     });
 
@@ -44,7 +56,19 @@ Route::middleware(['guest'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/change-password', function () {
+        return view('welcome');
+    });
+
     Route::get('/orders', function () {
+        return view('welcome');
+    });
+
+    Route::get('/reports', function () {
+        return view('welcome');
+    });
+
+    Route::get('/tasks', function () {
         return view('welcome');
     });
 

@@ -2,14 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
     MdOutlineAssignment,
-    MdOutlineGroupAdd,
+    MdOutlinePermContactCalendar,
     MdOutlineGroup,
     MdOutlineNoteAlt,
     MdOutlinePayment,
     MdOutlineReceipt,
-    MdOutlinePoll,
+    MdOutlineReviews,
     MdOutlineHome,
+    MdViewModule,
 } from "react-icons/md";
+import { FaChartArea } from "react-icons/fa";
+import { BsMegaphone } from "react-icons/bs";
 
 const Sidebar = () => {
     return (
@@ -57,6 +60,15 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
+                            to="/reports"
+                            className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
+                        >
+                            <FaChartArea size={20} className="tw-mr-2" />
+                            Analytics & Reports
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             to="/tasks"
                             className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
@@ -69,7 +81,7 @@ const Sidebar = () => {
                             to="/reviews"
                             className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
-                            <MdOutlinePoll size={20} className="tw-mr-2" />
+                            <MdOutlineReviews size={20} className="tw-mr-2" />
                             Reviews
                         </Link>
                     </li>
@@ -78,6 +90,7 @@ const Sidebar = () => {
                             to="#"
                             className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
+                            <MdViewModule size={20} className="tw-mr-2" />
                             Reservations
                         </Link>
                     </li>
@@ -95,16 +108,20 @@ const Sidebar = () => {
                             to="#"
                             className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
+                            <BsMegaphone size={20} className="tw-mr-2" />
                             Marketing
                         </Link>
                     </li>
                     <li>
                         <Link
-                            to="/create-user"
+                            to="/staffs"
                             className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
-                            <MdOutlineGroupAdd size={20} className="tw-mr-2" />
-                            User Profile
+                            <MdOutlinePermContactCalendar
+                                size={20}
+                                className="tw-mr-2"
+                            />
+                            Staffs
                         </Link>
                     </li>
                 </ul>

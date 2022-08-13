@@ -1,6 +1,6 @@
 .custom-label input:-webkit-autofill ~ label,
 .custom-label input.p-filled ~ label,
-input:focus ~ label,
+.custom-label input:focus ~ label,
 .custom-label textarea:focus ~ label,
 .custom-label textarea.p-filled ~ label,
 .custom-label .p-inputwrapper-focus ~ label,
@@ -16,4 +16,8 @@ input:focus ~ label,
 .custom-btn:hover {
     background: #222 !important;
     border: 1px solid #222 !important;
+}
+
+.p-rating .p-rating-icon.pi-star-fill {
+    color: gold !important;
 }

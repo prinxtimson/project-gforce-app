@@ -4,9 +4,10 @@
         "first_name": "John",
         "last_name": "Doe",
         "username": "admin",
-        "email": "admin@blackyrestuarant.com",
+        "email": "admin@blackyrestaurant.com",
         "password": "Blacky22",
         "role": "super-admin",
-        "avatar": ""
+        "phone": "",
+        "avatar": "/images/no_img.png"
     }
 ]

@@ -13,7 +13,7 @@ const AddUser = () => {
         password: "",
     });
     const handleOnChange = (event) => {
-        setData(event.target.id, event.target.value);
+        setData({ ...data, [event.target.name]: event.target.value });
     };
 
     return (
@@ -30,7 +30,7 @@ const AddUser = () => {
                         <div className="field tw-mb-6">
                             <span className="p-float-label ">
                                 <InputText
-                                    id="first_name"
+                                    name="first_name"
                                     type="text"
                                     className="tw-w-full "
                                     value={data.first_name}
@@ -46,7 +46,7 @@ const AddUser = () => {
                         <div className="field tw-mb-6">
                             <span className="p-float-label ">
                                 <InputText
-                                    id="last_name"
+                                    name="last_name"
                                     type="text"
                                     className="tw-w-full "
                                     value={data.last_name}
@@ -78,7 +78,7 @@ const AddUser = () => {
                             <span className="p-float-label p-input-icon-right">
                                 <i className="pi pi-envelope" />
                                 <InputText
-                                    id="email"
+                                    name="email"
                                     type="email"
                                     className="tw-w-full "
                                     value={data.email}
@@ -93,7 +93,7 @@ const AddUser = () => {
                         <div className="field tw-mb-6">
                             <span className="p-float-label">
                                 <Password
-                                    id="password"
+                                    name="password"
                                     type="password"
                                     toggleMask
                                     className="tw-w-full"

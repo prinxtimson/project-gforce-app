@@ -20,6 +20,12 @@ import SingleOrder from "./Pages/SingleOrder";
 import PaymentsTable from "./Pages/PaymentsTable";
 import CustomersTable from "./Pages/CustomersTable";
 import Home from "./Pages/Home";
+import Reports from "./Pages/Reports";
+import TasksTable from "./Pages/TasksTable";
+import ReviewsTable from "./Pages/ReviewsTable";
+import UsersTable from "./Pages/UsersTable";
+import ChangePassword from "./Pages/ChangePassword";
+import Profile from "./Pages/Profile";
 
 const App = () => {
     return (
@@ -33,11 +39,20 @@ const App = () => {
                         element={<ForgotPassword />}
                     />
                     <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/account" element={<Profile />} />
                     <Route path="/orders" element={<Orders />} />
+                    <Route path="/tasks" element={<TasksTable />} />
+                    <Route path="/reviews" element={<ReviewsTable />} />
                     <Route path="/customers" element={<CustomersTable />} />
+                    <Route path="/reports" element={<Reports />} />
                     <Route path="/payments" element={<PaymentsTable />} />
                     <Route path="/orders/:id" element={<SingleOrder />} />
+                    <Route path="/staffs" element={<UsersTable />} />
                     <Route path="/create-user" element={<AddUser />} />
+                    <Route
+                        path="/change-password"
+                        element={<ChangePassword />}
+                    />
                     <Route
                         path="/password/reset/:token"
                         element={<ResetPassword />}

@@ -2,11 +2,12 @@ import { useRef } from "react";
 import { Menu } from "primereact/menu";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "primereact/avatar";
 
 const Header = ({ onOpenSidebar }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user } = useSelector((state) => state.auth);
 
     const onLogout = () => {
@@ -19,10 +20,12 @@ const Header = ({ onOpenSidebar }) => {
         {
             label: "My Account",
             icon: "pi pi-fw pi-user",
+            command: () => navigate("/account"),
         },
         {
             label: "Change Password",
             icon: "pi pi-fw pi-lock",
+            command: () => navigate("/change-password"),
         },
         {
             label: "Logout",
@@ -46,8 +49,8 @@ const Header = ({ onOpenSidebar }) => {
                                     d="M5 6h14M5 12h14M5 18h14"
                                     fill="none"
                                     stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
                                 ></path>
                             </svg>
                         </button>
