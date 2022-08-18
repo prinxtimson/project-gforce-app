@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('user_id')
                   ->constrained()->onDelete('cascade');
             $table->string('code');
-            $table->timestamp('confirmed_at');
+            $table->timestamp('confirmed_at')->nullable();
             $table->timestamps();
         });
     }
