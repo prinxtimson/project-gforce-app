@@ -151,7 +151,7 @@ class AuthController extends Controller
         $fields = $request->validate([
             'firstname' => 'required|string',
             'lastname' => 'required|string',
-            'username' => 'unique:users,username|string',
+            'username' => 'string',
         ]);
 
         $username = $request->only('username') || $user->username;
@@ -161,7 +161,7 @@ class AuthController extends Controller
             'username' => strtolower($username),
         ]);
 
-        $user->profile()->update($request->except(['avatar', '_method' ]));
+        $user->profile()->update($request->except(['avatar', '_method', 'email', 'username' ]));
 
         if ($request->hasFile('avatar')) {
             $user->clearMediaCollection('avatars');
@@ -177,11 +177,11 @@ class AuthController extends Controller
 
         $user->refresh()->load(['profile','roles']);
 
-        $response = [
-            'user' => $user,
-        ];
+        // $response = [
+        //     'user' => $user,
+        // ];
 
-        return $response;
+        return $user;
     }
 
     public function changePass(Request $request)
