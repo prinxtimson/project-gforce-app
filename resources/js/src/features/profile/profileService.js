@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = window.axios;
 
 const API_URL = "/api/users/";
 
@@ -16,7 +16,6 @@ const updateProfile = async (data) => {
 
 const addNewUser = async (data) => {
     const res = await axios.post(API_URL, data);
-    console.log(res.data);
     return res.data;
 };
 

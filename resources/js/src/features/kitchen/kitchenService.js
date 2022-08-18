@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = window.axios;
 
 const API_URL = "/api/order/";
 
