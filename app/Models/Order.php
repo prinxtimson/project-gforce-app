@@ -26,6 +26,11 @@ class Order extends Model
         $this->belongsTo(User::class);
     }
 
+    public function items()
+    {
+        $this->hasMany(OrderItem::class);
+    }
+
     public function status()
     {
         $this->hasOne(OrderStatus::class);

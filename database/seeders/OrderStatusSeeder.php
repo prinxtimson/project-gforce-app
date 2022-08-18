@@ -17,6 +17,11 @@ class OrderStatusSeeder extends Seeder
     {
         $statuses = [
             [
+                'name' => 'New Order',
+                'slug' => 'new-order',
+                'description' => 'New Order received',
+            ],
+            [
                 'name' => 'Prepering',
                 'slug' => 'prepering',
                 'description' => 'Order is under preperation',
