@@ -1,6 +1,6 @@
 const axios = window.axios;
 
-const API_URL = "/api/reviews/";
+const API_URL = "https://blackyrestaurant.herokuapp.com/api/reviews/";
 
 const getReviews = async () => {
     const res = await axios.get(API_URL);

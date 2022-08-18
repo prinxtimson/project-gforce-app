@@ -1,6 +1,6 @@
 const axios = window.axios;
 
-const API_URL = "/api/";
+const API_URL = "https://blackyrestaurant.herokuapp.com/api/";
 
 const register = async (userData) => {
     const res = await axios.post(API_URL, userData);
