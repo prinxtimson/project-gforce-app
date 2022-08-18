@@ -63,7 +63,7 @@ const Profile = () => {
                 username,
                 lastname,
                 firstname,
-                phone,
+                phone: phone ? phone : "",
             });
         }
     }, [profile]);

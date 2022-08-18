@@ -113,14 +113,14 @@ class AuthController extends Controller
         // $notifications = auth()->user()->notifications;
         // $count = auth()->user()->unreadNotifications->count();
 
-        $response = [
-            'user' => $user,
-            // 'notifications' => [
-            //     'data' => $notifications,
-            //     'count' => $count
-            // ],
-        ];
-        return $response;
+        // $response = [
+        //     'user' => $user,
+        //     // 'notifications' => [
+        //     //     'data' => $notifications,
+        //     //     'count' => $count
+        //     // ],
+        // ];
+        return $user;
     }
 
     public function logout(Request $request) {
