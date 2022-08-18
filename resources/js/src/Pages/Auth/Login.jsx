@@ -32,7 +32,7 @@ export default function Login() {
         }
 
         if (isSuccess || user) {
-            navigate("/dashboard");
+            navigate("/two-factor-auth");
         }
 
         dispatch(reset());

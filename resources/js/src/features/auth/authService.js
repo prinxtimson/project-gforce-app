@@ -1,79 +1,59 @@
-/* eslint-disable no-throw-literal */
-import axios from "axios";
-import userDB from "../../db/userDB.json";
+const axios = window.axios;
 
-const API_URL = "/api/users/";
+const API_URL = "/api/";
 
 const register = async (userData) => {
-    //const res = await axios.post(API_URL, userData);
+    const res = await axios.post(API_URL, userData);
 
-    const isExist = sessionStorage.getItem(userData.email);
-
-    if (isExist) throw { message: "User alreaady exist." };
-
-    sessionStorage.setItem(userData.email, JSON.stringify(userData));
-
-    if (userData) {
-        localStorage.setItem(
-            "user",
-            JSON.stringify({
-                user: userData,
-                token: "HH2i93nind0303ndKLsidw2obZh0",
-            })
-        );
-        localStorage.setItem("profile", JSON.stringify({ user: userData }));
+    if (res.data) {
+        localStorage.setItem("user", JSON.stringify(res.data));
     }
 
-    return { user: userData, token: "HH2i93nind0303ndKLsidw2obZh0" };
+    return res.data;
 };
 
 const logout = async () => {
+    await axios.get(`/sanctum/csrf-cookie`);
+    await axios.post(API_URL + "logout");
     localStorage.removeItem("user");
-    localStorage.removeItem("profile");
 };
 
-// const login = async (userData) => {
-//   const res = await axios.post(API_URL, userData);
-
-//   if (res.data) {
-//     localStorage.setItem("user", JSON.stringify(res.data));
-//   }
-
-//   return res.data;
-// };
-
 const login = async (userData) => {
-    const user = userDB.find((val) => val.email == userData.email);
+    const res = await axios.post(API_URL + "login", userData);
 
-    if (!user || user.password !== userData.password) {
-        throw {
-            message:
-                "Sorry, your login is invalid. Please re-enter your details carefully.",
-        };
+    if (res.data) {
+        localStorage.setItem("user", JSON.stringify(res.data));
     }
 
-    let newUser = { user, token: "HH2i93nind0303ndKLsidw2obZh0" };
-
-    localStorage.setItem("user", JSON.stringify(newUser));
-    localStorage.setItem("profile", JSON.stringify({ user }));
-
-    return newUser;
+    return res.data;
 };
 
 const forgotPass = async (email) => {
-    const res = await axios.post(API_URL, email);
+    const res = await axios.post(API_URL + "forgot-password", email);
+
+    return res.data;
+};
+
+const verifyCode = async (data) => {
+    const res = await axios.post(API_URL + "two-factor-auth", data);
+
+    return res.data;
+};
+
+const resendCode = async () => {
+    const res = await axios.get(API_URL + "two-factor-auth/resend");
 
     return res.data;
 };
 
 const resetPass = async (data) => {
-    const res = await axios.post(API_URL, data);
+    const res = await axios.post(API_URL + "reset-password", data);
 
     return res.data;
 };
 
 const changePass = async (data) => {
-    const res = await axios.post(API_URL, data);
+    const res = await axios.post(API_URL + "change-password", data);
 
     return res.data;
 };
@@ -84,6 +64,8 @@ const authService = {
     login,
     forgotPass,
     resetPass,
+    verifyCode,
+    resendCode,
     changePass,
 };
 

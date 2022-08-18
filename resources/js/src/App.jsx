@@ -26,6 +26,8 @@ import ReviewsTable from "./Pages/ReviewsTable";
 import UsersTable from "./Pages/UsersTable";
 import ChangePassword from "./Pages/ChangePassword";
 import Profile from "./Pages/Profile";
+import KitchenOrder from "./Pages/KitchenOrder";
+import TwoFactorAuth from "./Pages/Auth/TwoFactorAuth";
 
 const App = () => {
     return (
@@ -38,9 +40,17 @@ const App = () => {
                         path="/forgot-password"
                         element={<ForgotPassword />}
                     />
+                    <Route
+                        exact
+                        path="/two-factor-auth"
+                        element={<TwoFactorAuth />}
+                    />
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/account" element={<Profile />} />
                     <Route path="/orders" element={<Orders />} />
+                    <Route path="/kitchen">
+                        <Route path="" element={<KitchenOrder />} />
+                    </Route>
                     <Route path="/tasks" element={<TasksTable />} />
                     <Route path="/reviews" element={<ReviewsTable />} />
                     <Route path="/customers" element={<CustomersTable />} />

@@ -1,27 +1,50 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable no-throw-literal */
-import productDB from "../../db/productDB.json";
-// import axios from "axios";
+const axios = window.axios;
 
-// const API_URL = "/api/users/";
+const API_URL = "/api/products/";
 
 const getProducts = async () => {
-  let data = productDB;
+    const res = await axios.get(API_URL);
 
-  return data;
+    return res.data;
+};
+
+const getProductsByPage = async (page) => {
+    const res = await axios.get("/api/products?page=" + page);
+
+    return res.data;
 };
 
 const getProductById = async (id) => {
-  let data = productDB.find((val) => val.id == id);
+    const res = await axios.get(API_URL + id);
 
-  if (!data) throw { message: "Product not found" };
+    return res.data;
+};
 
-  return data;
+const saveProduct = async (data) => {
+    const res = await axios.post(API_URL, data);
+
+    return res.data;
+};
+
+const updateProduct = async (data) => {
+    const res = await axios.post(API_URL + data.id, data);
+
+    return res.data;
+};
+
+const removeProduct = async (id) => {
+    const res = await axios.post(API_URL + id);
+
+    return res.data;
 };
 
 const productService = {
-  getProducts,
-  getProductById,
+    getProducts,
+    getProductById,
+    getProductsByPage,
+    saveProduct,
+    updateProduct,
+    removeProduct,
 };
 
 export default productService;

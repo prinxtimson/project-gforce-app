@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
+import { toast } from "react-toastify";
+import { useSelector, useDispatch } from "react-redux";
 
 import Authenticated from "../Layouts/Authenticated";
+import { changePass, reset } from "../features/auth/authSlice";
 
 const ChangePassword = () => {
     const [data, setData] = useState({
@@ -10,8 +13,37 @@ const ChangePassword = () => {
         password: "",
         password_confirmation: "",
     });
+
+    const dispatch = useDispatch();
+
+    const { isLoading, isSuccess, isError, message } = useSelector(
+        (state) => state.auth
+    );
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess) {
+            toast.success(message);
+            setData({
+                current_password: "",
+                password: "",
+                password_confirmation: "",
+            });
+        }
+
+        dispatch(reset());
+    }, [isError, isSuccess, message, dispatch]);
+
     const handleOnChange = (event) => {
         setData({ ...data, [event.target.name]: event.target.value });
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        dispatch(changePass(data));
     };
 
     return (
@@ -24,18 +56,18 @@ const ChangePassword = () => {
                         </div>
                     </div>
 
-                    <form className="p-fluid">
+                    <form className="p-fluid" onSubmit={onSubmit}>
                         <div className="field tw-mb-6">
                             <span className="p-float-label ">
                                 <Password
                                     name="current_password"
-                                    type="text"
                                     className="tw-w-full "
                                     toggleMask
                                     value={data.current_password}
                                     onChange={handleOnChange}
                                     autoComplete="off"
                                     autoFocus
+                                    required
                                 />
                                 <label htmlFor="current_password" className="">
                                     Current Password *
@@ -46,12 +78,12 @@ const ChangePassword = () => {
                             <span className="p-float-label ">
                                 <Password
                                     name="password"
-                                    type="text"
                                     className="tw-w-full "
                                     toggleMask
                                     value={data.password}
                                     onChange={handleOnChange}
                                     autoComplete="off"
+                                    required
                                 />
                                 <label htmlFor="password" className="">
                                     New Password *
@@ -62,12 +94,12 @@ const ChangePassword = () => {
                             <span className="p-float-label">
                                 <Password
                                     name="password_confirmation"
-                                    type="password_confirmation"
                                     toggleMask
                                     className="tw-w-full "
                                     value={data.password_confirmation}
                                     onChange={handleOnChange}
                                     autoComplete="off"
+                                    required
                                 />
                                 <label
                                     htmlFor="password_confirmation"
@@ -78,7 +110,12 @@ const ChangePassword = () => {
                             </span>
                         </div>
 
-                        <Button label="Submit" className="tw-w-full" />
+                        <Button
+                            type="submit"
+                            disabled={isLoading}
+                            label="Submit"
+                            className="tw-w-full"
+                        />
                     </form>
                 </div>
             </div>

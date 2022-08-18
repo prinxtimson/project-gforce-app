@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Button } from "primereact/button";
+import { toast } from "react-toastify";
 
+import {
+    getProfile,
+    reset,
+    clear,
+    updateProfile,
+} from "../features/profile/profileSlice";
 import Input from "../components/Input";
 import Label from "../components/Label";
 import ProfileAvatar from "../components/ProfileAvatar";
@@ -12,24 +19,58 @@ const Profile = () => {
         avatar: "",
         email: "",
         username: "",
-        last_name: "",
-        first_name: "",
+        lastname: "",
+        firstname: "",
         phone: "",
     });
 
-    const { user } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+    const { profile, isLoading, isError, isSuccess, message } = useSelector(
+        (state) => state.profile
+    );
 
     useEffect(() => {
-        if (user) {
+        dispatch(getProfile());
+
+        return () => dispatch(clear());
+    }, []);
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess) {
+            toast.success("profile updated successfuly");
+        }
+
+        dispatch(reset());
+    }, [isError, isSuccess, message, dispatch]);
+
+    useEffect(() => {
+        if (profile) {
+            const {
+                email,
+                avatar,
+                username,
+                profile: { lastname, firstname, phone },
+            } = profile;
             setData({
-                ...user.user,
-                phone: user.phone || "",
+                ...data,
+                email,
+                avatar,
+                username,
+                lastname,
+                firstname,
+                phone,
             });
         }
-    }, [user]);
+    }, [profile]);
 
     const onProfileSave = (e) => {
         e.preventDefault();
+        dispatch(updateProfile(data));
     };
 
     const onHandleChange = (event) => {
@@ -57,7 +98,7 @@ const Profile = () => {
                                             <div className="tw-flex tw-flex-col tw-items-center">
                                                 <ProfileAvatar
                                                     source={`${
-                                                        user?.user.avatar
+                                                        profile?.avatar
                                                     }?${new Date().getTime()}`}
                                                 />
                                             </div>
@@ -65,19 +106,19 @@ const Profile = () => {
                                                 <div className="tw-mt-4 tw-grid tw-grid-cols-3 tw-gap-4 tw-items-center ">
                                                     <div className="tw-justify-self-end">
                                                         <Label
-                                                            forInput="first_name"
+                                                            forInput="firstname"
                                                             value="First Name"
                                                         />
                                                     </div>
                                                     <div className="tw-col-span-2">
                                                         <Input
                                                             type="text"
-                                                            name="first_name"
+                                                            name="firstname"
                                                             value={
-                                                                data.first_name
+                                                                data.firstname
                                                             }
                                                             className="tw-mt-1 tw-block tw-w-full"
-                                                            autoComplete="first_name"
+                                                            autoComplete="firstname"
                                                             placeholder="First Name"
                                                             handleChange={
                                                                 onHandleChange
@@ -88,19 +129,19 @@ const Profile = () => {
                                                 <div className="tw-mt-4 tw-grid tw-grid-cols-3 tw-gap-4 tw-items-center ">
                                                     <div className="tw-justify-self-end">
                                                         <Label
-                                                            forInput="last_name"
+                                                            forInput="lastname"
                                                             value="Last Name"
                                                         />
                                                     </div>
                                                     <div className="tw-col-span-2">
                                                         <Input
                                                             type="text"
-                                                            name="last_name"
+                                                            name="lastname"
                                                             value={
-                                                                data.last_name
+                                                                data.lastname
                                                             }
                                                             className="tw-mt-1 tw-block tw-w-full"
-                                                            autoComplete="last_name"
+                                                            autoComplete="lastname"
                                                             placeholder="Last Name"
                                                             handleChange={
                                                                 onHandleChange
@@ -152,10 +193,14 @@ const Profile = () => {
                                                 <Button
                                                     className="tw-ml-4"
                                                     label="Save"
+                                                    type="submit"
+                                                    disabled={isLoading}
                                                 />
                                                 <Button
                                                     className="tw-ml-4"
                                                     label="Cancel"
+                                                    type="button"
+                                                    disabled={isLoading}
                                                 />
                                             </div>
                                         </form>

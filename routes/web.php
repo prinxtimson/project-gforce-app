@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TwoFactorAuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::middleware(['auth:sanctum', 'n2fa'])->get('/two-factor-auth', function () {
     return view('welcome');
-});
+})->name('2fa.index');
 
 
 Route::middleware(['guest'])->group(function () {
@@ -36,6 +37,13 @@ Route::middleware(['guest'])->group(function () {
         return view('welcome');
     });
 
+    // Route::post('/login', [AuthController::class, 'login']);
+    // Route::post('password/email', [AuthController::class, 'forgotPass']);
+    // Route::post('password/update', [AuthController::class, 'resetPass']);
+
+});
+
+Route::middleware(['auth:sanctum', '2fa'])->group(function () {
     Route::get('/reviews', function () {
         return view('welcome');
     });
@@ -46,7 +54,7 @@ Route::middleware(['guest'])->group(function () {
 
     Route::get('/dashboard', function () {
         return view('welcome');
-    });
+    })->name('dashboard');
 
     Route::get('/account', function () {
         return view('welcome');
@@ -83,9 +91,5 @@ Route::middleware(['guest'])->group(function () {
     Route::get('/orders/{id}', function () {
         return view('welcome');
     });
-
-    // Route::post('/login', [AuthController::class, 'login']);
-    // Route::post('password/email', [AuthController::class, 'forgotPass']);
-    // Route::post('password/update', [AuthController::class, 'resetPass']);
 
 });

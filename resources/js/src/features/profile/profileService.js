@@ -1,47 +1,64 @@
-/* eslint-disable no-throw-literal */
-// import axios from "axios";
+const axios = window.axios;
 
-// const API_URL = "/api/users/";
+const API_URL = "/api/users/";
 
 const getProfile = async () => {
-  const profile = JSON.parse(localStorage.getItem("profile"));
+    const res = await axios.get("/api/me");
 
-  if (!profile) {
-    throw {
-      message: "Profile not found.",
-    };
-  }
-
-  return profile;
+    return res.data;
 };
 
 const updateProfile = async (data) => {
-  let profile = JSON.parse(localStorage.getItem("profile"));
-  profile = { ...profile, user: data };
+    const res = await axios.put("/api/update", data);
 
-  localStorage.setItem("profile", JSON.stringify(profile));
-  sessionStorage.setItem(data.email, JSON.stringify(data));
+    return res.data;
+};
 
-  return profile;
+const addNewUser = async (data) => {
+    const res = await axios.post(API_URL, data);
+    console.log(res.data);
+    return res.data;
+};
+
+const getAllProfile = async () => {
+    const res = await axios.get(API_URL);
+
+    return res.data;
+};
+
+const getAllProfileByPage = async (page) => {
+    const res = await axios.get("/api/users?page=" + page);
+
+    return res.data;
+};
+
+const getProfileById = async (id) => {
+    const res = await axios.get(API_URL + id);
+
+    return res.data;
 };
 
 const addCard = async (data) => {
-  // let data = {};
+    // let data = {};
 
-  return data;
+    return data;
 };
 
 const removeCard = async (data) => {
-  //let data = {};
+    //let data = {};
 
-  return data;
+    return data;
 };
 
 const productService = {
-  getProfile,
-  updateProfile,
-  addCard,
-  removeCard,
+    getProfile,
+    updateProfile,
+    addNewUser,
+    getAllProfile,
+    getProfileById,
+    getAllProfileByPage,
+    addCard,
+    removeCard,
 };
 
 export default productService;

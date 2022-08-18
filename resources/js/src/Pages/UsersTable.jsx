@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -7,21 +8,35 @@ import { Menu } from "primereact/menu";
 import { Link } from "react-router-dom";
 
 import Authenticated from "../Layouts/Authenticated";
+import {
+    getAllProfile,
+    clear,
+    getAllProfileByPage,
+} from "../features/profile/profileSlice";
 
 const UsersTable = () => {
-    const [staffs, setStaffs] = useState([]);
     const [selectedStaffs, setSelectedStaffs] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const { profiles, isLoading } = useSelector((state) => state.profile);
+
     useEffect(() => {
-        setStaffs(exmples);
-        setLoading(false);
+        dispatch(getAllProfile());
+
+        return () => dispatch(clear());
     }, []);
+
+    useEffect(() => {
+        if (profiles) {
+            setFirst(profiles.current_page - 1);
+        }
+    }, [profiles]);
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -49,16 +64,21 @@ const UsersTable = () => {
     };
 
     const formatDate = (value) => {
-        // return value.toLocaleDateString("en-US", {
-        //     day: "2-digit",
-        //     month: "2-digit",
-        //     year: "numeric",
-        // });
-        return value;
+        const d = new Date(value);
+
+        return d.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
     };
 
     const dateBodyTemplate = (rowData) => {
         return formatDate(rowData.created_at);
+    };
+
+    const roleBodyTemplate = (rowData) => {
+        return rowData.roles[0].name;
     };
 
     const actionBodyTemplate = () => {
@@ -95,11 +115,10 @@ const UsersTable = () => {
                         </Link>
                     </div>
                     <DataTable
-                        value={staffs}
+                        value={profiles?.data}
                         className="p-datatable-staffs"
                         header={header}
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        rowsPerPageOptions={[10, 25, 50]}
                         dataKey="id"
                         rowHover
                         selection={selectedStaffs}
@@ -107,13 +126,15 @@ const UsersTable = () => {
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         filters={filters}
                         filterDisplay="menu"
-                        loading={loading}
+                        loading={isLoading}
                         responsiveLayout="scroll"
                         onSelectionChange={(e) => setSelectedStaffs(e.value)}
                         paginator
-                        rows={10}
+                        rows={20}
                         first={first}
-                        onPage={(e) => setFirst(e.first)}
+                        onPage={(e) =>
+                            dispatch(getAllProfileByPage(e.first + 1))
+                        }
                     >
                         <Column
                             selectionMode="multiple"
@@ -132,16 +153,16 @@ const UsersTable = () => {
                             style={{ minWidth: "14rem" }}
                         />
                         <Column
-                            field="age"
-                            header="Age"
+                            field="username"
+                            header="Username"
                             sortable
-                            style={{ minWidth: "5rem" }}
+                            style={{ minWidth: "10rem" }}
                         />
                         <Column
                             field="email"
                             header="Email"
                             sortable
-                            //dataType="date"
+                            dataType="date"
                             style={{ minWidth: "12rem" }}
                         />
 
@@ -150,6 +171,7 @@ const UsersTable = () => {
                             header="Role"
                             sortable
                             style={{ minWidth: "10rem" }}
+                            body={roleBodyTemplate}
                         />
                         <Column
                             field="created_at"
@@ -174,30 +196,3 @@ const UsersTable = () => {
 };
 
 export default UsersTable;
-
-const exmples = [
-    {
-        id: "57556",
-        created_at: "01/01/21 13PM",
-        name: "Hunter Bidden",
-        email: "gianco@blackys.com",
-        role: "Admin",
-        age: "42",
-    },
-    {
-        id: "57557",
-        created_at: "01/01/21 13PM",
-        name: "Valerie Liberty",
-        email: "botton@blackys.com",
-        role: "Kitchen Staff",
-        age: "27",
-    },
-    {
-        id: "57558",
-        created_at: "01/01/21 13PM",
-        name: "Mariah Maclachlan",
-        email: "patata@blackys.com",
-        role: "Admin",
-        age: "29",
-    },
-];

@@ -1,27 +1,38 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Menu } from "primereact/menu";
 
+import { getTasks, getTasksByPage, clear } from "../features/task/taskSlice";
 import Authenticated from "../Layouts/Authenticated";
 import { Link } from "react-router-dom";
 
 const TasksTable = () => {
-    const [tasks, setTasks] = useState([]);
     const [selectedTask, setSelectedTask] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const { tasks, isLoading } = useSelector((state) => state.task);
+
     useEffect(() => {
-        setTasks(exmples);
-        setLoading(false);
+        dispatch(getTasks());
+
+        return () => dispatch(clear());
     }, []);
+
+    useEffect(() => {
+        if (tasks) {
+            setFirst(tasks.current_page - 1);
+        }
+    }, [tasks]);
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -49,12 +60,11 @@ const TasksTable = () => {
     };
 
     const formatDate = (value) => {
-        // return value.toLocaleDateString("en-US", {
-        //     day: "2-digit",
-        //     month: "2-digit",
-        //     year: "numeric",
-        // });
-        return value;
+        return value.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
     };
 
     const dateBodyTemplate = (rowData) => {
@@ -97,11 +107,10 @@ const TasksTable = () => {
                         </Link>
                     </div>
                     <DataTable
-                        value={tasks}
+                        value={tasks?.data}
                         className="p-datatable-customers"
                         header={header}
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        rowsPerPageOptions={[10, 25, 50]}
                         dataKey="id"
                         rowHover
                         selection={selectedTask}
@@ -109,13 +118,13 @@ const TasksTable = () => {
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         filters={filters}
                         filterDisplay="menu"
-                        loading={loading}
+                        loading={isLoading}
                         responsiveLayout="scroll"
                         onSelectionChange={(e) => setSelectedTask(e.value)}
                         paginator
-                        rows={10}
+                        rows={20}
                         first={first}
-                        onPage={(e) => setFirst(e.first)}
+                        onPage={(e) => dispatch(getTasksByPage(e.first + 1))}
                     >
                         <Column
                             selectionMode="multiple"

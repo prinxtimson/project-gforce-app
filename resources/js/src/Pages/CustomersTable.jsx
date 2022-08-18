@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -6,21 +7,35 @@ import { InputText } from "primereact/inputtext";
 import { Menu } from "primereact/menu";
 
 import Authenticated from "../Layouts/Authenticated";
+import {
+    getCustomers,
+    getCustomersByPage,
+    clear,
+} from "../features/customer/customerSlice";
 
 const CustomersTable = () => {
-    const [customers, setCustomers] = useState([]);
     const [selectedCustomers, setSelectedCustomers] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const { customers, isLoading } = useSelector((state) => state.customer);
+
     useEffect(() => {
-        setCustomers(exmples);
-        setLoading(false);
+        dispatch(getCustomers());
+
+        return () => dispatch(clear());
     }, []);
+
+    useEffect(() => {
+        if (customers) {
+            setFirst(customers.current_page - 1);
+        }
+    }, [customers]);
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -48,12 +63,11 @@ const CustomersTable = () => {
     };
 
     const formatDate = (value) => {
-        // return value.toLocaleDateString("en-US", {
-        //     day: "2-digit",
-        //     month: "2-digit",
-        //     year: "numeric",
-        // });
-        return value;
+        return value.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
     };
 
     const dateBodyTemplate = (rowData) => {
@@ -85,11 +99,10 @@ const CustomersTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <DataTable
-                    value={customers}
+                    value={customers?.data}
                     className="p-datatable-customers"
                     header={header}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    rowsPerPageOptions={[10, 25, 50]}
                     dataKey="id"
                     rowHover
                     selection={selectedCustomers}
@@ -97,13 +110,15 @@ const CustomersTable = () => {
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
-                    loading={loading}
+                    loading={isLoading}
                     responsiveLayout="scroll"
                     onSelectionChange={(e) => setSelectedCustomers(e.value)}
                     paginator
-                    rows={10}
+                    rows={20}
                     first={first}
-                    onPage={(e) => setFirst(e.first)}
+                    onPage={(e) => {
+                        dispatch(getCustomersByPage(e.first + 1));
+                    }}
                 >
                     <Column
                         selectionMode="multiple"
@@ -130,7 +145,7 @@ const CustomersTable = () => {
                         body={dateBodyTemplate}
                     />
                     <Column
-                        field="location"
+                        field="address"
                         header="Location"
                         sortable
                         style={{ minWidth: "14rem" }}
@@ -159,30 +174,3 @@ const CustomersTable = () => {
 };
 
 export default CustomersTable;
-
-const exmples = [
-    {
-        id: "57556",
-        created_at: "01/01/21 13PM",
-        name: "Hunter Bidden",
-        location: "212 Lagos St",
-        total_spent: "£13.99",
-        last_spent: "£5.99",
-    },
-    {
-        id: "57557",
-        created_at: "01/01/21 13PM",
-        name: "Hunter Bidden",
-        location: "212 Lagos St",
-        total_spent: "£13.99",
-        last_spent: "£6.99",
-    },
-    {
-        id: "57558",
-        created_at: "01/01/21 13PM",
-        name: "Hunter Bidden",
-        location: "212 Lagos St",
-        total_spent: "£13.99",
-        last_spent: "£9.99",
-    },
-];

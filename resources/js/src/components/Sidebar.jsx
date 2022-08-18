@@ -6,7 +6,7 @@ import {
     MdOutlineGroup,
     MdOutlineNoteAlt,
     MdOutlinePayment,
-    MdOutlineReceipt,
+    MdKitchen,
     MdOutlineReviews,
     MdOutlineHome,
     MdViewModule,
@@ -96,11 +96,11 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
+                            to="/kitchen"
                             className="tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-4 tw-font-semibold tw-text-white hover:tw-text-slate-200"
                         >
-                            <MdOutlineReceipt size={20} className="tw-mr-2" />
-                            Billing & Invoice
+                            <MdKitchen size={20} className="tw-mr-2" />
+                            Kitchen Management
                         </Link>
                     </li>
                     <li>

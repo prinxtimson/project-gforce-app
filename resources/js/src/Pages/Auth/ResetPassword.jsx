@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import Guest from "../../Layouts/Guest";
+import { resetPass, reset } from "../../features/auth/authSlice";
 
 export default function ResetPassword() {
+    const { token } = useParams();
+    const search = new URLSearchParams(useLocation().search);
     const [data, setData] = useState({
         token: "",
         email: "",
@@ -12,12 +19,46 @@ export default function ResetPassword() {
         password_confirmation: "",
     });
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { isLoading, isSuccess, isError, message } = useSelector(
+        (state) => state.auth
+    );
+
+    useEffect(() => {
+        setData({ ...data, token, email: search.get("email") });
+    }, []);
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess) {
+            toast.success(message);
+            setData({
+                token: "",
+                email: "",
+                password: "",
+                password_confirmation: "",
+            });
+            if (message === "Password reset successfully") {
+                dispatch(reset());
+                navigate("/login");
+            }
+        }
+
+        dispatch(reset());
+    }, [isError, isSuccess, message, dispatch]);
+
     const handleOnChange = (event) => {
-        setData(event.target.name, event.target.value);
+        setData({ ...data, [event.target.name]: event.target.value });
     };
 
     const submit = (e) => {
         e.preventDefault();
+        dispatch(resetPass(data));
     };
 
     return (
@@ -44,6 +85,7 @@ export default function ResetPassword() {
                                             value={data.email}
                                             className=""
                                             onChange={handleOnChange}
+                                            readOnly
                                         />
                                         <label htmlFor="email" className="">
                                             Email*
@@ -59,6 +101,7 @@ export default function ResetPassword() {
                                             toggleMask
                                             className=""
                                             onChange={handleOnChange}
+                                            required
                                         />
 
                                         <label htmlFor="password" className="">
@@ -75,6 +118,7 @@ export default function ResetPassword() {
                                             onChange={handleOnChange}
                                             toggleMask
                                             className=""
+                                            required
                                         />
 
                                         <label
@@ -91,6 +135,7 @@ export default function ResetPassword() {
                                     id="custom"
                                     type="submit"
                                     label="Submit"
+                                    disabled={isLoading}
                                 />
                             </form>
                         </div>

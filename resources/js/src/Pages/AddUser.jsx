@@ -1,19 +1,79 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
+import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
+
+import { addNewUser, reset } from "../features/profile/profileSlice";
 import Authenticated from "../Layouts/Authenticated";
-import { Password } from "primereact/password";
 
 const AddUser = () => {
     const [data, setData] = useState({
-        first_name: "",
-        last_name: "",
+        firstname: "",
+        lastname: "",
         email: "",
         username: "",
+        role: "",
         password: "",
     });
+
+    const selectItems = [
+        { label: "Waiter", value: "waiter" },
+        { label: "Cashier", value: "cashier" },
+        { label: "Supervisor", value: "supervisor" },
+        { label: "Kitchen Manager", value: "kitchen-manager" },
+        { label: "Manager", value: "manager" },
+        { label: "Admin", value: "admin" },
+        { label: "Super Admin", value: "super-admin" },
+    ];
+
+    const dispatch = useDispatch();
+
+    const { isLoading, isSuccess, isError, message } = useSelector(
+        (state) => state.profile
+    );
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess) {
+            toast.success(message);
+            setData({
+                firstname: "",
+                lastname: "",
+                email: "",
+                username: "",
+                password: "",
+            });
+        }
+
+        dispatch(reset());
+    }, [isError, isSuccess, message, dispatch]);
+
     const handleOnChange = (event) => {
         setData({ ...data, [event.target.name]: event.target.value });
+    };
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        const password = generatePassword();
+        dispatch(addNewUser({ ...data, password }));
+    };
+
+    const generatePassword = () => {
+        let result = [];
+        const characters =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@-%$#!&+?";
+        const charLength = characters.length;
+        for (let i = 0; i < 8; i++) {
+            result.push(
+                characters.charAt(Math.floor(Math.random() * charLength))
+            );
+        }
+        return result.join("");
     };
 
     return (
@@ -26,51 +86,35 @@ const AddUser = () => {
                         </div>
                     </div>
 
-                    <form className="p-fluid">
+                    <form className="p-fluid" onSubmit={onSubmit}>
                         <div className="field tw-mb-6">
                             <span className="p-float-label ">
                                 <InputText
-                                    name="first_name"
+                                    name="firstname"
                                     type="text"
                                     className="tw-w-full "
-                                    value={data.first_name}
+                                    value={data.firstname}
                                     onChange={handleOnChange}
                                     autoComplete="off"
                                     autoFocus
                                 />
-                                <label htmlFor="first_name" className="">
-                                    First name*
+                                <label htmlFor="firstname" className="">
+                                    First name *
                                 </label>
                             </span>
                         </div>
                         <div className="field tw-mb-6">
                             <span className="p-float-label ">
                                 <InputText
-                                    name="last_name"
+                                    name="lastname"
                                     type="text"
                                     className="tw-w-full "
-                                    value={data.last_name}
+                                    value={data.lastname}
                                     onChange={handleOnChange}
                                     autoComplete="off"
                                 />
-                                <label htmlFor="last_name" className="">
-                                    Last name*
-                                </label>
-                            </span>
-                        </div>
-                        <div className="field tw-mb-6">
-                            <span className="p-float-label p-input-icon-right">
-                                <i className="pi pi-user" />
-                                <InputText
-                                    name="username"
-                                    type="text"
-                                    className="tw-w-full "
-                                    autoComplete="off"
-                                    value={data.username}
-                                    onChange={handleOnChange}
-                                />
-                                <label htmlFor="username" className="">
-                                    Username*
+                                <label htmlFor="lastname" className="">
+                                    Last name *
                                 </label>
                             </span>
                         </div>
@@ -86,28 +130,46 @@ const AddUser = () => {
                                     autoComplete="off"
                                 />
                                 <label htmlFor="email" className="">
-                                    Email*
+                                    Email *
+                                </label>
+                            </span>
+                        </div>
+                        <div className="field tw-mb-6">
+                            <span className="p-float-label p-input-icon-right">
+                                <i className="pi pi-user" />
+                                <InputText
+                                    name="username"
+                                    type="text"
+                                    className="tw-w-full "
+                                    autoComplete="off"
+                                    value={data.username}
+                                    onChange={handleOnChange}
+                                />
+                                <label htmlFor="username" className="">
+                                    Username
                                 </label>
                             </span>
                         </div>
                         <div className="field tw-mb-6">
                             <span className="p-float-label">
-                                <Password
-                                    name="password"
-                                    type="password"
-                                    toggleMask
-                                    className="tw-w-full"
-                                    value={data.password}
+                                <Dropdown
+                                    name="role"
+                                    value={data.role}
+                                    options={selectItems}
                                     onChange={handleOnChange}
-                                    autoComplete="off"
+                                    placeholder="Select role"
                                 />
-
-                                <label htmlFor="password" className="">
-                                    Default password*
+                                <label htmlFor="role" className="">
+                                    Role *
                                 </label>
                             </span>
                         </div>
-                        <Button label="Submit" className="tw-w-full" />
+                        <Button
+                            type="submit"
+                            disabled={isLoading}
+                            label="Create User"
+                            className="tw-w-full"
+                        />
                     </form>
                 </div>
             </div>

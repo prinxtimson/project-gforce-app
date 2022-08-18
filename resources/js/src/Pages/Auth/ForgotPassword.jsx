@@ -1,20 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputText } from "primereact/inputtext";
+import { useSelector, useDispatch } from "react-redux";
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import Guest from "../../Layouts/Guest";
+import { forgotPass, reset } from "../../features/auth/authSlice";
 
 export default function ForgotPassword() {
     const [data, setData] = useState({
         email: "",
     });
 
+    const dispatch = useDispatch();
+
+    const { isLoading, isSuccess, isError, message } = useSelector(
+        (state) => state.auth
+    );
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess) {
+            toast.success(message);
+            setData({
+                email: "",
+            });
+        }
+
+        dispatch(reset());
+    }, [isError, isSuccess, message, dispatch]);
+
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.value);
+        setData({ ...data, [event.target.name]: event.target.value });
     };
 
     const submit = (e) => {
         e.preventDefault();
+        dispatch(forgotPass(data));
     };
 
     return (
@@ -39,8 +65,9 @@ export default function ForgotPassword() {
                                             id="name"
                                             name="email"
                                             value={data.email}
-                                            //isFocused={true}
+                                            autoFocus
                                             onChange={onHandleChange}
+                                            required
                                         />
                                         <label htmlFor="email" className="">
                                             Email*
@@ -52,6 +79,7 @@ export default function ForgotPassword() {
                                     id="custom"
                                     type="submit"
                                     label="Reset Password"
+                                    disabled={isLoading}
                                 />
 
                                 <Link

@@ -1,19 +1,47 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { toast } from "react-toastify";
+
 import Guest from "../../Layouts/Guest";
+import { verifyCode, resendCode, reset } from "../../features/auth/authSlice";
 
 const TwoFactorAuth = () => {
     const [data, setData] = useState({
         code: "",
     });
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { isLoading, isSuccess, isError, message } = useSelector(
+        (state) => state.auth
+    );
+
+    useEffect(() => {
+        if (isError) {
+            toast.error(message);
+        }
+
+        if (isSuccess) {
+            toast.success(message);
+            if (message === "Successful") {
+                navigate("/dashboard");
+            }
+        }
+
+        dispatch(reset());
+    }, [isError, isSuccess, message, navigate, dispatch]);
+
     const handleOnChange = (event) => {
-        setData(event.target.name, event.target.value);
+        setData({ ...data, [event.target.name]: event.target.value });
     };
 
     const submit = (e) => {
         e.preventDefault();
+        dispatch(verifyCode(data));
     };
 
     return (
@@ -29,10 +57,10 @@ const TwoFactorAuth = () => {
                             />
                         </div>
                         <div className="card">
-                            <h5 className="text-center">
+                            <h4 className="text-center">
                                 Two-factor Confirmation
-                            </h5>
-                            <div class="tw-mb-4 tw-text-sm tw-text-gray-600">
+                            </h4>
+                            <div className="tw-mb-4 tw-text-sm tw-text-gray-600">
                                 <template>
                                     Please confirm access to your account by
                                     entering the authentication code provided by
@@ -55,16 +83,24 @@ const TwoFactorAuth = () => {
                                             onChange={handleOnChange}
                                         />
                                         <label htmlFor="code" className="">
-                                            Code*
+                                            Code *
                                         </label>
                                     </span>
                                 </div>
 
                                 <Button
-                                    className="tw-ml-4 mt-2 custom-btn "
+                                    className="tw-ml-4 tw-mb-2 custom-btn "
                                     id="custom"
                                     type="submit"
-                                    label="Submit"
+                                    label="Verify Code"
+                                    disabled={isLoading}
+                                />
+                                <Button
+                                    type="button"
+                                    label="Resend Code"
+                                    className="p-button-link"
+                                    style={{ marginTop: 10 }}
+                                    onClick={() => dispatch(resendCode())}
                                 />
                             </form>
                         </div>

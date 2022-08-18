@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -8,22 +9,36 @@ import { Rating } from "primereact/rating";
 import { Avatar } from "primereact/avatar";
 
 import Authenticated from "../Layouts/Authenticated";
+import {
+    getReviews,
+    getReviewsByPage,
+    clear,
+} from "../features/review/reviewSlice";
 
 const ReviewsTable = () => {
     const navigate = useNavigate();
-    const [reviews, setReviews] = useState([]);
     const [selectedReviews, setSelectedReviews] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const { reviews, isLoading } = useSelector((state) => state.review);
+
     useEffect(() => {
-        setReviews(exmples);
-        setLoading(false);
+        dispatch(getReviews());
+
+        return () => dispatch(clear());
     }, []);
+
+    useEffect(() => {
+        if (reviews) {
+            setFirst(reviews.current_page - 1);
+        }
+    }, [reviews]);
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -105,11 +120,10 @@ const ReviewsTable = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4 tw-bg-white">
                     <DataTable
-                        value={reviews}
+                        value={reviews?.data}
                         className="p-datatable-customers"
                         header={header}
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                        rowsPerPageOptions={[10, 25, 50]}
                         dataKey="id"
                         rowHover
                         selection={selectedReviews}
@@ -117,13 +131,13 @@ const ReviewsTable = () => {
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         filters={filters}
                         filterDisplay="menu"
-                        loading={loading}
+                        loading={isLoading}
                         responsiveLayout="scroll"
                         onSelectionChange={(e) => setSelectedReviews(e.value)}
                         paginator
-                        rows={10}
+                        rows={20}
                         first={first}
-                        onPage={(e) => setFirst(e.first)}
+                        onPage={(e) => dispatch(getReviewsByPage(e.first + 1))}
                     >
                         <Column
                             selectionMode="multiple"

@@ -12,11 +12,11 @@ export default function Authenticated({ children }) {
 
     const { user } = useSelector((state) => state.auth);
 
-    useEffect(() => {
-        if (!user) {
-            navigate("/login");
-        }
-    }, [user, navigate]);
+    // useEffect(() => {
+    //     if (!user) {
+    //         navigate("/login");
+    //     }
+    // }, [user, navigate]);
 
     const onOpenSidebar = () => setVisible(true);
     return (
@@ -38,7 +38,7 @@ export default function Authenticated({ children }) {
                     <Sidebar />
                 </section>
                 <section className="lg:tw-pl-[19.5rem]">
-                    <div className="tw-max-w-3xl tw-mx-auto tw-pt-10 xl:tw-max-w-none xl:tw-ml-0 ">
+                    <div className=" tw-mx-auto tw-pt-10 xl:tw-max-w-none xl:tw-ml-0 ">
                         <main>{children}</main>
                     </div>
                 </section>

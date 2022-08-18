@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -6,24 +7,38 @@ import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
 import { Menu } from "primereact/menu";
 
+import {
+    getOrders,
+    getOrdersByPage,
+    clear,
+} from "../features/order/orderSlice";
 import Authenticated from "../Layouts/Authenticated";
 import StatusColumn from "../components/StatusColumn";
 
 const OrdersTable = () => {
     const navigate = useNavigate();
-    const [orders, setOrders] = useState([]);
     const [selectedOrders, setSelectedOrders] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const { orders, isLoading } = useSelector((state) => state.order);
+
     useEffect(() => {
-        setOrders(exmples);
-        setLoading(false);
+        dispatch(getOrders());
+
+        return () => dispatch(clear());
     }, []);
+
+    useEffect(() => {
+        if (orders) {
+            setFirst(orders.current_page - 1);
+        }
+    }, [orders]);
 
     const columns = [
         { field: "id", header: "ID", width: "3rem" },
@@ -136,11 +151,10 @@ const OrdersTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <DataTable
-                    value={orders}
+                    value={orders?.data}
                     className="p-datatable-customers"
                     header={header}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    rowsPerPageOptions={[10, 25, 50]}
                     dataKey="id"
                     rowHover
                     selection={selectedOrders}
@@ -148,13 +162,13 @@ const OrdersTable = () => {
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
-                    loading={loading}
+                    loading={isLoading}
                     responsiveLayout="scroll"
                     onSelectionChange={(e) => setSelectedOrders(e.value)}
                     paginator
-                    rows={10}
+                    rows={20}
                     first={first}
-                    onPage={(e) => setFirst(e.first)}
+                    onPage={(e) => dispatch(getOrdersByPage(e.first + 1))}
                 >
                     <Column
                         selectionMode="multiple"

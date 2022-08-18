@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
@@ -6,21 +7,35 @@ import { Column } from "primereact/column";
 import { Menu } from "primereact/menu";
 
 import Authenticated from "../Layouts/Authenticated";
+import {
+    getPayments,
+    getPaymentsByPage,
+    clear,
+} from "../features/payment/paymentSlice";
 
 const PaymentsTable = () => {
-    const [payments, setPayments] = useState([]);
     const [selectedPayments, setSelectedPayments] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
     const [globalFilterValue, setGlobalFilterValue] = useState("");
-    const [loading, setLoading] = useState(true);
     const [first, setFirst] = useState(0);
 
+    const dispatch = useDispatch();
+
+    const { payments, isLoading } = useSelector((state) => state.payment);
+
     useEffect(() => {
-        setPayments(exmples);
-        setLoading(false);
+        dispatch(getPayments());
+
+        return () => dispatch(clear());
     }, []);
+
+    useEffect(() => {
+        if (payments) {
+            setFirst(payments.current_page - 1);
+        }
+    }, [payments]);
 
     const columns = [
         { field: "id", header: "ID", width: "3rem" },
@@ -116,11 +131,10 @@ const PaymentsTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <DataTable
-                    value={payments}
+                    value={payments?.data}
                     className="p-datatable-customers"
                     header={header}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    rowsPerPageOptions={[10, 25, 50]}
                     dataKey="id"
                     rowHover
                     selection={selectedPayments}
@@ -128,13 +142,13 @@ const PaymentsTable = () => {
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
-                    loading={loading}
+                    loading={isLoading}
                     responsiveLayout="scroll"
                     onSelectionChange={(e) => setSelectedPayments(e.value)}
                     paginator
-                    rows={10}
+                    rows={20}
                     first={first}
-                    onPage={(e) => setFirst(e.first)}
+                    onPage={(e) => dispatch(getPaymentsByPage(e.first + 1))}
                 >
                     <Column
                         selectionMode="multiple"
