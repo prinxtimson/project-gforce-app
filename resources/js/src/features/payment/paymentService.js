@@ -1,6 +1,6 @@
-const axios = window.axios;
+import axios from "axios";
 
-const API_URL = "https://blackyrestaurant.herokuapp.com/api/payments/";
+const API_URL = "/api/payments/";
 
 const getPayments = async () => {
     const res = await axios.get(API_URL);

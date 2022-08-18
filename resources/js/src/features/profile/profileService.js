@@ -1,6 +1,6 @@
-const axios = window.axios;
+import axios from "axios";
 
-const API_URL = "https://blackyrestaurant.herokuapp.com/api/users/";
+const API_URL = "/api/users/";
 
 const getProfile = async () => {
     const res = await axios.get("/api/me");
@@ -16,6 +16,7 @@ const updateProfile = async (data) => {
 
 const addNewUser = async (data) => {
     const res = await axios.post(API_URL, data);
+
     return res.data;
 };
 
