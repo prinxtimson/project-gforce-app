@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/users/";
+const API_URL = "/api/users";
 
 const getProfile = async () => {
     const res = await axios.get("/api/me");
@@ -33,7 +33,7 @@ const getAllProfileByPage = async (page) => {
 };
 
 const getProfileById = async (id) => {
-    const res = await axios.get(API_URL + id);
+    const res = await axios.get(API_URL + "/" + id);
 
     return res.data;
 };
