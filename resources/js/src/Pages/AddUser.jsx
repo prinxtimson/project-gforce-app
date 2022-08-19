@@ -25,7 +25,6 @@ const AddUser = () => {
         { label: "Kitchen Manager", value: "kitchen-manager" },
         { label: "Manager", value: "manager" },
         { label: "Admin", value: "admin" },
-        { label: "Super Admin", value: "super-admin" },
     ];
 
     const dispatch = useDispatch();

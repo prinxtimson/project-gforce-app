@@ -10,10 +10,11 @@ Welcome to Blacky Restaurant. Find the following is your login details:
 # Password: {{ $user['password'] }}
 @endcomponent
 
-@component('mail::button', ['url' => '', 'color' => 'success'])
-Visit Website
+@component('mail::button', ['url' => 'https://blackyrestaurant.herokuapp.com/login', 'color' => 'success'])
+Login
 @endcomponent
 
 Thanks,<br>
 Admin
+Blacky Restaurant
 @endcomponent
