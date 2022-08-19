@@ -13,12 +13,12 @@ const register = async (userData) => {
 };
 
 const logout = async () => {
-    await axios.get(`/sanctum/csrf-cookie`);
     await axios.post(API_URL + "logout");
     localStorage.removeItem("user");
 };
 
 const login = async (userData) => {
+    await axios.get(`/sanctum/csrf-cookie`);
     const res = await axios.post(API_URL + "login", userData);
 
     if (res.data) {
