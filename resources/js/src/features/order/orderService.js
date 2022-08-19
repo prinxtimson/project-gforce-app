@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/orders/";
+const API_URL = "/api/orders";
 
 const getOrders = async () => {
     const res = await axios.get(API_URL);
@@ -15,7 +15,7 @@ const getOrdersByPage = async (page) => {
 };
 
 const getOrderById = async (id) => {
-    const res = await axios.get(API_URL + id);
+    const res = await axios.get(API_URL + "/" + id);
 
     return res.data;
 };
@@ -27,13 +27,13 @@ const saveOrder = async (data) => {
 };
 
 const updateOrder = async (data) => {
-    const res = await axios.post(API_URL + data.id, data);
+    const res = await axios.post(API_URL + "/" + data.id, data);
 
     return res.data;
 };
 
 const removeOrder = async (id) => {
-    const res = await axios.post(API_URL + id);
+    const res = await axios.post(API_URL + "/" + id);
 
     return res.data;
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/customers/";
+const API_URL = "/api/customers";
 
 const getCustomers = async () => {
     const res = await axios.get(API_URL);
@@ -15,7 +15,7 @@ const getCustomersByPage = async (page) => {
 };
 
 const getCustomerById = async (id) => {
-    const res = await axios.get(API_URL + id);
+    const res = await axios.get(API_URL + "/" + id);
 
     return res.data;
 };
@@ -27,13 +27,13 @@ const saveCustomer = async (data) => {
 };
 
 const updateCustomer = async (data) => {
-    const res = await axios.post(API_URL + data.id, data);
+    const res = await axios.post(API_URL + "/" + data.id, data);
 
     return res.data;
 };
 
 const removeCustomer = async (id) => {
-    const res = await axios.post(API_URL + id);
+    const res = await axios.post(API_URL + "/" + id);
 
     return res.data;
 };

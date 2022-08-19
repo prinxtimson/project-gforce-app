@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/tasks/";
+const API_URL = "/api/tasks";
 
 const getTasks = async () => {
     const res = await axios.get(API_URL);
@@ -9,7 +9,7 @@ const getTasks = async () => {
 };
 
 const getTaskById = async (id) => {
-    const res = await axios.get(API_URL + id);
+    const res = await axios.get(API_URL + "/" + id);
 
     return res.data;
 };
@@ -27,13 +27,13 @@ const saveTask = async (data) => {
 };
 
 const updateTask = async (data) => {
-    const res = await axios.post(API_URL + data.id, data);
+    const res = await axios.post(API_URL + "/" + data.id, data);
 
     return res.data;
 };
 
 const removeTask = async (id) => {
-    const res = await axios.post(API_URL + id);
+    const res = await axios.post(API_URL + "/" + id);
 
     return res.data;
 };

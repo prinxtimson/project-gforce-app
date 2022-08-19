@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/reviews/";
+const API_URL = "/api/reviews";
 
 const getReviews = async () => {
     const res = await axios.get(API_URL);
@@ -9,7 +9,7 @@ const getReviews = async () => {
 };
 
 const getReviewById = async (id) => {
-    const res = await axios.get(API_URL + id);
+    const res = await axios.get(API_URL + "/" + id);
 
     return res.data;
 };
@@ -27,13 +27,13 @@ const saveReview = async (data) => {
 };
 
 const updateReview = async (data) => {
-    const res = await axios.post(API_URL + data.id, data);
+    const res = await axios.post(API_URL + "/" + data.id, data);
 
     return res.data;
 };
 
 const removeReview = async (id) => {
-    const res = await axios.post(API_URL + id);
+    const res = await axios.post(API_URL + "/" + id);
 
     return res.data;
 };

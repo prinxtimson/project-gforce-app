@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/";
+const API_URL = "/api";
 
 const register = async (userData) => {
     const res = await axios.post(API_URL, userData);
@@ -13,13 +13,13 @@ const register = async (userData) => {
 };
 
 const logout = async () => {
-    await axios.post(API_URL + "logout");
+    await axios.post(API_URL + "/logout");
     localStorage.removeItem("user");
 };
 
 const login = async (userData) => {
     await axios.get(`/sanctum/csrf-cookie`);
-    const res = await axios.post(API_URL + "login", userData);
+    const res = await axios.post(API_URL + "/login", userData);
 
     if (res.data) {
         localStorage.setItem("user", JSON.stringify(res.data));
@@ -29,31 +29,31 @@ const login = async (userData) => {
 };
 
 const forgotPass = async (email) => {
-    const res = await axios.post(API_URL + "forgot-password", email);
+    const res = await axios.post(API_URL + "/forgot-password", email);
 
     return res.data;
 };
 
 const verifyCode = async (data) => {
-    const res = await axios.post(API_URL + "two-factor-auth", data);
+    const res = await axios.post(API_URL + "/two-factor-auth", data);
 
     return res.data;
 };
 
 const resendCode = async () => {
-    const res = await axios.get(API_URL + "two-factor-auth/resend");
+    const res = await axios.get(API_URL + "/two-factor-auth/resend");
 
     return res.data;
 };
 
 const resetPass = async (data) => {
-    const res = await axios.post(API_URL + "reset-password", data);
+    const res = await axios.post(API_URL + "/reset-password", data);
 
     return res.data;
 };
 
 const changePass = async (data) => {
-    const res = await axios.post(API_URL + "change-password", data);
+    const res = await axios.post(API_URL + "/change-password", data);
 
     return res.data;
 };
