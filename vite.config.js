@@ -12,6 +12,7 @@ export default defineConfig({
     ],
     server: {
         https: true,
-        host: "localhost",
+        //host: "localhost",
+        //proxy
     },
 });
