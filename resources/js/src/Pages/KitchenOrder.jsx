@@ -13,6 +13,7 @@ import Authenticated from "../Layouts/Authenticated";
 import {
     getKitchenOrder,
     getKitchenOrderByPage,
+    getKitchenCanceledOrder,
     clear,
 } from "../features/kitchen/kitchenSlice";
 
@@ -126,6 +127,20 @@ const KitchenOrder = () => {
         <Authenticated>
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4 tw-bg-white">
+                    <div className="tw-flex tw-justify-around tw-my-6">
+                        <button className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 ">
+                            Order Received
+                        </button>
+                        <button
+                            className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 "
+                            onClick={() => dispatch(getKitchenCanceledOrder())}
+                        >
+                            Canceled Orders
+                        </button>
+                        <button className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 ">
+                            Special Orders
+                        </button>
+                    </div>
                     <DataTable
                         value={orders?.data}
                         className="p-datatable-customers"

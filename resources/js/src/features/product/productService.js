@@ -26,16 +26,16 @@ const saveProduct = async (data) => {
     return res.data;
 };
 
-const updateProduct = async (data) => {
-    const res = await axios.post(API_URL + "/" + data.id, data);
+const updateProduct = async (formData) => {
+    const res = await axios.post(API_URL + "/" + formData.id, formData.data);
 
     return res.data;
 };
 
 const removeProduct = async (id) => {
-    const res = await axios.post(API_URL + "/" + id);
+    await axios.delete(API_URL + "/" + id);
 
-    return res.data;
+    return id;
 };
 
 const productService = {

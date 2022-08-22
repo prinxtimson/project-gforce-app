@@ -28,6 +28,8 @@ import ChangePassword from "./Pages/ChangePassword";
 import Profile from "./Pages/Profile";
 import KitchenOrder from "./Pages/KitchenOrder";
 import TwoFactorAuth from "./Pages/Auth/TwoFactorAuth";
+import ProductInventory from "./Pages/ProductInventory";
+import AddProduct from "./Pages/AddProduct";
 
 const App = () => {
     return (
@@ -58,7 +60,13 @@ const App = () => {
                     <Route path="/payments" element={<PaymentsTable />} />
                     <Route path="/orders/:id" element={<SingleOrder />} />
                     <Route path="/staffs" element={<UsersTable />} />
+                    <Route path="/products" element={<ProductInventory />} />
                     <Route path="/create-user" element={<AddUser />} />
+                    <Route path="/add-product" element={<AddProduct />} />
+                    <Route
+                        path="/update-product/:id"
+                        element={<AddProduct />}
+                    />
                     <Route
                         path="/change-password"
                         element={<ChangePassword />}

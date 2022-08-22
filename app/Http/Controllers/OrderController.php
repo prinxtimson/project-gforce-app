@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 
@@ -46,6 +47,26 @@ class OrderController extends Controller
         }
  
         return $order;
+    }
+
+    public function search(Request $request)
+    {
+        $from = $request->get('from');
+        $to = $request->get('to');
+        $order_items = OrderItem::whereBetween('created_at', [$from, $to])->selectRaw("* COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->get();
+
+        return $order_items;
+
+    }
+
+    public function cancel($id) {
+        $order = Order::find($id);
+
+        foreach ($order->items as $item) {
+            $item->delete();
+        }
+
+        return $order->delete();
     }
 
     /**

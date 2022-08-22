@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Addon extends Model implements HasMedia
 {
-    use InteractsWithMedia, HasFactory;
+    use InteractsWithMedia, HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -22,14 +23,9 @@ class Addon extends Model implements HasMedia
         'quantity'
     ];
 
-    protected $casts = [
-        'description' => 'array',
-        'ingredents' => 'array',
-    ];
-
     public function products ()
     {
-        $this->belongsToMany(Product::class);
+        $this->belongsToMany(Product::class, 'product_addons');
     }
 
     public function registerMediaConversions(Media $media = null): void

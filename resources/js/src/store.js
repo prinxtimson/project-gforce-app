@@ -8,6 +8,8 @@ import orderReducer from "./features/order/orderSlice";
 import paymentReducer from "./features/payment/paymentSlice";
 import taskReducer from "./features/task/taskSlice";
 import reviewReducer from "./features/review/reviewSlice";
+import reportReducer from "./features/report/reportSlice";
+import categoryReducer from "./features/category/categorySlice";
 
 export const store = configureStore({
     reducer: {
@@ -20,5 +22,7 @@ export const store = configureStore({
         payment: paymentReducer,
         task: taskReducer,
         review: reviewReducer,
+        report: reportReducer,
+        category: categoryReducer,
     },
 });

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class OrderItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +14,16 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $category = Category::all();
+        $orders = OrderItem::withTrashed()->orderBy('id', 'DESC')->paginate(20);
 
-        return $category;
+        return $orders;
+    }
+
+    public function canceled()
+    {
+        $orders = OrderItem::onlyTrashed()->orderBy('id', 'DESC')->paginate(20);
+
+        return $orders;
     }
 
     /**
@@ -27,16 +34,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'description' => 'string',
-        ]);
-
-        $fields['slug'] = strtolower(preg_replace("/[\s]/", "-", $fields['name']));
-
-        $category = Category::create($fields);
-
-        return $category;
+        //
     }
 
     /**
@@ -47,7 +45,7 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        return Category::find($id);
+        return OrderItem::find($id);
     }
 
     /**
@@ -59,18 +57,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'description' => 'string',
-        ]);
-
-        $fields['slug'] = strtolower(preg_replace("/[\s]/", "-", $fields));
-
-        $category = Category::find($id);
-
-        $category->update($fields);
-
-        return $category;
+        //
     }
 
     /**
@@ -81,10 +68,6 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::withTrashed()->find($id);
-
-        $deleted = $category->forceDelete($id);
-
-        return $deleted;
+        //
     }
 }

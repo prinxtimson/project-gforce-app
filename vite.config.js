@@ -10,8 +10,8 @@ export default defineConfig({
         }),
         react(),
     ],
-    server: {
-        https: true,
-        host: "localhost",
-    },
+    // server: {
+    //     https: true,
+    //     host: "localhost",
+    // },
 });

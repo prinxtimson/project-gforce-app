@@ -1,9 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Chart } from "primereact/chart";
 
 import Authenticated from "../Layouts/Authenticated";
+import { getReports, clear } from "../features/report/reportSlice";
 
 const Dashboard = () => {
+    const dispatch = useDispatch();
+
+    const { reports, isLoading } = useSelector((state) => state.report);
+
+    useEffect(() => {
+        dispatch(getReports());
+
+        return () => dispatch(clear());
+    }, []);
+
     const [basicData] = useState({
         labels: [
             "January",
@@ -22,13 +34,6 @@ const Dashboard = () => {
                 borderColor: "#42A5F5",
                 tension: 0.4,
             },
-            {
-                label: "Second Dataset",
-                data: [28, 48, 40, 19, 86, 27, 90],
-                fill: false,
-                borderColor: "#FFA726",
-                tension: 0.4,
-            },
         ],
     });
     return (
@@ -43,7 +48,7 @@ const Dashboard = () => {
                                         Total Orders
                                     </span>
                                     <div className="tw-text-900 tw-font-medium tw-text-xl">
-                                        152
+                                        {reports.orders || 0}
                                     </div>
                                 </div>
                                 <div
@@ -69,10 +74,10 @@ const Dashboard = () => {
                             <div className="tw-flex tw-justify-between tw-mb-3">
                                 <div>
                                     <span className="tw-block tw-text-500 tw-font-medium tw-mb-3">
-                                        Total Revenue
+                                        Total Reservations
                                     </span>
                                     <div className="tw-text-900 tw-font-medium tw-text-xl">
-                                        $2.100
+                                        {reports.reservations || 0}
                                     </div>
                                 </div>
                                 <div
@@ -82,7 +87,7 @@ const Dashboard = () => {
                                         height: "2.5rem",
                                     }}
                                 >
-                                    <i className="pi pi-map-marker tw-text-orange-500 tw-text-xl"></i>
+                                    <i className="pi pi-calendar tw-text-orange-500 tw-text-xl"></i>
                                 </div>
                             </div>
                             {/* <span className="tw-text-green-500 tw-font-medium">
@@ -99,7 +104,7 @@ const Dashboard = () => {
                                         Total Customers
                                     </span>
                                     <div className="tw-text-900 tw-font-medium tw-text-xl">
-                                        28441
+                                        {reports.customers || 0}
                                     </div>
                                 </div>
                                 <div
@@ -109,7 +114,7 @@ const Dashboard = () => {
                                         height: "2.5rem",
                                     }}
                                 >
-                                    <i className="pi pi-inbox tw-text-cyan-500 tw-text-xl"></i>
+                                    <i className="pi pi-users tw-text-cyan-500 tw-text-xl"></i>
                                 </div>
                             </div>
                             {/* <span className="tw-text-green-500 tw-font-medium">
@@ -128,7 +133,7 @@ const Dashboard = () => {
                                         Total Menu
                                     </span>
                                     <div className="tw-text-900 tw-font-medium tw-text-xl">
-                                        152
+                                        {reports.foods || 0}
                                     </div>
                                 </div>
                                 <div
@@ -138,7 +143,7 @@ const Dashboard = () => {
                                         height: "2.5rem",
                                     }}
                                 >
-                                    <i className="pi pi-comment tw-text-purple-500 tw-text-xl"></i>
+                                    <i className="pi pi-database tw-text-purple-500 tw-text-xl"></i>
                                 </div>
                             </div>
                             {/* <span className="tw-text-green-500 tw-font-medium">
@@ -166,63 +171,45 @@ const Dashboard = () => {
                         </div>
                         <div className="">
                             <ul>
-                                <li className="tw-border-b tw-p-4">
-                                    <div className="tw-flex">
-                                        <div className="tw-flex tw-grow">
-                                            <div className="tw-mr-2">1.</div>
-                                            <div className="">
-                                                <h4>Spicy Chicken</h4>
-                                                <p>£8.99</p>
+                                {(!reports.daily_trend ||
+                                    reports.daily_trend?.length === 0) && (
+                                    <li>
+                                        <h4>No daily trend yet</h4>
+                                    </li>
+                                )}
+                                {reports.daily_trend
+                                    ?.slice(0, 3)
+                                    .map((item, ind) => (
+                                        <li
+                                            className="tw-border-b tw-p-4"
+                                            key={item.id}
+                                        >
+                                            <div className="tw-flex">
+                                                <div className="tw-flex tw-grow">
+                                                    <div className="tw-mr-2">
+                                                        {ind + 1}.
+                                                    </div>
+                                                    <div className="">
+                                                        <h4>
+                                                            {item.product_name}
+                                                        </h4>
+                                                        <p>
+                                                            £
+                                                            {item.product_price}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div className="tw-rounded">
+                                                    <img
+                                                        src={item.product_img}
+                                                        alt={item.product_name}
+                                                        height={50}
+                                                        width={100}
+                                                    />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="tw-rounded">
-                                            <img
-                                                src="/images/veg_img_2.jpg"
-                                                alt=""
-                                                height={50}
-                                                width={100}
-                                            />
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className="tw-border-b tw-p-4">
-                                    <div className="tw-flex">
-                                        <div className="tw-flex tw-grow">
-                                            <div className="tw-mr-2">2.</div>
-                                            <div className="">
-                                                <h4>Amala</h4>
-                                                <p>£5.99</p>
-                                            </div>
-                                        </div>
-                                        <div className="tw-rounded">
-                                            <img
-                                                src="/images/veg_img_3.jpg"
-                                                alt=""
-                                                height={50}
-                                                width={100}
-                                            />
-                                        </div>
-                                    </div>
-                                </li>
-                                <li className="tw-border-b tw-p-4">
-                                    <div className="tw-flex">
-                                        <div className="tw-flex tw-grow">
-                                            <div className="tw-mr-2">3.</div>
-                                            <div className="">
-                                                <h4> Irish Jollof</h4>
-                                                <p>£8.99</p>
-                                            </div>
-                                        </div>
-                                        <div className="tw-rounded">
-                                            <img
-                                                src="/images/veg_img_2.jpg"
-                                                alt=""
-                                                height={50}
-                                                width={100}
-                                            />
-                                        </div>
-                                    </div>
-                                </li>
+                                        </li>
+                                    ))}
                             </ul>
                         </div>
                     </div>

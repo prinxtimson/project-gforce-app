@@ -3,10 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Knob } from "primereact/knob";
 import { toast } from "react-toastify";
 
 import Guest from "../../Layouts/Guest";
-import { verifyCode, resendCode, reset } from "../../features/auth/authSlice";
+import {
+    verifyCode,
+    resendCode,
+    reset,
+    updateCount,
+} from "../../features/auth/authSlice";
 
 const TwoFactorAuth = () => {
     const [data, setData] = useState({
@@ -16,7 +22,7 @@ const TwoFactorAuth = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const { isLoading, isSuccess, isError, message } = useSelector(
+    const { count, isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.auth
     );
 
@@ -57,21 +63,17 @@ const TwoFactorAuth = () => {
                             />
                         </div>
                         <div className="card">
-                            <h4 className="text-center">
+                            <h2 className="text-center tw-text-bold">
                                 Two-factor Confirmation
-                            </h4>
-                            <div className="tw-mb-4 tw-text-sm tw-text-gray-600">
-                                <template>
+                            </h2>
+                            <div className="tw-my-2 tw-text-sm tw-text-white tw-flex tw-justify-center">
+                                <p className="tw-px-6 tw-w-96 tw-text-center">
                                     Please confirm access to your account by
-                                    entering the authentication code provided by
-                                    your authenticator application.
-                                </template>
-
-                                {/* <template >
-                Please confirm access to your account by entering one of your emergency recovery codes.
-            </template> */}
+                                    entering the authentication code sent to
+                                    your email.
+                                </p>
                             </div>
-                            <form onSubmit={submit} className="tw-py-5 p-fluid">
+                            <form onSubmit={submit} className="tw-py-2 p-fluid">
                                 <div className="field">
                                     <span className="p-float-label custom-label p-input-icon-right">
                                         <i className="pi pi-envelope" />
@@ -87,7 +89,9 @@ const TwoFactorAuth = () => {
                                         </label>
                                     </span>
                                 </div>
-
+                                {/* <div className="tw-my-4">
+                                    <Knob value={count} max={60} />
+                                </div> */}
                                 <Button
                                     className="tw-ml-4 tw-mb-2 custom-btn "
                                     id="custom"

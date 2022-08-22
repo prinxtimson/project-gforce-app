@@ -106,11 +106,11 @@ const OrdersTable = () => {
                                 command: () => navigate(data.id),
                             },
                             {
-                                label: "Accept order",
-                                icon: "pi pi-fw pi-check",
+                                label: "Edit Order",
+                                icon: "pi pi-fw pi-pen",
                             },
                             {
-                                label: "Reject order",
+                                label: "Cancel Order",
                                 icon: "pi pi-fw pi-times",
                             },
                         ];

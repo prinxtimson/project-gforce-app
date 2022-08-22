@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('sku');
             $table->text('ingredents')->nullable();
             $table->float('price')->default(0.00);
-            $table->float('quantity')->default(0.00);
+            $table->float('discount')->nullable();
+            $table->double('quantity')->default(0.00);
             $table->softDeletes();
             $table->timestamps();
         });

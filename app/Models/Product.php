@@ -7,11 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Image\Manipulations;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Product extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -19,22 +20,23 @@ class Product extends Model implements HasMedia
         'description',
         'ingredents',
         'price',
+        'discount',
         'quantity'
     ];
 
-    protected $casts = [
-        'description' => 'array',
-        'ingredents' => 'array',
-    ];
+    // protected $casts = [
+    //     'description' => 'array',
+    //     'ingredents' => 'array',
+    // ];
 
     public function categories ()
     {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'product_categories');
     }
 
     public function addons ()
     {
-        return $this->belongsToMany(Addon::class);
+        return $this->belongsToMany(Addon::class, 'product_addons');
     }
 
     public function reviews ()

@@ -6,6 +6,7 @@ const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = {
     user: user ? user : null,
+    count: 0,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -150,6 +151,9 @@ export const authSlice = createSlice({
             state.isSuccess = false;
             state.message = "";
         },
+        updateCount: (state, action) => {
+            state.count = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -176,6 +180,7 @@ export const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.count = 60;
                 state.user = action.payload;
             })
             .addCase(login.rejected, (state, action) => {
@@ -229,6 +234,7 @@ export const authSlice = createSlice({
             .addCase(resendCode.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.count = 60;
                 state.message = action.payload;
             })
             .addCase(resendCode.rejected, (state, action) => {
@@ -239,5 +245,5 @@ export const authSlice = createSlice({
     },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset, updateCount } = authSlice.actions;
 export default authSlice.reducer;

@@ -60,7 +60,7 @@ export const getProductById = createAsyncThunk(
 );
 
 export const saveProduct = createAsyncThunk(
-    "product/add-product",
+    "product/add",
     async (data, thunkAPI) => {
         try {
             return await productService.saveProduct(data);
@@ -78,7 +78,7 @@ export const saveProduct = createAsyncThunk(
 );
 
 export const updateProduct = createAsyncThunk(
-    "product/update-product",
+    "product/update",
     async (data, thunkAPI) => {
         try {
             return await productService.updateProduct(data);
@@ -96,7 +96,7 @@ export const updateProduct = createAsyncThunk(
 );
 
 export const removeProduct = createAsyncThunk(
-    "product/remove-product",
+    "product/remove",
     async (id, thunkAPI) => {
         try {
             await productService.removeProduct(id);
@@ -141,7 +141,6 @@ export const productSlice = createSlice({
             })
             .addCase(getProductById.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.product = action.payload;
             })
             .addCase(getProductById.rejected, (state, action) => {
@@ -154,7 +153,6 @@ export const productSlice = createSlice({
             })
             .addCase(getProducts.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.products = action.payload;
             })
             .addCase(getProducts.rejected, (state, action) => {
@@ -167,7 +165,6 @@ export const productSlice = createSlice({
             })
             .addCase(getProductsByPage.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.products = action.payload;
             })
             .addCase(getProductsByPage.rejected, (state, action) => {
@@ -181,7 +178,8 @@ export const productSlice = createSlice({
             .addCase(saveProduct.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.product = action.payload;
+                state.message = "Product had been added";
+                //state.product = action.payload;
             })
             .addCase(saveProduct.rejected, (state, action) => {
                 state.isLoading = false;
@@ -194,6 +192,7 @@ export const productSlice = createSlice({
             .addCase(updateProduct.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.message = "Product had been updated";
                 state.product = action.payload;
             })
             .addCase(updateProduct.rejected, (state, action) => {
@@ -207,10 +206,11 @@ export const productSlice = createSlice({
             .addCase(removeProduct.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.message = "Product deleted";
                 const newProducts = state.products.data.filter(
                     (prod) => prod.id !== action.payload
                 );
-                state.products = { ...newProducts };
+                state.products = { ...state.products, data: newProducts };
             })
             .addCase(removeProduct.rejected, (state, action) => {
                 state.isLoading = false;

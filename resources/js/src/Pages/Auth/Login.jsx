@@ -32,6 +32,7 @@ export default function Login() {
         }
 
         if (isSuccess) {
+            dispatch(reset());
             navigate("/two-factor-auth");
         }
 

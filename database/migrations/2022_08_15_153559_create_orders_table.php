@@ -24,6 +24,7 @@ return new class extends Migration
             $table->float('delivery_cost')->default(0.00);
             $table->double('loyalty_point')->nullable();
             $table->text('discount')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

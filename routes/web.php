@@ -64,6 +64,10 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/add-product', function () {
+        return view('welcome');
+    });
+
     Route::get('/change-password', function () {
         return view('welcome');
     });
@@ -88,7 +92,19 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/products', function () {
+        return view('welcome');
+    });
+
+    Route::get('/kitchen', function () {
+        return view('welcome');
+    });
+
     Route::get('/orders/{id}', function () {
+        return view('welcome');
+    });
+
+    Route::get('/update-product/{id}', function () {
         return view('welcome');
     });
 

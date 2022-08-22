@@ -14,7 +14,14 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::withTrashed()->orderBy('id', 'DESC')->paginate(20);
+        $product = Product::withTrashed()->with(['categories', 'media'])->orderBy('id', 'DESC')->paginate(20);
+
+        return $product;
+    }
+
+    public function discount()
+    {
+        $product = Product::whereNotNull('discount')->orderBy('id', 'DESC')->paginate(20);
 
         return $product;
     }
@@ -32,21 +39,26 @@ class ProductController extends Controller
             'sku' => 'string',
             'description' => 'string',
             'ingredents' => 'string',
+            'discount' => 'numeric',
             'price' => 'numeric|required',
             'quantity' => 'numeric|required'
         ]);
 
         $product = Product::create($fields);
 
-        if($categories = $request->only('categories')){
+        if($request->hasFile('featured_img')){
+            $product->addMediaFromRequest('featured_img')->toMediaCollection('images');
+        }
+
+        if($categories = $request->input('categories')){
             foreach($categories as $category){
-                $product->categories()->create($category);
+                $product->categories()->attach($category);
             }
         }
 
-        if($addons = $request->only('addons')){
+        if($addons = $request->input('addons')){
             foreach($addons as $addon){
-                $product->addons()->create($addon);
+                $product->addons()->attach($addon);
             }
         }
 
@@ -61,7 +73,7 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return Product::find($id)->with(['addons', 'categories', 'reviews']);
+        return Product::find($id)->load([ 'categories', 'media']);
     }
 
     /**
@@ -86,6 +98,24 @@ class ProductController extends Controller
 
         $product->update($fields);
 
+        if($request->hasFile('featured_img')){
+            $product->addMediaFromRequest('featured_img')->toMediaCollection('images');
+        }
+
+        if($categories = $request->input('categories')){
+            foreach($categories as $category){
+                $product->categories()->attach($category);
+            }
+        }
+
+        if($addons = $request->input('addons')){
+            foreach($addons as $addon){
+                $product->addons()->attach($addon);
+            }
+        }
+
+        $product->refresh()->load([ 'categories', 'media']);
+
         return $product;
     }
 
@@ -99,7 +129,7 @@ class ProductController extends Controller
     {
         $product = Product::withTrashed()->find($id);
 
-        $deleted = $product->forceDelete($id);
+        $deleted = $product->forceDelete();
 
         return $deleted;
     }

@@ -17,9 +17,25 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::withTrashed()->with(['roles'])->orderBy('id', 'DESC')->paginate(20);
+        $users = User::withTrashed()->with(['roles' => function($q){
+            $q->where('name', '!=', 'customer');
+        }])->orderBy('id', 'DESC')->paginate(20);
 
         return $users;
+    }
+
+    public function active_customers()
+    {
+        $customers = User::role('customer')->with('loyalty')->orderBy('loyalty.total_spent', 'DESC')->paginate(20);
+
+        return $customers;
+    }
+
+    public function customers()
+    {
+        $customers = User::role('customer')->with('loyalty')->orderBy('id', 'DESC')->paginate(20);
+
+        return $customers;
     }
 
     /**
@@ -157,7 +173,7 @@ class UserController extends Controller
     {
         $user = User::withTrashed()->find($id)->load(['roles']);
 
-        $deleted = $user->forceDelete($id);
+        $deleted = $user->forceDelete();
 
         //Mail::to($user)->send(new UserDelete($user->profile));
 
