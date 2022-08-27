@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/reviews";
+const API_URL = "/api/review";
 
 const getReviews = async () => {
     const res = await axios.get(API_URL);
@@ -15,7 +15,7 @@ const getReviewById = async (id) => {
 };
 
 const getReviewsByPage = async (page) => {
-    const res = await axios.get("/api/reviews?page=" + page);
+    const res = await axios.get("/api/review?page=" + page);
 
     return res.data;
 };

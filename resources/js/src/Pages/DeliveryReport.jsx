@@ -5,10 +5,10 @@ import { Column } from "primereact/column";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
-    getIncedents,
+    getDeliveries,
     clear,
-    getIncedentsByPage,
-} from "../features/incedent/incedentSlice";
+    getDeliveriesByPage,
+} from "../features/delivery/deliverySlice";
 import ReportMenu from "../components/ReportMenu";
 import DownloadButton from "../components/DownloadButton";
 
@@ -17,19 +17,19 @@ const DeliveryReport = () => {
 
     const dispatch = useDispatch();
 
-    const { incedents, isLoading } = useSelector((state) => state.incedent);
+    const { deliveries, isLoading } = useSelector((state) => state.delivery);
 
     useEffect(() => {
-        dispatch(getIncedents());
+        dispatch(getDeliveries());
 
         return () => dispatch(clear());
     }, []);
 
     useEffect(() => {
-        if (incedents) {
-            setFirst(incedents.current_page - 1);
+        if (deliveries) {
+            setFirst(deliveries.current_page - 1);
         }
-    }, [incedents]);
+    }, [deliveries]);
 
     const formatDate = (value) => {
         const d = new Date(value);
@@ -51,10 +51,10 @@ const DeliveryReport = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                     <div className="tw-my-4">
-                        <DownloadButton />
+                        <DownloadButton path="delivery" />
                     </div>
                     <DataTable
-                        value={incedents?.data}
+                        value={deliveries?.data}
                         className="p-datatable-staffs"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         dataKey="id"
@@ -67,7 +67,7 @@ const DeliveryReport = () => {
                         rows={20}
                         first={first}
                         onPage={(e) =>
-                            dispatch(getIncedentsByPage(e.first + 1))
+                            dispatch(getDeliveriesByPage(e.first + 1))
                         }
                     >
                         <Column

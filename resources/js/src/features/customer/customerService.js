@@ -14,6 +14,30 @@ const getCustomersByPage = async (page) => {
     return res.data;
 };
 
+const getActiveCustomers = async () => {
+    const res = await axios.get(API_URL + "/active");
+
+    return res.data;
+};
+
+const getActiveCustomersByPage = async (page) => {
+    const res = await axios.get("/api/customers/active?page=" + page);
+
+    return res.data;
+};
+
+const getCustomersBirthday = async () => {
+    const res = await axios.get(API_URL + "/birthday");
+
+    return res.data;
+};
+
+const getCustomersBirthdayByPage = async (page) => {
+    const res = await axios.get("/api/customers/birthday?page=" + page);
+
+    return res.data;
+};
+
 const getCustomerById = async (id) => {
     const res = await axios.get(API_URL + "/" + id);
 
@@ -41,6 +65,10 @@ const removeCustomer = async (id) => {
 const customerService = {
     getCustomers,
     getCustomerById,
+    getCustomersBirthday,
+    getActiveCustomers,
+    getCustomersBirthdayByPage,
+    getActiveCustomersByPage,
     getCustomersByPage,
     saveCustomer,
     updateCustomer,

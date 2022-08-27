@@ -5,8 +5,8 @@ import { Column } from "primereact/column";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
-    getCustomers,
-    getCustomersByPage,
+    getActiveCustomers,
+    getActiveCustomersByPage,
     clear,
 } from "../features/customer/customerSlice";
 import DownloadButton from "../components/DownloadButton";
@@ -20,7 +20,7 @@ const ActiveCustomers = () => {
     const { customers, isLoading } = useSelector((state) => state.customer);
 
     useEffect(() => {
-        dispatch(getCustomers());
+        dispatch(getActiveCustomers());
 
         return () => dispatch(clear());
     }, []);
@@ -48,7 +48,7 @@ const ActiveCustomers = () => {
             <ReportMenu />
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <div className="tw-my-4">
-                    <DownloadButton />
+                    <DownloadButton path="customers" />
                 </div>
                 <DataTable
                     value={customers?.data}
@@ -64,45 +64,39 @@ const ActiveCustomers = () => {
                     rows={20}
                     first={first}
                     onPage={(e) => {
-                        dispatch(getCustomersByPage(e.first + 1));
+                        dispatch(getActiveCustomersByPage(e.first + 1));
                     }}
                 >
                     <Column
                         field="id"
                         header="ID"
-                        sortable
                         style={{ minWidth: "5rem" }}
                     />
                     <Column
                         field="name"
                         header="Name"
-                        sortable
                         style={{ minWidth: "14rem" }}
                     />
                     <Column
                         field="created_at"
                         header="Date"
-                        sortable
-                        //dataType="date"
+                        dataType="date"
                         style={{ minWidth: "10rem" }}
                         body={dateBodyTemplate}
                     />
                     <Column
                         field="address"
                         header="Location"
-                        sortable
                         style={{ minWidth: "14rem" }}
                     />
                     <Column
                         field="total_spent"
                         header="Total Spent"
-                        sortable
                         style={{ minWidth: "8rem" }}
                     />
                     <Column
                         field="last_spent"
                         header="Last Spent"
-                        sortable
                         style={{ minWidth: "8rem" }}
                     />
                 </DataTable>

@@ -56,6 +56,11 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(Profile::class);
     }
 
+    public function loyalty () 
+    {
+        return $this->hasOne(Loyalty::class)->orderBy('total_spent', 'DESC');
+    }
+
     public function user_code ()
     {
         return $this->hasOne(UserCode::class);

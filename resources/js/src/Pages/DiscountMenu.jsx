@@ -51,7 +51,7 @@ const DiscountMenu = () => {
             <ReportMenu />
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <div className="tw-my-4">
-                    <DownloadButton />
+                    <DownloadButton path="discount" />
                 </div>
                 <DataTable
                     value={discountProducts?.data}

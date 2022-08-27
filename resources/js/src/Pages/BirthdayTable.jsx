@@ -5,8 +5,8 @@ import { Column } from "primereact/column";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
-    getCustomers,
-    getCustomersByPage,
+    getCustomersBirthday,
+    getCustomersBirthdayByPage,
     clear,
 } from "../features/customer/customerSlice";
 import ReportMenu from "../components/ReportMenu";
@@ -17,19 +17,19 @@ const BirthdayTable = () => {
 
     const dispatch = useDispatch();
 
-    const { customers, isLoading } = useSelector((state) => state.customer);
+    const { birthdays, isLoading } = useSelector((state) => state.customer);
 
     useEffect(() => {
-        dispatch(getCustomers());
+        dispatch(getCustomersBirthday());
 
         return () => dispatch(clear());
     }, []);
 
     useEffect(() => {
-        if (customers) {
-            setFirst(customers.current_page - 1);
+        if (birthdays) {
+            setFirst(birthdays.current_page - 1);
         }
-    }, [customers]);
+    }, [birthdays]);
 
     const formatDate = (value) => {
         return value.toLocaleDateString("en-US", {
@@ -52,10 +52,10 @@ const BirthdayTable = () => {
             <ReportMenu />
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <div className="tw-my-4">
-                    <DownloadButton />
+                    <DownloadButton path="birthday" />
                 </div>
                 <DataTable
-                    value={customers?.data}
+                    value={birthdays?.data}
                     className="p-datatable-customers"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
@@ -68,7 +68,7 @@ const BirthdayTable = () => {
                     rows={20}
                     first={first}
                     onPage={(e) => {
-                        dispatch(getCustomersByPage(e.first + 1));
+                        dispatch(getCustomersBirthdayByPage(e.first + 1));
                     }}
                 >
                     <Column

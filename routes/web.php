@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\TwoFactorAuthController;
 use Illuminate\Support\Facades\Route;
 
@@ -80,6 +81,10 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/reports/monthly-birthday', function () {
+        return view('welcome');
+    });
+
     Route::get('/tasks', function () {
         return view('welcome');
     });
@@ -100,12 +105,37 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/reservations', function () {
+        return view('welcome');
+    });
+
+    Route::get('/marketing', function () {
+        return view('welcome');
+    });
+
+    Route::get('/inventory', function () {
+        return view('welcome');
+    });
+
     Route::get('/orders/{id}', function () {
         return view('welcome');
     });
 
     Route::get('/update-product/{id}', function () {
         return view('welcome');
+    });
+
+    Route::prefix('download')->group(function () {
+        Route::get('birthday', [DownloadController::class, 'birthday']);
+        Route::get('complaint', [DownloadController::class, 'complaint']);
+        Route::get('customers', [DownloadController::class, 'customers']);
+        Route::get('delivery', [DownloadController::class, 'delivery']);
+        Route::get('discount', [DownloadController::class, 'discount']);
+        Route::get('incedent', [DownloadController::class, 'incedent']);
+        Route::get('inventory', [DownloadController::class, 'inventory']);
+        Route::get('payroll', [DownloadController::class, 'payroll']);
+        Route::get('quality-check', [DownloadController::class, 'quality_check']);
+        Route::get('feedback', [DownloadController::class, 'feedback']);
     });
 
 });

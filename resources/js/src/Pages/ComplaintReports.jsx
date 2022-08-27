@@ -5,10 +5,10 @@ import { Column } from "primereact/column";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
-    getIncedents,
+    getComplaints,
     clear,
-    getIncedentsByPage,
-} from "../features/incedent/incedentSlice";
+    getComplaintsByPage,
+} from "../features/complaint/complaintSlice";
 import ReportMenu from "../components/ReportMenu";
 import DownloadButton from "../components/DownloadButton";
 
@@ -17,19 +17,19 @@ const ComplaintReport = () => {
 
     const dispatch = useDispatch();
 
-    const { incedents, isLoading } = useSelector((state) => state.incedent);
+    const { complaints, isLoading } = useSelector((state) => state.complaint);
 
     useEffect(() => {
-        dispatch(getIncedents());
+        dispatch(getComplaints());
 
         return () => dispatch(clear());
     }, []);
 
     useEffect(() => {
-        if (incedents) {
-            setFirst(incedents.current_page - 1);
+        if (complaints) {
+            setFirst(complaints.current_page - 1);
         }
-    }, [incedents]);
+    }, [complaints]);
 
     const formatDate = (value) => {
         const d = new Date(value);
@@ -51,10 +51,10 @@ const ComplaintReport = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                     <div className="tw-my-4">
-                        <DownloadButton />
+                        <DownloadButton path="complaint" />
                     </div>
                     <DataTable
-                        value={incedents?.data}
+                        value={complaints?.data}
                         className="p-datatable-staffs"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         dataKey="id"
@@ -67,7 +67,7 @@ const ComplaintReport = () => {
                         rows={20}
                         first={first}
                         onPage={(e) =>
-                            dispatch(getIncedentsByPage(e.first + 1))
+                            dispatch(getComplaintsByPage(e.first + 1))
                         }
                     >
                         <Column

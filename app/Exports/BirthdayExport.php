@@ -4,6 +4,7 @@ namespace App\Exports;
 
 use App\Models\User;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithCustomStartCell;
@@ -15,6 +16,8 @@ use Maatwebsite\Excel\Events\AfterSheet;
 
 class BirthdayExport implements FromArray, WithMapping, ShouldAutoSize, WithHeadings, WithEvents, WithCustomStartCell, WithTitle
 {
+    use Exportable;
+    
     public function __construct()
     {
         //
@@ -23,9 +26,9 @@ class BirthdayExport implements FromArray, WithMapping, ShouldAutoSize, WithHead
     public function array(): array
     {
 
-        $user =  User::role('customer')->withWhereHas('posts', function ($query) {
+        $user =  User::role('customer')->withWhereHas('profile', function ($query) {
             $query->whereBetween('date_of_birth', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
-        })->load('loyalty')->get();
+        })->with('loyalty')->get()->toArray();
 
         return $user;
     }

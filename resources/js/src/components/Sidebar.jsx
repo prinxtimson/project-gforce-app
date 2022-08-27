@@ -9,6 +9,7 @@ import {
     MdKitchen,
     MdOutlineReviews,
     MdOutlineHome,
+    MdAssignment,
     MdViewModule,
     MdInventory,
 } from "react-icons/md";
@@ -79,6 +80,19 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
+                            to="/inventory"
+                            className={`tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-2 tw-p-2 tw-font-semibold tw-text-white ${
+                                location.pathname === "/inventory"
+                                    ? "tw-bg-white tw-text-amber-700 hover:tw-text-amber-800 tw-rounded-lg"
+                                    : "tw-text-white hover:tw-text-slate-200"
+                            }`}
+                        >
+                            <MdInventory size={20} className="tw-mr-2" />
+                            Inventory
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
                             to="/products"
                             className={`tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-2 tw-p-2 tw-font-semibold tw-text-white ${
                                 location.pathname === "/products"
@@ -86,7 +100,7 @@ const Sidebar = () => {
                                     : "tw-text-white hover:tw-text-slate-200"
                             }`}
                         >
-                            <MdInventory size={20} className="tw-mr-2" />
+                            <MdAssignment size={20} className="tw-mr-2" />
                             Product List
                         </Link>
                     </li>
@@ -131,7 +145,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
+                            to="/reservations"
                             className={`tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-2 tw-p-2 tw-font-semibold tw-text-white ${
                                 location.pathname === "/reservations"
                                     ? "tw-bg-white tw-text-amber-700 hover:tw-text-amber-800 tw-rounded-lg"
@@ -157,7 +171,7 @@ const Sidebar = () => {
                     </li>
                     <li>
                         <Link
-                            to="#"
+                            to="/marketing"
                             className={`tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-2 tw-p-2 tw-font-semibold tw-text-white  ${
                                 location.pathname === "/marketing"
                                     ? "tw-bg-white tw-text-amber-700 hover:tw-text-amber-800 tw-rounded-lg"

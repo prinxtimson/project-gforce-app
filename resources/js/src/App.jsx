@@ -41,6 +41,9 @@ import DiscountMenu from "./Pages/DiscountMenu";
 import ActiveCustomers from "./Pages/ActiveCustomers";
 import StockReport from "./Pages/StockReport";
 import BirthdayTable from "./Pages/BirthdayTable";
+import Marketing from "./Pages/Marketing";
+import ReservationsTable from "./Pages/ReservationsTable";
+import NewReservation from "./Pages/NewReservation";
 
 const App = () => {
     return (
@@ -90,6 +93,15 @@ const App = () => {
                         <Route path="feedback" element={<FeedbacksTable />} />
                     </Route>
                     <Route path="/invetory" element={<InventoryTable />} />
+                    <Route
+                        path="/reservations"
+                        element={<ReservationsTable />}
+                    />
+                    <Route path="/marketing" element={<Marketing />} />
+                    <Route
+                        path="/new-reservation"
+                        element={<NewReservation />}
+                    />
                     <Route path="/payments" element={<PaymentsTable />} />
                     <Route path="/orders/:id" element={<SingleOrder />} />
                     <Route path="/staffs" element={<UsersTable />} />

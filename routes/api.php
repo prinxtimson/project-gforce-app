@@ -155,6 +155,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
 
     Route::get('customers', [UserController::class, 'customers']);
     Route::get('customers/active', [UserController::class, 'active_customers']);
+    Route::get('customers/birthday', [UserController::class, 'monthly_birthday']);
     //Route::put('users/approved/{id}', [UserController::class, 'approved']);
 
     Route::get('reservation/approve/{id}', [ReservationsController::class, 'approve']);

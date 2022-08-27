@@ -2,79 +2,34 @@ import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { InputText } from "primereact/inputtext";
-import { useNavigate } from "react-router-dom";
-import { Menu } from "primereact/menu";
-import { Button } from "primereact/button";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
     clear,
-    getProducts,
-    getProductsByPage,
-} from "../features/product/productSlice";
+    getInventories,
+    getInventoriesByPage,
+} from "../features/inventory/inventorySlice";
+import ReportMenu from "../components/ReportMenu";
+import DownloadButton from "../components/DownloadButton";
 
 const StockReport = () => {
-    const menu = useRef(null);
     const [first, setFirst] = useState(0);
 
     const dispatch = useDispatch();
-    const navigate = useNavigate();
 
-    const { products, isLoading } = useSelector((state) => state.product);
+    const { inventories, isLoading } = useSelector((state) => state.inventory);
 
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getInventories());
 
         return () => dispatch(clear());
     }, []);
 
     useEffect(() => {
-        if (products) {
-            setFirst(products.current_page - 1);
+        if (inventories) {
+            setFirst(inventories.current_page - 1);
         }
-    }, [products]);
-
-    let items = [
-        { label: "Report", command: () => navigate("") },
-        {
-            label: "Monthly Birthday",
-            command: () => navigate("/reports/monthly-birthday"),
-        },
-        {
-            label: "Active customer",
-            command: () => navigate("/reports/customers"),
-        },
-        { label: "Stock Report", command: () => navigate("/reports/stock") },
-        {
-            label: "Discount Sales",
-            command: () => navigate("/reports/discount-sales"),
-        },
-        {
-            label: "Payroll Report",
-            command: () => navigate("/reports/payroll"),
-        },
-        {
-            label: "Incident Report",
-            command: () => navigate("/reports/incedent"),
-        },
-        {
-            label: "Delivery Report",
-            command: () => navigate("/reports/delivery"),
-        },
-        {
-            label: "Complaint Report",
-            command: () => navigate("/reports/complaint"),
-        },
-        {
-            label: "Quality Check Report",
-            command: () => navigate("/reports/quality-check"),
-        },
-        {
-            label: "Feedback Report",
-            command: () => navigate("/reports/feedback"),
-        },
-    ];
+    }, [inventories]);
 
     const formatDate = (value) => {
         const d = new Date(value);
@@ -117,18 +72,13 @@ const StockReport = () => {
 
     return (
         <Authenticated>
-            <div className="tw-pb-4">
-                <Menu model={items} popup ref={menu} id="popup_menu" />
-                <Button
-                    icon="pi pi-bars"
-                    onClick={(e) => menu.current.toggle(e)}
-                    aria-controls="popup_menu"
-                    aria-haspopup
-                />
-            </div>
+            <ReportMenu />
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
+                <div className="tw-my-4">
+                    <DownloadButton path="inventory" />
+                </div>
                 <DataTable
-                    value={products?.data}
+                    value={inventories?.data}
                     className="p-datatable-customers"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
@@ -141,7 +91,7 @@ const StockReport = () => {
                     rows={20}
                     first={first}
                     onPage={(e) => {
-                        dispatch(getProductsByPage(e.first + 1));
+                        dispatch(getInventoriesByPage(e.first + 1));
                     }}
                 >
                     <Column

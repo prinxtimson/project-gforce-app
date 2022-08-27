@@ -3,6 +3,7 @@ import customerService from "./customerService";
 
 const initialState = {
     customers: null,
+    birthdays: null,
     customer: null,
     isError: false,
     isSuccess: false,
@@ -33,6 +34,78 @@ export const getCustomersByPage = createAsyncThunk(
     async (page, thunkAPI) => {
         try {
             return await customerService.getCustomersByPage(page);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const getActiveCustomers = createAsyncThunk(
+    "customer/get-active",
+    async (thunkAPI) => {
+        try {
+            return await customerService.getActiveCustomers();
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const getActiveCustomersByPage = createAsyncThunk(
+    "customer/active-by-page",
+    async (page, thunkAPI) => {
+        try {
+            return await customerService.getActiveCustomersByPage(page);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const getCustomersBirthday = createAsyncThunk(
+    "customer/get-birthday",
+    async (thunkAPI) => {
+        try {
+            return await customerService.getCustomersBirthday();
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const getCustomersBirthdayByPage = createAsyncThunk(
+    "customer/birthday-by-page",
+    async (page, thunkAPI) => {
+        try {
+            return await customerService.getCustomersBirthdayByPage(page);
         } catch (err) {
             const msg =
                 (err.response &&
@@ -132,6 +205,7 @@ export const customerSlice = createSlice({
         },
         clear: (state) => {
             state.customers = null;
+            state.birthdays = null;
             state.customer = null;
             state.isError = false;
             state.isLoading = false;
@@ -175,6 +249,55 @@ export const customerSlice = createSlice({
                 state.customers = action.payload;
             })
             .addCase(getCustomersByPage.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getActiveCustomers.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getActiveCustomers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.customers = action.payload;
+            })
+            .addCase(getActiveCustomers.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getActiveCustomersByPage.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getActiveCustomersByPage.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.customers = action.payload;
+            })
+            .addCase(getActiveCustomersByPage.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getCustomersBirthday.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getCustomersBirthday.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.birthdays = action.payload;
+            })
+            .addCase(getCustomersBirthday.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getCustomersBirthdayByPage.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getCustomersBirthdayByPage.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.birthdays = action.payload;
+            })
+            .addCase(getCustomersBirthdayByPage.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

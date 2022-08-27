@@ -55,7 +55,7 @@ const PayrollTable = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                     <div className="tw-my-4">
-                        <DownloadButton />
+                        <DownloadButton path="payroll" />
                     </div>
                     <DataTable
                         value={profiles?.data}

@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Dropdown } from "primereact/dropdown";
-import { Tooltip } from "primereact/tooltip";
 
 const TYPES = [
     { name: "Excel", value: "xlsx" },
     { name: "CSV", value: "csv" },
     { name: "PDF", value: "pdf" },
-    { name: "HTML", value: "html" },
 ];
 
-const DownloadButton = ({ url, id }) => {
+const DownloadButton = ({ path }) => {
     const [type, setType] = useState("xlsx");
 
     return (
@@ -23,7 +21,7 @@ const DownloadButton = ({ url, id }) => {
             />
             <span>
                 <a
-                    href={`/basecamp/download?id=${id}&type=${type}`}
+                    href={`/download/${path}?type=${type}`}
                     className="tw-mx-3 tw-border tw-rounded-md tw-text-dark hover:tw-bg-slate-600 hover:tw-text-white tw-p-4"
                     download
                 >

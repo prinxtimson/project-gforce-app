@@ -5,10 +5,10 @@ import { Column } from "primereact/column";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
-    getIncedents,
+    getQualityChecks,
     clear,
-    getIncedentsByPage,
-} from "../features/incedent/incedentSlice";
+    getQualityChecksByPage,
+} from "../features/qualityCheck/qualityCheckSlice";
 import ReportMenu from "../components/ReportMenu";
 import DownloadButton from "../components/DownloadButton";
 
@@ -17,19 +17,19 @@ const QualityCheck = () => {
 
     const dispatch = useDispatch();
 
-    const { incedents, isLoading } = useSelector((state) => state.incedent);
+    const { checks, isLoading } = useSelector((state) => state.qualityCheck);
 
     useEffect(() => {
-        dispatch(getIncedents());
+        dispatch(getQualityChecks());
 
         return () => dispatch(clear());
     }, []);
 
     useEffect(() => {
-        if (incedents) {
-            setFirst(incedents.current_page - 1);
+        if (checks) {
+            setFirst(checks.current_page - 1);
         }
-    }, [incedents]);
+    }, [checks]);
 
     const formatDate = (value) => {
         const d = new Date(value);
@@ -51,10 +51,10 @@ const QualityCheck = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                     <div className="tw-my-4">
-                        <DownloadButton />
+                        <DownloadButton path="quality-check" />
                     </div>
                     <DataTable
-                        value={incedents?.data}
+                        value={checks?.data}
                         className="p-datatable-staffs"
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         dataKey="id"
@@ -67,7 +67,7 @@ const QualityCheck = () => {
                         rows={20}
                         first={first}
                         onPage={(e) =>
-                            dispatch(getIncedentsByPage(e.first + 1))
+                            dispatch(getQualityChecksByPage(e.first + 1))
                         }
                     >
                         <Column

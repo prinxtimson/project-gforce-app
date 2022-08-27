@@ -11,6 +11,12 @@ import reviewReducer from "./features/review/reviewSlice";
 import reportReducer from "./features/report/reportSlice";
 import categoryReducer from "./features/category/categorySlice";
 import incedentReducer from "./features/incedent/incedentSlice";
+import inventoryReducer from "./features/inventory/inventorySlice";
+import complaintReducer from "./features/complaint/complaintSlice";
+import deliveryReducer from "./features/delivery/deliverySlice";
+import dispatcherReducer from "./features/dispatcher/dispatcherSlice";
+import reservationReducer from "./features/reservation/reservationSlice";
+import qualityCheckReducer from "./features/qualityCheck/qualityCheckSlice";
 
 export const store = configureStore({
     reducer: {
@@ -26,5 +32,11 @@ export const store = configureStore({
         report: reportReducer,
         category: categoryReducer,
         incedent: incedentReducer,
+        inventory: inventoryReducer,
+        complaint: complaintReducer,
+        delivery: deliveryReducer,
+        dispatcher: dispatcherReducer,
+        reservation: reservationReducer,
+        qualityCheck: qualityCheckReducer,
     },
 });

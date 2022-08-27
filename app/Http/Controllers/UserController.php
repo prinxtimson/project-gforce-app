@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Mail\NewUser;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -29,6 +30,15 @@ class UserController extends Controller
         $customers = User::role('customer')->with(['loyalty', 'profile'])->orderBy('loyalty.total_spent', 'DESC')->paginate(20);
 
         return $customers;
+    }
+
+    public function monthly_birthday()
+    {
+        $user =  User::role('customer')->withWhereHas('profile', function ($query) {
+            $query->whereBetween('date_of_birth', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()]);
+        })->with('loyalty')->paginate(20);
+
+        return $user;
     }
 
     public function customers()
