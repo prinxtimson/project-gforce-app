@@ -92,7 +92,7 @@ const App = () => {
                         />
                         <Route path="feedback" element={<FeedbacksTable />} />
                     </Route>
-                    <Route path="/invetory" element={<InventoryTable />} />
+                    <Route path="/inventory" element={<InventoryTable />} />
                     <Route
                         path="/reservations"
                         element={<ReservationsTable />}

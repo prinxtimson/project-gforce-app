@@ -10,15 +10,15 @@ import { Link, useNavigate } from "react-router-dom";
 import Authenticated from "../Layouts/Authenticated";
 import {
     clear,
-    getProducts,
-    getProductsByPage,
-    removeProduct,
+    getInventories,
+    getInventoriesByPage,
+    removeInventory,
     reset,
-} from "../features/product/productSlice";
+} from "../features/inventory/inventorySlice";
 import { toast } from "react-toastify";
 
 const InventoryTable = () => {
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [selectedInventories, setSelectedInventories] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
@@ -28,12 +28,12 @@ const InventoryTable = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { products, isLoading, isError, isSuccess, message } = useSelector(
-        (state) => state.product
+    const { inventories, isLoading, isError, isSuccess, message } = useSelector(
+        (state) => state.inventory
     );
 
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getInventories());
 
         return () => dispatch(clear());
     }, []);
@@ -51,10 +51,10 @@ const InventoryTable = () => {
     }, [isError, isSuccess, message, dispatch]);
 
     useEffect(() => {
-        if (products) {
-            setFirst(products.current_page - 1);
+        if (inventories) {
+            setFirst(inventories.current_page - 1);
         }
-    }, [products]);
+    }, [inventories]);
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -117,7 +117,7 @@ const InventoryTable = () => {
             {
                 label: "Delete",
                 icon: "pi pi-fw pi-trash",
-                command: () => dispatch(removeProduct(rowData.id)),
+                command: () => dispatch(removeInventory(rowData.id)),
             },
         ];
         return (
@@ -139,33 +139,30 @@ const InventoryTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <div className="tw-my-4">
-                    <Link
-                        to="/add-product"
-                        className="tw-text-sky-500 tw-underline"
-                    >
+                    <Link to="#" className="tw-text-sky-500 tw-underline">
                         Add Items
                     </Link>
                 </div>
                 <DataTable
-                    value={products?.data}
+                    value={inventories?.data}
                     className="p-datatable-customers"
                     header={header}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
                     rowHover
-                    selection={selectedProducts}
-                    emptyMessage="No product found."
+                    selection={selectedInventories}
+                    emptyMessage="No items found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={isLoading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    onSelectionChange={(e) => setSelectedInventories(e.value)}
                     paginator
                     rows={20}
                     first={first}
                     onPage={(e) => {
-                        dispatch(getProductsByPage(e.first + 1));
+                        dispatch(getInventoriesByPage(e.first + 1));
                     }}
                 >
                     <Column
