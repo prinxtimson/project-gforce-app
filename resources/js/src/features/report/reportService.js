@@ -8,8 +8,20 @@ const getReports = async () => {
     return res.data;
 };
 
+const getOrderReports = async () => {
+    const res = await axios.get(API_URL + "/order");
+
+    return res.data;
+};
+
 const getReportsByPage = async (page) => {
     const res = await axios.get("/api/reports?page=" + page);
+
+    return res.data;
+};
+
+const getMostSelling = async (period) => {
+    const res = await axios.get(API_URL + "/most-selling?period=" + period);
 
     return res.data;
 };
@@ -40,6 +52,8 @@ const removeReport = async (id) => {
 
 const reportService = {
     getReports,
+    getOrderReports,
+    getMostSelling,
     getReportById,
     getReportsByPage,
     saveReport,

@@ -3,6 +3,7 @@ import reportService from "./reportService";
 
 const initialState = {
     reports: {},
+    orderReports: {},
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -22,6 +23,24 @@ export const getReports = createAsyncThunk("report/get", async (thunkAPI) => {
     }
 });
 
+export const getOrderReports = createAsyncThunk(
+    "report/order",
+    async (thunkAPI) => {
+        try {
+            return await reportService.getOrderReports();
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const getReportsByPage = createAsyncThunk(
     "report/by-page",
     async (page, thunkAPI) => {
@@ -40,23 +59,23 @@ export const getReportsByPage = createAsyncThunk(
     }
 );
 
-// export const updateOrder = createAsyncThunk(
-//     "report/update-order",
-//     async (data, thunkAPI) => {
-//         try {
-//             return await reportService.updateOrder(data);
-//         } catch (err) {
-//             const msg =
-//                 (err.response &&
-//                     err.response.data &&
-//                     err.response.data.message) ||
-//                 err.message ||
-//                 err.toString();
+export const getMostSelling = createAsyncThunk(
+    "report/most-selling",
+    async (period, thunkAPI) => {
+        try {
+            return await reportService.getMostSelling(period);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
 
-//             return thunkAPI.rejectWithValue(msg);
-//         }
-//     }
-// );
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
 
 export const reportSlice = createSlice({
     name: "report",
@@ -87,6 +106,30 @@ export const reportSlice = createSlice({
                 state.reports = action.payload;
             })
             .addCase(getReports.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getMostSelling.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getMostSelling.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.reports.most_selling = action.payload;
+            })
+            .addCase(getMostSelling.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getOrderReports.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getOrderReports.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.orderReports = action.payload;
+            })
+            .addCase(getOrderReports.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

@@ -12,6 +12,11 @@ class Profile extends Model
         'firstname',
         'lastname',
         'phone',
+        'date_of_birth'
+    ];
+
+    protected $cast = [
+        'date_of_birth' => 'date'
     ];
 
     public function user() {

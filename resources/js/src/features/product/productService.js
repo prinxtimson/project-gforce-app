@@ -8,6 +8,12 @@ const getProducts = async () => {
     return res.data;
 };
 
+const getDiscountProducts = async () => {
+    const res = await axios.get(API_URL + "/discount");
+
+    return res.data;
+};
+
 const getProductsByPage = async (page) => {
     const res = await axios.get("/api/products?page=" + page);
 
@@ -40,6 +46,7 @@ const removeProduct = async (id) => {
 
 const productService = {
     getProducts,
+    getDiscountProducts,
     getProductById,
     getProductsByPage,
     saveProduct,

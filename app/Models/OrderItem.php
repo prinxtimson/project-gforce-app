@@ -29,7 +29,7 @@ class OrderItem extends Model
 
     public function order()
     {
-        $this->belongsTo(Order::class);
+       return $this->belongsTo(Order::class);
     }
 
     public function reviews()

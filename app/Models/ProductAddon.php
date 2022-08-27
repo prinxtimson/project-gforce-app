@@ -11,11 +11,11 @@ class ProductAddon extends Model
 
     public function product()
     {
-        $this->hasOne(Product::class);
+       return $this->hasOne(Product::class);
     }
 
     public function addon()
     {
-        $this->hasOne(Addon::class);
+       return $this->hasOne(Addon::class);
     }
 }

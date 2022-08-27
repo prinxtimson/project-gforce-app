@@ -21,7 +21,7 @@ class ProductController extends Controller
 
     public function discount()
     {
-        $product = Product::whereNotNull('discount')->orderBy('id', 'DESC')->paginate(20);
+        $product = Product::whereNotNull('discount')->where('discount', '>', 0)->orderBy('id', 'DESC')->paginate(20);
 
         return $product;
     }

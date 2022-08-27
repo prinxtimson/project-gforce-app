@@ -169,7 +169,7 @@ const ProductInventory = () => {
                     dataKey="id"
                     rowHover
                     selection={selectedProducts}
-                    emptyMessage="No customers found."
+                    emptyMessage="No product found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"

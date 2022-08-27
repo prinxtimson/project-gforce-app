@@ -61,6 +61,16 @@ class User extends Authenticatable implements HasMedia
         return $this->hasOne(UserCode::class);
     }
 
+    public function addresses ()
+    {
+        return $this->hasMany(CustomerAddress::class);
+    }
+
+    public function cards ()
+    {
+        return $this->hasMany(CustomerPayment::class);
+    }
+
     public function generate_code ()
     {
         $code = rand(100000, 999999);

@@ -10,18 +10,17 @@ class Cart extends Model
     use HasFactory;
 
     protected $fillable = [
-        'total',
         'delivery_cost',
         'loyalty_point',
     ];
 
-    public function user()
-    {
-        $this->belongsTo(User::class);
-    }
-
     public function discount()
     {
-        $this->hasOne(Discount::class);
+        return $this->hasOne(Discount::class);
+    }
+
+    public function cart_items()
+    {
+       return $this->hasMany(CartItem::class);
     }
 }

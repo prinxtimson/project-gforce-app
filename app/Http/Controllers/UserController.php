@@ -26,14 +26,14 @@ class UserController extends Controller
 
     public function active_customers()
     {
-        $customers = User::role('customer')->with('loyalty')->orderBy('loyalty.total_spent', 'DESC')->paginate(20);
+        $customers = User::role('customer')->with(['loyalty', 'profile'])->orderBy('loyalty.total_spent', 'DESC')->paginate(20);
 
         return $customers;
     }
 
     public function customers()
     {
-        $customers = User::role('customer')->with('loyalty')->orderBy('id', 'DESC')->paginate(20);
+        $customers = User::role('customer')->with(['loyalty', 'profile', 'addresses'])->orderBy('id', 'DESC')->paginate(20);
 
         return $customers;
     }

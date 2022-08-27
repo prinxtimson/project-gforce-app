@@ -11,11 +11,11 @@ class ProductCategory extends Model
 
     public function product()
     {
-        $this->hasOne(Product::class);
+       return $this->hasOne(Product::class);
     }
 
     public function category()
     {
-        $this->hasOne(Category::class);
+       return $this->hasOne(Category::class);
     }
 }

@@ -10,6 +10,7 @@ import taskReducer from "./features/task/taskSlice";
 import reviewReducer from "./features/review/reviewSlice";
 import reportReducer from "./features/report/reportSlice";
 import categoryReducer from "./features/category/categorySlice";
+import incedentReducer from "./features/incedent/incedentSlice";
 
 export const store = configureStore({
     reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
         review: reviewReducer,
         report: reportReducer,
         category: categoryReducer,
+        incedent: incedentReducer,
     },
 });

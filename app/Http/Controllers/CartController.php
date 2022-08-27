@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
+use App\Models\CartItem;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -13,7 +15,8 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $carts = Cart::with(['cart_items'])->orderBy('id', 'DESC')->paginate(20);
+        return $carts;
     }
 
     /**
@@ -24,7 +27,25 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        if($cart_id  = $request->input('cart_id')){
+            $cart = Cart::find($cart_id);
+            $cart_items = $request->input('cart_items');
+            foreach($cart_items as $item){
+                $cart->cart_items()->updateOrCreate(['product_id' => $item['product_id']], $item);
+            }
+
+            return $cart->refresh()->load('cart_items');
+        }else {
+            $cart = Cart::create([]);
+            $cart_items = $request->input('cart_items');
+            foreach($cart_items as $cart_item){
+                $cart->cart_items()->updateOrCreate(['product_id'=> $cart_item['product_id']], $cart_item);
+            }
+
+            return $cart->refresh()->load('cart_items');
+        }
+        
     }
 
     /**
@@ -35,7 +56,7 @@ class CartController extends Controller
      */
     public function show($id)
     {
-        //
+        return Cart::find($id)->load('cart_items');
     }
 
     /**
@@ -58,6 +79,8 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cart = Cart::find($id);
+
+        return $cart->delete();
     }
 }

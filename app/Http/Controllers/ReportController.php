@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,6 +23,30 @@ class ReportController extends Controller
 
     }
 
+    public function most_selling_by_period (Request $request)
+    {
+        $period = $request->get('period');
+
+        if($period == 'day'){
+            $order_items = OrderItem::whereBetween('created_at', [Carbon::now()->startOfDay(), Carbon::now()->endOfDay()])->with(['reviews'])->selectRaw("* COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->get();
+
+            return $order_items;
+        }else if($period == 'week'){
+            $order_items = OrderItem::whereBetween('created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->with(['reviews'])->selectRaw("* COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->get();
+
+            return $order_items;
+        }else if($period == 'month'){
+            $order_items = OrderItem::whereBetween('created_at', [Carbon::now()->startOfMonth(), Carbon::now()->endOfMonth()])->with(['reviews'])->selectRaw("* COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->get();
+
+            return $order_items;
+        }else {
+            $most_selling = OrderItem::with(['reviews'])->selectRaw("COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->paginate(10);
+
+            return $most_selling;
+        }
+
+    }
+
     public function report ()
     {
         $orders = Order::count();
@@ -32,14 +57,40 @@ class ReportController extends Controller
 
         $order_items = OrderItem::whereDate('created_at', Carbon::today())->selectRaw("COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->paginate(10);
 
+        $most_selling = OrderItem::with(['reviews'])->selectRaw("COUNT(product_id) as count")->groupBy('product_id')->orderBy('count', 'desc')->paginate(10);
+
         $res = [
             'orders' => $orders,
             'customers' => $customers,
             'foods' => $foods,
             'reservations' => 0,
             'daily_trend' =>$order_items['data'],
+            'most_selling' => $most_selling['data'],
         ];
 
         return $res;
+    }
+
+    public function get_order_report () 
+    {
+        $new_orders = OrderStatus::where('name', '=', 'New Order')->orders()->count();
+        $pre_orders = OrderStatus::where('name', '=', 'Prepering')->orders()->count();
+        $ready_orders = OrderStatus::where('name', '=', 'Ready')->orders()->count();
+        $served_orders = OrderStatus::where('name', '=', 'Served')->orders()->count();
+        $in_transit_orders = OrderStatus::where('name', '=', 'In-Transit')->orders()->count();
+        $delivered_orders = OrderStatus::where('name', '=', 'Delivered')->orders()->count();
+        $canceled_orders = Order::onlyTrashed();
+
+        $response = [
+            'new_orders' => $new_orders,
+            'pre_orders' => $pre_orders,
+            'ready_orders' => $ready_orders,
+            'served_orders' => $served_orders,
+            'in_transit_orders' => $in_transit_orders,
+            'delivered_orders' => $delivered_orders,
+            'canceled_orders' => $canceled_orders
+        ];
+
+        return $response;
     }
 }

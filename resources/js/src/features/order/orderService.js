@@ -8,6 +8,12 @@ const getOrders = async () => {
     return res.data;
 };
 
+const getOrderItems = async () => {
+    const res = await axios.get(API_URL + "/items");
+
+    return res.data;
+};
+
 const getOrdersByPage = async (page) => {
     const res = await axios.get("/api/orders?page=" + page);
 
@@ -40,6 +46,7 @@ const removeOrder = async (id) => {
 
 const orderService = {
     getOrders,
+    getOrderItems,
     getOrderById,
     getOrdersByPage,
     saveOrder,

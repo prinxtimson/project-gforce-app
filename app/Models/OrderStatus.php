@@ -18,4 +18,8 @@ class OrderStatus extends Model
     protected $casts = [
         'description' => 'array',
     ];
+
+    public function orders (){
+        return $this->belongsToMany(Order::class);
+    }
 }

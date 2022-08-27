@@ -30,6 +30,17 @@ import KitchenOrder from "./Pages/KitchenOrder";
 import TwoFactorAuth from "./Pages/Auth/TwoFactorAuth";
 import ProductInventory from "./Pages/ProductInventory";
 import AddProduct from "./Pages/AddProduct";
+import InventoryTable from "./Pages/InventoryTable";
+import FeedbacksTable from "./Pages/FeedbackTable";
+import QualityCheck from "./Pages/QualityCheck";
+import ComplaintReport from "./Pages/ComplaintReports";
+import DeliveryReport from "./Pages/DeliveryReport";
+import IncedentReport from "./Pages/IncedentReport";
+import PayrollTable from "./Pages/PayrollTable";
+import DiscountMenu from "./Pages/DiscountMenu";
+import ActiveCustomers from "./Pages/ActiveCustomers";
+import StockReport from "./Pages/StockReport";
+import BirthdayTable from "./Pages/BirthdayTable";
 
 const App = () => {
     return (
@@ -56,7 +67,29 @@ const App = () => {
                     <Route path="/tasks" element={<TasksTable />} />
                     <Route path="/reviews" element={<ReviewsTable />} />
                     <Route path="/customers" element={<CustomersTable />} />
-                    <Route path="/reports" element={<Reports />} />
+                    <Route path="/reports">
+                        <Route path="" element={<Reports />} />
+                        <Route
+                            path="monthly-birthday"
+                            element={<BirthdayTable />}
+                        />
+                        <Route path="stock" element={<StockReport />} />
+                        <Route path="customers" element={<ActiveCustomers />} />
+                        <Route
+                            path="discount-sales"
+                            element={<DiscountMenu />}
+                        />
+                        <Route path="payroll" element={<PayrollTable />} />
+                        <Route path="incedent" element={<IncedentReport />} />
+                        <Route path="delivery" element={<DeliveryReport />} />
+                        <Route path="complaint" element={<ComplaintReport />} />
+                        <Route
+                            path="quality-check"
+                            element={<QualityCheck />}
+                        />
+                        <Route path="feedback" element={<FeedbacksTable />} />
+                    </Route>
+                    <Route path="/invetory" element={<InventoryTable />} />
                     <Route path="/payments" element={<PaymentsTable />} />
                     <Route path="/orders/:id" element={<SingleOrder />} />
                     <Route path="/staffs" element={<UsersTable />} />

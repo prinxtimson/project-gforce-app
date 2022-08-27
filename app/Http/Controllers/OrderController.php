@@ -16,7 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::withTrashed()->orderBy('id', 'DESC')->paginate(20);
+        $orders = Order::withTrashed()->load('status')->orderBy('id', 'DESC')->paginate(20);
 
         return $orders;
     }

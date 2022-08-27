@@ -25,14 +25,11 @@ class Addon extends Model implements HasMedia
 
     public function products ()
     {
-        $this->belongsToMany(Product::class, 'product_addons');
+       return $this->belongsToMany(Product::class, 'product_addons');
     }
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this
-            ->addMediaConversion('preview')
-            ->fit(Manipulations::FIT_CROP, 300, 300)
-            ->nonQueued();
+         $this->addMediaConversion('preview')->fit(Manipulations::FIT_CROP, 300, 300)->nonQueued();
     }
 }

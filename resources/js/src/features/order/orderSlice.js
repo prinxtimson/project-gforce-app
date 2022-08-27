@@ -4,6 +4,7 @@ import orderService from "./orderService";
 const initialState = {
     orders: null,
     order: null,
+    orderItems: null,
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -22,6 +23,24 @@ export const getOrders = createAsyncThunk("order/get", async (thunkAPI) => {
         return thunkAPI.rejectWithValue(msg);
     }
 });
+
+export const getOrderItems = createAsyncThunk(
+    "order/items",
+    async (thunkAPI) => {
+        try {
+            return await orderService.getOrderItems();
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
 
 export const getOrdersByPage = createAsyncThunk(
     "order/by-page",
@@ -154,10 +173,21 @@ export const orderSlice = createSlice({
             })
             .addCase(getOrders.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.orders = action.payload;
             })
             .addCase(getOrders.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(getOrderItems.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getOrderItems.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.orderItems = action.payload;
+            })
+            .addCase(getOrderItems.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;
