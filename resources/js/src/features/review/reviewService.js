@@ -27,13 +27,13 @@ const saveReview = async (data) => {
 };
 
 const updateReview = async (data) => {
-    const res = await axios.post(API_URL + "/" + data.id, data);
+    const res = await axios.put(API_URL + "/" + data.id, data);
 
     return res.data;
 };
 
 const removeReview = async (id) => {
-    const res = await axios.post(API_URL + "/" + id);
+    const res = await axios.delete(API_URL + "/" + id);
 
     return res.data;
 };

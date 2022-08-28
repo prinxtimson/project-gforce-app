@@ -125,6 +125,22 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/delivery', function () {
+        return view('welcome');
+    });
+
+    Route::get('/dispatcher', function () {
+        return view('welcome');
+    });
+
+    Route::get('/new-dispatcher', function () {
+        return view('welcome');
+    });
+
+    Route::get('/update-dispatcher/{id}', function () {
+        return view('welcome');
+    });
+
     Route::get('/new-inventory', function () {
         return view('welcome');
     });

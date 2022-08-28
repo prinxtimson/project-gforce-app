@@ -12,6 +12,8 @@ import {
     MdAssignment,
     MdViewModule,
     MdInventory,
+    MdOutlineDeliveryDining,
+    MdOutlineLocalShipping,
 } from "react-icons/md";
 import { FaChartArea } from "react-icons/fa";
 import { BsMegaphone } from "react-icons/bs";
@@ -50,6 +52,22 @@ const Sidebar = () => {
                                 className="tw-mr-2"
                             />
                             Orders
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/delivery"
+                            className={`tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-2 tw-p-2 tw-font-semibold tw-text-white ${
+                                location.pathname === "/delivery"
+                                    ? "tw-bg-white tw-text-amber-700 hover:tw-text-amber-800 tw-rounded-lg"
+                                    : "tw-text-white hover:tw-text-slate-200"
+                            }`}
+                        >
+                            <MdOutlineLocalShipping
+                                size={20}
+                                className="tw-mr-2"
+                            />
+                            Delivery
                         </Link>
                     </li>
                     <li>
@@ -196,6 +214,22 @@ const Sidebar = () => {
                                 className="tw-mr-2"
                             />
                             Staffs
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/dispatcher"
+                            className={`tw-flex tw-items-center lg:tw-text-sm lg:tw-leading-6 tw-mb-2 tw-p-2 tw-font-semibold tw-text-white  ${
+                                location.pathname === "/dispatcher"
+                                    ? "tw-bg-white hover:tw-text-amber-800 tw-text-amber-700 tw-rounded-lg"
+                                    : "tw-text-white hover:tw-text-slate-200"
+                            }`}
+                        >
+                            <MdOutlineDeliveryDining
+                                size={20}
+                                className="tw-mr-2"
+                            />
+                            Dispatcher
                         </Link>
                     </li>
                 </ul>

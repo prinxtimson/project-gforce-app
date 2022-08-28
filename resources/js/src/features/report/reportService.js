@@ -39,13 +39,13 @@ const saveReport = async (data) => {
 };
 
 const updateReport = async (data) => {
-    const res = await axios.post(API_URL + "/" + data.id, data);
+    const res = await axios.put(API_URL + "/" + data.id, data);
 
     return res.data;
 };
 
 const removeReport = async (id) => {
-    const res = await axios.post(API_URL + "/" + id);
+    const res = await axios.delete(API_URL + "/" + id);
 
     return res.data;
 };

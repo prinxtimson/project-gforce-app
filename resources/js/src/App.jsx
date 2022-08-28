@@ -45,6 +45,9 @@ import Marketing from "./Pages/Marketing";
 import ReservationsTable from "./Pages/ReservationsTable";
 import NewReservation from "./Pages/NewReservation";
 import NewInventory from "./Pages/NewInventory";
+import DeliveryTable from "./Pages/DeliveryTable";
+import DispatcherTable from "./Pages/DispatcherTable";
+import NewDispatcher from "./Pages/NewDispatcher";
 
 const App = () => {
     return (
@@ -94,6 +97,13 @@ const App = () => {
                         <Route path="feedback" element={<FeedbacksTable />} />
                     </Route>
                     <Route path="/inventory" element={<InventoryTable />} />
+                    <Route path="/delivery" element={<DeliveryTable />} />
+                    <Route path="/dispatcher" element={<DispatcherTable />} />
+                    <Route path="/new-dispatcher" element={<NewDispatcher />} />
+                    <Route
+                        path="/update-dispatcher/:id"
+                        element={<NewDispatcher />}
+                    />
                     <Route
                         path="/reservations"
                         element={<ReservationsTable />}
