@@ -9,7 +9,7 @@ const getOrders = async () => {
 };
 
 const getOrderItems = async () => {
-    const res = await axios.get(API_URL + "/items");
+    const res = await axios.get("/api/orders-items");
 
     return res.data;
 };

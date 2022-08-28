@@ -10,7 +10,7 @@ const getReports = async () => {
 
 const getOrderReports = async () => {
     const res = await axios.get(API_URL + "/order");
-
+    console.log(res.data);
     return res.data;
 };
 

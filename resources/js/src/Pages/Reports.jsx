@@ -244,7 +244,7 @@ const Reports = () => {
                             </div>
 
                             <ul>
-                                {birthdays.map((user) => (
+                                {birthdays?.map((user) => (
                                     <li
                                         key={user.id}
                                         className="tw-divide-y tw-divide-slate-200"

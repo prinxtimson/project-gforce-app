@@ -134,9 +134,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('orders/cancel/{id}', [OrderController::class, 'cancel']);
     Route::delete('orders/{id}', [OrderController::class, 'destroy']);
 
-    Route::get('orders/items', [OrderItemController::class, 'index']);
-    Route::get('orders/items/canceled', [OrderItemController::class, 'canceled']);
-    Route::get('orders/items/{id}', [OrderItemController::class, 'show']);
+    Route::get('orders-items', [OrderItemController::class, 'index']);
+    Route::get('orders-items/canceled', [OrderItemController::class, 'canceled']);
+    Route::get('orders-items/{id}', [OrderItemController::class, 'show']);
 
     Route::get('reports', [ReportController::class, 'report']);
     Route::get('reports/order', [ReportController::class, 'get_order_report']);
@@ -159,7 +159,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
     //Route::put('users/approved/{id}', [UserController::class, 'approved']);
 
     Route::get('reservation/approve/{id}', [ReservationsController::class, 'approve']);
-    Route::get('reservation/unapprove/{id}', [ReservationsController::class, 'unapprove']);
+    Route::get('reservation/disapprove/{id}', [ReservationsController::class, 'unapprove']);
     Route::delete('reservation/{id}', [ReservationsController::class, 'destroy']);
 
 });

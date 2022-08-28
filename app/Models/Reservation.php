@@ -23,4 +23,9 @@ class Reservation extends Model
         'special_request',
         'is_approved'
     ];
+
+    protected $casts =[
+        'date' => 'date',
+        'is_approved' => 'boolean'
+    ];
 }

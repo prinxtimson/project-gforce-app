@@ -13,6 +13,8 @@ import {
     getReservations,
     getReservationsByPage,
     removeReservation,
+    approveReservation,
+    disapproveReservation,
     reset,
 } from "../features/reservation/reservationSlice";
 import { toast } from "react-toastify";
@@ -93,30 +95,29 @@ const ReservationsTable = () => {
         return formatDate(rowData.created_at);
     };
 
+    const nameBodyTemplate = (rowData) => {
+        return `${rowData.firstname} ${rowData.lastname}`;
+    };
+
     const statusBodyTemplate = (rowData) => {
-        return (
-            <span>
-                {rowData.quantity > 10
-                    ? "In Stock"
-                    : rowData.quantity < 10 && rowData.quantity > 0
-                    ? "Low Stock"
-                    : "Out of Stock"}
-            </span>
-        );
+        return rowData.is_approved ? "Approved" : "Unapproved";
     };
 
     const actionBodyTemplate = (rowData) => {
         let menu = null;
         let items = [
             {
-                label: "Approve",
+                label: rowData.is_approved ? "Unapprove" : "Approve",
                 icon: "pi pi-fw pi-check",
-                command: () => navigate(`#`),
+                command: () =>
+                    rowData.is_approved
+                        ? dispatch(disapproveReservation(rowData.id))
+                        : dispatch(approveReservation(rowData.id)),
             },
             {
                 label: "Edit",
-                icon: "pi pi-fw pi-check",
-                command: () => navigate(`#`),
+                icon: "pi pi-fw pi-pencil",
+                command: () => navigate(`/update-reservation/${rowData.id}`),
             },
             {
                 label: "Delete",
@@ -143,7 +144,10 @@ const ReservationsTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <div className="tw-my-4">
-                    <Link to="#" className="tw-text-sky-500 tw-underline">
+                    <Link
+                        to="/new-reservation"
+                        className="tw-text-sky-500 tw-underline"
+                    >
                         Book Reservation
                     </Link>
                 </div>
@@ -183,48 +187,46 @@ const ReservationsTable = () => {
                         header="Name"
                         sortable
                         style={{ minWidth: "14rem" }}
+                        body={nameBodyTemplate}
                     />
                     <Column
                         field="email"
                         header="Email"
-                        style={{ minWidth: "10rem" }}
+                        style={{ minWidth: "12rem" }}
                     />
                     <Column
                         field="phone"
                         header="Phone"
                         style={{ minWidth: "10rem" }}
-                        // body={statusBodyTemplate}
                     />
                     <Column
                         field="no_of_guest"
                         header="No of Guest"
                         style={{ minWidth: "10rem" }}
-                        // body={statusBodyTemplate}
                     />
                     <Column
                         field="date"
                         header="Date"
                         style={{ minWidth: "10rem" }}
-                        // body={statusBodyTemplate}
+                        body={dateBodyTemplate}
                     />
                     <Column
                         field="status"
                         header="Status"
                         style={{ minWidth: "8rem" }}
-                        // body={statusBodyTemplate}
+                        body={statusBodyTemplate}
                     />
                     <Column
                         field="created_at"
-                        header="Date"
-                        sortable
+                        header="Created AT"
                         dataType="date"
                         style={{ minWidth: "10rem" }}
-                        // body={dateBodyTemplate}
+                        body={dateBodyTemplate}
                     />
                     <Column
                         headerStyle={{ width: "3rem", textAlign: "center" }}
                         bodyStyle={{ textAlign: "center", overflow: "visible" }}
-                        // body={actionBodyTemplate}
+                        body={actionBodyTemplate}
                     />
                 </DataTable>
             </div>

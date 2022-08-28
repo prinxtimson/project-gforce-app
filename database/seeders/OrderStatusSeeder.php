@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\OrderStatus;
+use App\Models\Status;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -49,7 +49,7 @@ class OrderStatusSeeder extends Seeder
         ];
 
         foreach($statuses as $status) {
-            OrderStatus::create($status);
+            Status::create($status);
         }
     }
 }

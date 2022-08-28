@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'total',
@@ -33,6 +34,6 @@ class Order extends Model
 
     public function status()
     {
-       return $this->hasOne(OrderStatus::class);
+       return $this->belongsTo(Status::class);
     }
 }

@@ -154,13 +154,13 @@ const CustomersTable = () => {
                         field="total_spent"
                         header="Total Spent"
                         sortable
-                        style={{ minWidth: "8rem" }}
+                        style={{ minWidth: "10rem" }}
                     />
                     <Column
                         field="last_spent"
                         header="Last Spent"
                         sortable
-                        style={{ minWidth: "8rem" }}
+                        style={{ minWidth: "10rem" }}
                     />
                     <Column
                         headerStyle={{ width: "3rem", textAlign: "center" }}

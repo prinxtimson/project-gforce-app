@@ -51,7 +51,6 @@ const ProductInventory = () => {
     }, [isError, isSuccess, message, dispatch]);
 
     useEffect(() => {
-        console.log(products);
         if (products) {
             setFirst(products.current_page - 1);
         }

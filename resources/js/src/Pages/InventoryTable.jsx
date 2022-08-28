@@ -112,7 +112,7 @@ const InventoryTable = () => {
             {
                 label: "Edit",
                 icon: "pi pi-fw pi-check",
-                command: () => navigate(`/update-product/${rowData.id}`),
+                command: () => navigate(`/update-inventory/${rowData.id}`),
             },
             {
                 label: "Delete",
@@ -139,7 +139,10 @@ const InventoryTable = () => {
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                 <div className="tw-my-4">
-                    <Link to="#" className="tw-text-sky-500 tw-underline">
+                    <Link
+                        to="/new-inventory"
+                        className="tw-text-sky-500 tw-underline"
+                    >
                         Add Items
                     </Link>
                 </div>
@@ -172,7 +175,6 @@ const InventoryTable = () => {
                     <Column
                         field="id"
                         header="ID"
-                        sortable
                         style={{ minWidth: "5rem" }}
                     />
                     <Column

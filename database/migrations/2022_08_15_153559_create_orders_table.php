@@ -19,7 +19,7 @@ return new class extends Migration
                   ->constrained()->onDelete('cascade');
             $table->float('total');
             $table->string('mode');
-            $table->foreignId('order_status_id')
+            $table->foreignId('status_id')
                   ->constrained()->onDelete('cascade');
             $table->float('delivery_cost')->default(0.00);
             $table->double('loyalty_point')->nullable();

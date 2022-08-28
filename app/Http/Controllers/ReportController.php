@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\OrderStatus;
+use App\Models\Status;
 use App\Models\Product;
 use App\Models\User;
 use Carbon\Carbon;
@@ -73,21 +73,21 @@ class ReportController extends Controller
 
     public function get_order_report () 
     {
-        $new_orders = OrderStatus::where('name', '=', 'New Order')->orders()->count();
-        $pre_orders = OrderStatus::where('name', '=', 'Prepering')->orders()->count();
-        $ready_orders = OrderStatus::where('name', '=', 'Ready')->orders()->count();
-        $served_orders = OrderStatus::where('name', '=', 'Served')->orders()->count();
-        $in_transit_orders = OrderStatus::where('name', '=', 'In-Transit')->orders()->count();
-        $delivered_orders = OrderStatus::where('name', '=', 'Delivered')->orders()->count();
-        $canceled_orders = Order::onlyTrashed();
+        $new_orders = Status::with('orders')->get();
+        // $pre_orders = OrderStatus::where('name', 'Prepering')->get()->orders->count();
+        // $ready_orders = OrderStatus::where('name', 'Ready')->get()->orders->count();
+        // $served_orders = OrderStatus::where('name', 'Served')->get()->orders->count();
+        // $in_transit_orders = OrderStatus::where('name', 'In-Transit')->get()->orders->count();
+        // $delivered_orders = OrderStatus::where('name', 'Delivered')->get()->orders->count();
+        $canceled_orders = Order::onlyTrashed()->get();
 
         $response = [
             'new_orders' => $new_orders,
-            'pre_orders' => $pre_orders,
-            'ready_orders' => $ready_orders,
-            'served_orders' => $served_orders,
-            'in_transit_orders' => $in_transit_orders,
-            'delivered_orders' => $delivered_orders,
+            // 'pre_orders' => $pre_orders,
+            // 'ready_orders' => $ready_orders,
+            // 'served_orders' => $served_orders,
+            // 'in_transit_orders' => $in_transit_orders,
+            // 'delivered_orders' => $delivered_orders,
             'canceled_orders' => $canceled_orders
         ];
 

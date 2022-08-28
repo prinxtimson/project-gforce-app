@@ -158,7 +158,7 @@ export const inventorySlice = createSlice({
             })
             .addCase(getInventories.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.inventorys = action.payload;
+                state.inventories = action.payload;
             })
             .addCase(getInventories.rejected, (state, action) => {
                 state.isLoading = false;
@@ -170,7 +170,7 @@ export const inventorySlice = createSlice({
             })
             .addCase(getInventoriesByPage.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.inventorys = action.payload;
+                state.inventories = action.payload;
             })
             .addCase(getInventoriesByPage.rejected, (state, action) => {
                 state.isLoading = false;
@@ -212,12 +212,12 @@ export const inventorySlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.message = "inventory deleted";
-                const newinventorys = state.inventories.data.filter(
+                const newInventories = state.inventories.data.filter(
                     (prod) => prod.id !== action.payload
                 );
                 state.inventories = {
                     ...state.inventories,
-                    data: newinventorys,
+                    data: newInventories,
                 };
             })
             .addCase(removeInventory.rejected, (state, action) => {

@@ -27,7 +27,7 @@ const saveDispatcher = async (data) => {
 };
 
 const updateDispatcher = async (formData) => {
-    const res = await axios.post(API_URL + "/" + formData.id, formData.data);
+    const res = await axios.post(API_URL + "/" + formData.id, formData);
 
     return res.data;
 };

@@ -109,11 +109,27 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/new-reservation', function () {
+        return view('welcome');
+    });
+
+    Route::get('/update-reservation/{id}', function () {
+        return view('welcome');
+    });
+
     Route::get('/marketing', function () {
         return view('welcome');
     });
 
     Route::get('/inventory', function () {
+        return view('welcome');
+    });
+
+    Route::get('/new-inventory', function () {
+        return view('welcome');
+    });
+
+    Route::get('/update-inventory/{id}', function () {
         return view('welcome');
     });
 

@@ -64,6 +64,42 @@ export const getReservationById = createAsyncThunk(
     }
 );
 
+export const approveReservation = createAsyncThunk(
+    "reservation/approve-reservation",
+    async (id, thunkAPI) => {
+        try {
+            return await reservationService.approveReservation(id);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const disapproveReservation = createAsyncThunk(
+    "reservation/disapprove-reservation",
+    async (id, thunkAPI) => {
+        try {
+            return await reservationService.disapproveReservation(id);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const saveReservation = createAsyncThunk(
     "reservation/add",
     async (data, thunkAPI) => {
@@ -161,6 +197,38 @@ export const reservationSlice = createSlice({
                 state.reservations = action.payload;
             })
             .addCase(getReservations.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(approveReservation.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(approveReservation.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const ind = state.reservations.data.findIndex(
+                    (val) => val.id === action.payload.id
+                );
+                state.reservations.data.splice(ind, 1, action.payload);
+                state.reservations = { ...state.reservations };
+            })
+            .addCase(approveReservation.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(disapproveReservation.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(disapproveReservation.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const ind = state.reservations.data.findIndex(
+                    (val) => val.id === action.payload.id
+                );
+                state.reservations.data.splice(ind, 1, action.payload);
+                state.reservations = { ...state.reservations };
+            })
+            .addCase(disapproveReservation.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

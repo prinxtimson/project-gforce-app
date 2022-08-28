@@ -20,6 +20,18 @@ const getReservationById = async (id) => {
     return res.data;
 };
 
+const approveReservation = async (id) => {
+    const res = await axios.get(`${API_URL}/approve/${id}`);
+
+    return res.data;
+};
+
+const disapproveReservation = async (id) => {
+    const res = await axios.get(`${API_URL}/disapprove/${id}`);
+
+    return res.data;
+};
+
 const saveReservation = async (data) => {
     const res = await axios.post(API_URL, data);
 
@@ -27,7 +39,7 @@ const saveReservation = async (data) => {
 };
 
 const updateReservation = async (formData) => {
-    const res = await axios.post(API_URL + "/" + formData.id, formData.data);
+    const res = await axios.put(API_URL + "/" + formData.id, formData);
 
     return res.data;
 };
@@ -42,6 +54,8 @@ const reservationService = {
     getReservations,
     getReservationById,
     getReservationsByPage,
+    approveReservation,
+    disapproveReservation,
     saveReservation,
     updateReservation,
     removeReservation,

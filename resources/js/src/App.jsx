@@ -44,6 +44,7 @@ import BirthdayTable from "./Pages/BirthdayTable";
 import Marketing from "./Pages/Marketing";
 import ReservationsTable from "./Pages/ReservationsTable";
 import NewReservation from "./Pages/NewReservation";
+import NewInventory from "./Pages/NewInventory";
 
 const App = () => {
     return (
@@ -101,6 +102,15 @@ const App = () => {
                     <Route
                         path="/new-reservation"
                         element={<NewReservation />}
+                    />
+                    <Route
+                        path="/update-reservation/:id"
+                        element={<NewReservation />}
+                    />
+                    <Route path="/new-inventory" element={<NewInventory />} />
+                    <Route
+                        path="/update-inventory/:id"
+                        element={<NewInventory />}
                     />
                     <Route path="/payments" element={<PaymentsTable />} />
                     <Route path="/orders/:id" element={<SingleOrder />} />
