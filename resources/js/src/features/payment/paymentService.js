@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "/api/payments";
+const API_URL = "/api/payment";
 
 const getPayments = async () => {
     const res = await axios.get(API_URL);
@@ -9,7 +9,7 @@ const getPayments = async () => {
 };
 
 const getPaymentsByPage = async (page) => {
-    const res = await axios.get("/api/payments?page=" + page);
+    const res = await axios.get("/api/payment?page=" + page);
 
     return res.data;
 };

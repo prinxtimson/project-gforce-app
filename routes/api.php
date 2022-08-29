@@ -120,7 +120,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('payment/{id}', [PaymentController::class, 'show']);
     Route::post('payment', [PaymentController::class, 'store']);
     Route::put('payment/{id}', [PaymentController::class, 'update']);
-    Route::delete('payment/{id}', [PaymentController::class, 'destroy']);
+    Route::get('payment/refund/{id}', [PaymentController::class, 'refund']);
 
     Route::get('review', [ReviewController::class, 'index']);
     Route::get('review/{id}', [ReviewController::class, 'show']);
