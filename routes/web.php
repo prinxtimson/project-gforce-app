@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\TwoFactorAuthController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth:sanctum', 'n2fa'])->get('/two-factor-auth', function () {
     return view('welcome');
 })->name('2fa.index');
+
+Route::post('/login', [AuthController::class, 'login']);
 
 
 Route::middleware(['guest'])->group(function () {
@@ -62,6 +65,10 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
     });
 
     Route::get('/create-user', function () {
+        return view('welcome');
+    });
+
+    Route::get('/update-user/{id}', function () {
         return view('welcome');
     });
 

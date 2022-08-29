@@ -130,6 +130,7 @@ const App = () => {
                     <Route path="/staffs" element={<UsersTable />} />
                     <Route path="/products" element={<ProductInventory />} />
                     <Route path="/create-user" element={<AddUser />} />
+                    <Route path="/update-user/:id" element={<AddUser />} />
                     <Route path="/add-product" element={<AddProduct />} />
                     <Route
                         path="/update-product/:id"

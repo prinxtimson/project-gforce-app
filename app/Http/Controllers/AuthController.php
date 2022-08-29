@@ -83,10 +83,41 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-           // $request->session()->regenerate();
+           $request->session()->regenerate();
 
             auth()->user()->generate_code();
 
+            $token = auth()->user()->createToken('access_token')->plainTextToken;
+            // $notifications = auth()->user()->notifications;
+            // $count = auth()->user()->unreadNotifications->count();
+
+            $response = [
+                'user' => auth()->user(),
+                // 'notifications' => [
+                //     'data' => $notifications,
+                //     'count' => $count
+                // ],
+                'token' => $token
+            ];
+
+            return $response;
+        }
+
+        return response([
+            'message' => 'invalid credentials'
+        ], 401);
+    }
+
+    public function api_login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
             $token = auth()->user()->createToken('access_token')->plainTextToken;
             // $notifications = auth()->user()->notifications;
             // $count = auth()->user()->unreadNotifications->count();

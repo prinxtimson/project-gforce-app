@@ -19,7 +19,7 @@ const logout = async () => {
 
 const login = async (userData) => {
     await axios.get(`/sanctum/csrf-cookie`);
-    const res = await axios.post(API_URL + "/login", userData);
+    const res = await axios.post("/login", userData);
 
     if (res.data) {
         localStorage.setItem("user", JSON.stringify(res.data));

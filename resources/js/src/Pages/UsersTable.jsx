@@ -5,13 +5,14 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Menu } from "primereact/menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
     getAllProfile,
     clear,
     getAllProfileByPage,
+    removeProfile,
 } from "../features/profile/profileSlice";
 
 const UsersTable = () => {
@@ -23,6 +24,7 @@ const UsersTable = () => {
     const [first, setFirst] = useState(0);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { profiles, isLoading } = useSelector((state) => state.profile);
 
@@ -81,11 +83,19 @@ const UsersTable = () => {
         return rowData.roles[0].name;
     };
 
-    const actionBodyTemplate = () => {
+    const actionBodyTemplate = (rowData) => {
         let menu = null;
         let items = [
-            { label: "Edit", icon: "pi pi-fw pi-check" },
-            { label: "Delete", icon: "pi pi-fw pi-trash" },
+            {
+                label: "Edit",
+                icon: "pi pi-fw pi-check",
+                command: () => navigate(`/update-user/${rowData.id}`),
+            },
+            {
+                label: "Delete",
+                icon: "pi pi-fw pi-trash",
+                command: () => dispatch(removeProfile(rowData.id)),
+            },
         ];
         return (
             <span className="">

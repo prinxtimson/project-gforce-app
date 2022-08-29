@@ -20,6 +20,12 @@ const addNewUser = async (data) => {
     return res.data;
 };
 
+const updateUserProfile = async (data) => {
+    const res = await axios.put(`${API_URL}/${data.id}`, data);
+
+    return res.data;
+};
+
 const getAllProfile = async () => {
     const res = await axios.get(API_URL);
 
@@ -34,6 +40,12 @@ const getAllProfileByPage = async (page) => {
 
 const getProfileById = async (id) => {
     const res = await axios.get(API_URL + "/" + id);
+
+    return res.data;
+};
+
+const removeProfile = async (id) => {
+    const res = await axios.delete(API_URL + "/" + id);
 
     return res.data;
 };
@@ -54,7 +66,9 @@ const productService = {
     getProfile,
     updateProfile,
     addNewUser,
+    updateUserProfile,
     getAllProfile,
+    removeProfile,
     getProfileById,
     getAllProfileByPage,
     addCard,

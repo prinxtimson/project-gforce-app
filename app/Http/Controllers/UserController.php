@@ -129,14 +129,18 @@ class UserController extends Controller
 
         $user = User::find($id);
         
-        $username = $request->only('username') || $user->username;
+        $username = $request->get('username') ? $request->get('username') : $user->username;
 
         $user->update([
             'name' =>  $fields['firstname'] .' '. $fields['lastname'],
             'username' => strtolower($username),
         ]);
 
-        $user->profile()->update($request->except(['avatar', '_method' ]));
+        $user->profile()->update($request->except(['avatar', '_method', 'role', 'email', 'username' ]));
+
+        if($request->get('role')){
+            $user->assignRole($request->get('role'));
+        }
 
         if ($request->hasFile('avatar')) {
             $user->clearMediaCollection('avatars');

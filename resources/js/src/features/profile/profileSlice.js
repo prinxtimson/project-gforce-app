@@ -41,6 +41,24 @@ export const updateProfile = createAsyncThunk(
     }
 );
 
+export const updateUserProfile = createAsyncThunk(
+    "profile/update-user",
+    async (data, thunkAPI) => {
+        try {
+            return await profileService.updateUserProfile(data);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const addNewUser = createAsyncThunk(
     "profile/add-user",
     async (data, thunkAPI) => {
@@ -102,6 +120,26 @@ export const getProfileById = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             return await profileService.getProfileById(id);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const removeProfile = createAsyncThunk(
+    "profile/delete",
+    async (id, thunkAPI) => {
+        try {
+            await profileService.removeProfile(id);
+
+            return id;
         } catch (err) {
             const msg =
                 (err.response &&
@@ -197,6 +235,20 @@ export const profileSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
             })
+            .addCase(updateUserProfile.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(updateUserProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                state.message = action.payload.msg;
+                state.profile = action.payload.user;
+            })
+            .addCase(updateUserProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
             .addCase(getProfileById.pending, (state) => {
                 state.isLoading = true;
             })
@@ -217,6 +269,21 @@ export const profileSlice = createSlice({
                 state.profiles = action.payload;
             })
             .addCase(getAllProfile.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(removeProfile.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(removeProfile.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const newProfiles = state.profiles.data.filter(
+                    (val) => val.id !== action.payload
+                );
+                state.profiles = { ...newProfiles };
+            })
+            .addCase(removeProfile.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

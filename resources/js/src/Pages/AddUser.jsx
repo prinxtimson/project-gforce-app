@@ -4,11 +4,19 @@ import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
 import { Button } from "primereact/button";
+import { useParams } from "react-router-dom";
 
-import { addNewUser, reset } from "../features/profile/profileSlice";
+import {
+    addNewUser,
+    reset,
+    getProfileById,
+    updateUserProfile,
+    clear,
+} from "../features/profile/profileSlice";
 import Authenticated from "../Layouts/Authenticated";
 
 const AddUser = () => {
+    const { id } = useParams();
     const [data, setData] = useState({
         firstname: "",
         lastname: "",
@@ -29,9 +37,30 @@ const AddUser = () => {
 
     const dispatch = useDispatch();
 
-    const { isLoading, isSuccess, isError, message } = useSelector(
+    const { profile, isLoading, isSuccess, isError, message } = useSelector(
         (state) => state.profile
     );
+
+    useEffect(() => {
+        if (id) {
+            dispatch(getProfileById(id));
+        }
+        return () => dispatch(clear());
+    }, [id]);
+
+    useEffect(() => {
+        if (profile) {
+            console.log(profile);
+            setData({
+                id: profile.id,
+                firstname: profile.profile?.firstname || "",
+                lastname: profile.profile?.lastname || "",
+                email: profile.email || "",
+                role: profile.roles[0]?.name || "",
+                username: profile.username || "",
+            });
+        }
+    }, [profile]);
 
     useEffect(() => {
         if (isError) {
@@ -41,10 +70,12 @@ const AddUser = () => {
         if (isSuccess) {
             toast.success(message);
             setData({
-                firstname: "",
-                lastname: "",
-                email: "",
-                username: "",
+                id: profile?.id,
+                firstname: profile?.profile?.firstname || "",
+                lastname: profile?.profile?.lastname || "",
+                role: profile?.roles[0]?.name || "",
+                username: profile?.username || "",
+                email: profile?.email || "",
                 password: "",
             });
         }
@@ -58,8 +89,12 @@ const AddUser = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        const password = generatePassword();
-        dispatch(addNewUser({ ...data, password }));
+        if (id) {
+            dispatch(updateUserProfile(data));
+        } else {
+            const password = generatePassword();
+            dispatch(addNewUser({ ...data, password }));
+        }
     };
 
     const generatePassword = () => {
@@ -117,6 +152,7 @@ const AddUser = () => {
                                 </label>
                             </span>
                         </div>
+
                         <div className="field tw-mb-6">
                             <span className="p-float-label p-input-icon-right">
                                 <i className="pi pi-envelope" />
@@ -127,6 +163,7 @@ const AddUser = () => {
                                     value={data.email}
                                     onChange={handleOnChange}
                                     autoComplete="off"
+                                    readOnly={Boolean(id)}
                                 />
                                 <label htmlFor="email" className="">
                                     Email *
@@ -166,7 +203,7 @@ const AddUser = () => {
                         <Button
                             type="submit"
                             disabled={isLoading}
-                            label="Create User"
+                            label="Submit"
                             className="tw-w-full"
                         />
                     </form>
