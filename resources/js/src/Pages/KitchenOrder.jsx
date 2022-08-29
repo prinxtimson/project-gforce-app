@@ -14,6 +14,8 @@ import {
     getKitchenOrder,
     getKitchenOrderByPage,
     getKitchenCanceledOrder,
+    cancelKitchenOrder,
+    removeKitchenOrder,
     clear,
 } from "../features/kitchen/kitchenSlice";
 
@@ -67,11 +69,19 @@ const KitchenOrder = () => {
         );
     };
 
-    const actionBodyTemplate = () => {
+    const actionBodyTemplate = (rowData) => {
         let menu = null;
         let items = [
-            { label: "Cancel", icon: "pi pi-fw pi-check" },
-            { label: "Delete", icon: "pi pi-fw pi-trash" },
+            {
+                label: "Cancel",
+                icon: "pi pi-fw pi-times",
+                command: () => dispatch(cancelKitchenOrder(rowData.id)),
+            },
+            {
+                label: "Delete",
+                icon: "pi pi-fw pi-trash",
+                command: () => dispatch(removeKitchenOrder(rowData.id)),
+            },
         ];
         return (
             <span className="">
@@ -128,7 +138,10 @@ const KitchenOrder = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4 tw-bg-white">
                     <div className="tw-flex tw-justify-around tw-my-6">
-                        <button className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 ">
+                        <button
+                            className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 "
+                            onClick={() => dispatch(getKitchenOrder())}
+                        >
                             Order Received
                         </button>
                         <button
@@ -137,7 +150,10 @@ const KitchenOrder = () => {
                         >
                             Canceled Orders
                         </button>
-                        <button className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 ">
+                        <button
+                            className="tw-rounded-lg tw-p-2 tw-bg-neutral-900 hover:tw-bg-neutral-800 tw-text-white lg:tw-px-6 "
+                            onClick={() => dispatch(getKitchenOrder())}
+                        >
                             Special Orders
                         </button>
                     </div>

@@ -104,6 +104,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('task', [TaskController::class, 'index']);
     Route::get('task/{id}', [TaskController::class, 'show']);
+    Route::get('task/mark/{id}', [TaskController::class, 'mark_complete']);
     Route::post('task', [TaskController::class, 'store']);
     Route::put('task/{id}', [TaskController::class, 'update']);
     Route::delete('task/{id}', [TaskController::class, 'destroy']);
@@ -136,7 +137,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('orders-items', [OrderItemController::class, 'index']);
     Route::get('orders-items/canceled', [OrderItemController::class, 'canceled']);
+    Route::get('orders-items/cancel/{id}', [OrderItemController::class, 'cancel']);
     Route::get('orders-items/{id}', [OrderItemController::class, 'show']);
+    Route::delete('orders-items/{id}', [OrderItemController::class, 'destroy']);
 
     Route::get('reports', [ReportController::class, 'report']);
     Route::get('reports/order', [ReportController::class, 'get_order_report']);
@@ -146,6 +149,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], function () { 
     Route::get('users', [UserController::class, 'index']);
+    Route::get('employees', [UserController::class, 'all']);
     Route::get('users/{id}', [UserController::class, 'show']);
     Route::post('users', [UserController::class, 'store']);
     Route::put('users/{id}', [UserController::class, 'update']);

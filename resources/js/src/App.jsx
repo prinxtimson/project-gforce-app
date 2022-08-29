@@ -48,6 +48,7 @@ import NewInventory from "./Pages/NewInventory";
 import DeliveryTable from "./Pages/DeliveryTable";
 import DispatcherTable from "./Pages/DispatcherTable";
 import NewDispatcher from "./Pages/NewDispatcher";
+import NewTask from "./Pages/NewTask";
 
 const App = () => {
     return (
@@ -72,6 +73,8 @@ const App = () => {
                         <Route path="" element={<KitchenOrder />} />
                     </Route>
                     <Route path="/tasks" element={<TasksTable />} />
+                    <Route path="/new-task" element={<NewTask />} />
+                    <Route path="/update-task/:id" element={<NewTask />} />
                     <Route path="/reviews" element={<ReviewsTable />} />
                     <Route path="/customers" element={<CustomersTable />} />
                     <Route path="/reports">

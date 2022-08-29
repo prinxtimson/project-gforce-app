@@ -32,9 +32,11 @@ class OrderItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function cancel($id)
     {
-        //
+        $item = OrderItem::find($id);
+
+        return $item->delete();
     }
 
     /**
@@ -68,6 +70,10 @@ class OrderItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = OrderItem::withTrashed()->find($id);
+
+        $deleted = $item->forceDelete($id);
+
+        return $deleted;
     }
 }

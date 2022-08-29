@@ -141,6 +141,14 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/new-task', function () {
+        return view('welcome');
+    });
+
+    Route::get('/update-task/{id}', function () {
+        return view('welcome');
+    });
+
     Route::get('/new-inventory', function () {
         return view('welcome');
     });

@@ -64,6 +64,24 @@ export const getKitchenCanceledOrder = createAsyncThunk(
     }
 );
 
+export const cancelKitchenOrder = createAsyncThunk(
+    "kitchen/cancel-order",
+    async (id, thunkAPI) => {
+        try {
+            return await kitchenService.cancelKitchenOrder(id);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const getKitchenOrderById = createAsyncThunk(
     "kitchen/get-order-by-id",
     async (id, thunkAPI) => {
@@ -181,6 +199,22 @@ export const kitchenSlice = createSlice({
                 state.orders = action.payload;
             })
             .addCase(getKitchenOrder.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(cancelKitchenOrder.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(cancelKitchenOrder.fulfilled, (state, action) => {
+                state.isLoading = false;
+                const ind = state.orders.data.findIndex(
+                    (val) => val.id === action.payload.id
+                );
+                state.orders.data.splice(ind, 1, action.payload);
+                state.orders = { ...state.orders };
+            })
+            .addCase(cancelKitchenOrder.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

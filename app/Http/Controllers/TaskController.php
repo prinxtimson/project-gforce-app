@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -14,7 +15,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::orderBy('id', 'DESC')->paginate(20);
+        $tasks = Task::with(['user' => function($q){
+            return $q->with('roles');
+        }])->orderBy('id', 'DESC')->paginate(20);
+
         return $tasks;
     }
 
@@ -27,9 +31,15 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         
-        $task = Task::create($request->all());
+        $user = User::find($request->get('user_id'));
 
-        return $task;
+        if($user){
+            $task = $user->tasks()->create($request->except('user_id'));
+
+            return $task;
+        }
+
+        return response('Employee not found', 400);
     }
 
     /**
@@ -54,7 +64,20 @@ class TaskController extends Controller
     {
         $task = Task::find($id);
 
-        $task->update($request->all());
+        $task->update($request->except('user_id'));
+
+        return $task;
+    }
+
+    public function mark_complete($id)
+    {
+        $task = Task::find($id);
+
+        $task->update(['is_completed' => true]);
+
+        $task->refresh()->load(['user' => function($q) {
+            return $q->with('roles');
+        }]);
 
         return $task;
     }

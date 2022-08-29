@@ -32,6 +32,12 @@ const updateTask = async (data) => {
     return res.data;
 };
 
+const markTask = async (id) => {
+    const res = await axios.get(`${API_URL}/mark/${id}`);
+
+    return res.data;
+};
+
 const removeTask = async (id) => {
     const res = await axios.delete(API_URL + "/" + id);
 
@@ -42,6 +48,7 @@ const taskService = {
     getTasks,
     getTaskById,
     getTasksByPage,
+    markTask,
     saveTask,
     updateTask,
     removeTask,

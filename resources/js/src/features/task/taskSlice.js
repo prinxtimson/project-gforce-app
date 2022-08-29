@@ -95,6 +95,24 @@ export const updateTask = createAsyncThunk(
     }
 );
 
+export const markTask = createAsyncThunk(
+    "task/mark-task",
+    async (id, thunkAPI) => {
+        try {
+            return await taskService.markTask(id);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const removeTask = createAsyncThunk(
     "task/remove-task",
     async (id, thunkAPI) => {
@@ -141,7 +159,6 @@ export const taskSlice = createSlice({
             })
             .addCase(getTaskById.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.task = action.payload;
             })
             .addCase(getTaskById.rejected, (state, action) => {
@@ -154,7 +171,6 @@ export const taskSlice = createSlice({
             })
             .addCase(getTasks.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.tasks = action.payload;
             })
             .addCase(getTasks.rejected, (state, action) => {
@@ -167,7 +183,6 @@ export const taskSlice = createSlice({
             })
             .addCase(getTasksByPage.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.products = action.payload;
             })
             .addCase(getTasksByPage.rejected, (state, action) => {
@@ -197,6 +212,23 @@ export const taskSlice = createSlice({
                 state.task = action.payload;
             })
             .addCase(updateTask.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(markTask.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(markTask.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isSuccess = true;
+                const ind = state.tasks.data.findIndex(
+                    (val) => val.id === action.payload.id
+                );
+                state.tasks.data.splice(ind, 1, action.payload);
+                state.tasks = { ...state.tasks };
+            })
+            .addCase(markTask.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

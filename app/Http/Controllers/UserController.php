@@ -25,6 +25,15 @@ class UserController extends Controller
         return $users;
     }
 
+    public function all()
+    {
+        $users = User::with(['roles' => function($q){
+            $q->where('name', '!=', 'customer');
+        }])->orderBy('id', 'DESC')->get();
+
+        return $users;
+    }
+
     public function active_customers()
     {
         $customers = User::role('customer')->with(['loyalty', 'profile'])->orderBy('loyalty.total_spent', 'DESC')->paginate(20);

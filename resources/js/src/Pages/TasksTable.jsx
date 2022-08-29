@@ -6,9 +6,15 @@ import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 import { Menu } from "primereact/menu";
 
-import { getTasks, getTasksByPage, clear } from "../features/task/taskSlice";
+import {
+    getTasks,
+    getTasksByPage,
+    clear,
+    markTask,
+    removeTask,
+} from "../features/task/taskSlice";
 import Authenticated from "../Layouts/Authenticated";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const TasksTable = () => {
     const [selectedTask, setSelectedTask] = useState(null);
@@ -19,6 +25,7 @@ const TasksTable = () => {
     const [first, setFirst] = useState(0);
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { tasks, isLoading } = useSelector((state) => state.task);
 
@@ -60,7 +67,8 @@ const TasksTable = () => {
     };
 
     const formatDate = (value) => {
-        return value.toLocaleDateString("en-US", {
+        const d = new Date(value);
+        return d.toLocaleDateString("en-US", {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
@@ -75,12 +83,32 @@ const TasksTable = () => {
         return <span>{rowData.is_completed ? "Yes" : "No"}</span>;
     };
 
-    const actionBodyTemplate = () => {
+    const nameBodyTemplate = (rowData) => {
+        return rowData.user?.name;
+    };
+
+    const roleBodyTemplate = (rowData) => {
+        return rowData.user?.roles[0].name;
+    };
+
+    const actionBodyTemplate = (rowData) => {
         let menu = null;
         let items = [
-            { label: "Mark Complete", icon: "pi pi-fw pi-check" },
-            { label: "Edit", icon: "pi pi-fw pi-pencil" },
-            { label: "Delete", icon: "pi pi-fw pi-trash" },
+            {
+                label: "Mark Complete",
+                icon: "pi pi-fw pi-check",
+                command: () => dispatch(markTask(rowData.id)),
+            },
+            {
+                label: "Edit",
+                icon: "pi pi-fw pi-pencil",
+                command: () => navigate(`/update-task/${rowData.id}`),
+            },
+            {
+                label: "Delete",
+                icon: "pi pi-fw pi-trash",
+                command: () => dispatch(removeTask(rowData.id)),
+            },
         ];
         return (
             <span className="">
@@ -102,7 +130,10 @@ const TasksTable = () => {
             <div className="tw-mb-10">
                 <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
                     <div className="tw-my-4">
-                        <Link to="#" className="tw-text-sky-500 tw-underline">
+                        <Link
+                            to="/new-task"
+                            className="tw-text-sky-500 tw-underline"
+                        >
                             Create Task
                         </Link>
                     </div>
@@ -141,18 +172,20 @@ const TasksTable = () => {
                             header="Name"
                             sortable
                             style={{ minWidth: "12rem" }}
+                            body={nameBodyTemplate}
                         />
                         <Column
                             field="user_id"
                             header="Employee ID"
                             sortable
                             //dataType="date"
-                            style={{ minWidth: "6rem" }}
+                            style={{ minWidth: "8rem" }}
                         />
                         <Column
                             field="job_title"
                             header="Job Title"
                             style={{ minWidth: "8rem" }}
+                            body={roleBodyTemplate}
                         />
                         <Column
                             field="created_at"
@@ -169,16 +202,16 @@ const TasksTable = () => {
                         <Column
                             field="is_completed"
                             header="Task Completed"
-                            style={{ minWidth: "8rem" }}
+                            style={{ minWidth: "10rem" }}
                             body={taskCompletedTemplate}
                         />
                         <Column
-                            field="task_name"
+                            field="task"
                             header="Task Assigned"
                             style={{ minWidth: "12rem" }}
                         />
                         <Column
-                            field="interval"
+                            field="consistency"
                             header="Consistency"
                             style={{ minWidth: "7rem" }}
                         />

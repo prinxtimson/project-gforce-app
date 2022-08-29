@@ -48,7 +48,7 @@ class OrderController extends Controller
  
         return $order;
     }
-
+ 
     public function search(Request $request)
     {
         $from = $request->get('from');
