@@ -212,11 +212,11 @@ export const qualityCheckSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 state.message = "check deleted";
-                const newchecks = state.QualityCheck.data.filter(
-                    (prod) => prod.id !== action.payload
+                const newchecks = state.checks.data.filter(
+                    (val) => val.id !== action.payload
                 );
-                state.QualityCheck = {
-                    ...state.QualityCheck,
+                state.checks = {
+                    ...state.checks,
                     data: newchecks,
                 };
             })

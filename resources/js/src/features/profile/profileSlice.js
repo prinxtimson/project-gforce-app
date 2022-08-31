@@ -281,7 +281,7 @@ export const profileSlice = createSlice({
                 const newProfiles = state.profiles.data.filter(
                     (val) => val.id !== action.payload
                 );
-                state.profiles = { ...newProfiles };
+                state.profiles = { ...state.profiles, data: [...newProfiles] };
             })
             .addCase(removeProfile.rejected, (state, action) => {
                 state.isLoading = false;

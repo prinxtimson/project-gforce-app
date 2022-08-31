@@ -280,7 +280,7 @@ export const kitchenSlice = createSlice({
                 const newOrders = state.orders.data.filter(
                     (prod) => prod.id !== action.payload
                 );
-                state.orders = { ...newOrders };
+                state.orders = { ...state.orders, data: [...newOrders] };
             })
             .addCase(removeKitchenOrder.rejected, (state, action) => {
                 state.isLoading = false;

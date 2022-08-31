@@ -208,9 +208,9 @@ export const reviewSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 const newreviews = state.reviews.data.filter(
-                    (prod) => prod.id !== action.payload
+                    (val) => val.id !== action.payload
                 );
-                state.reviews = { ...newreviews };
+                state.reviews = { ...state.reviews, data: [...newreviews] };
             })
             .addCase(removeReview.rejected, (state, action) => {
                 state.isLoading = false;

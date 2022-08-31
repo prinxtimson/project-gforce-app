@@ -242,7 +242,7 @@ export const taskSlice = createSlice({
                 const newtasks = state.tasks.data.filter(
                     (prod) => prod.id !== action.payload
                 );
-                state.tasks = { ...newtasks };
+                state.tasks = { ...state.tasks, data: [...newtasks] };
             })
             .addCase(removeTask.rejected, (state, action) => {
                 state.isLoading = false;

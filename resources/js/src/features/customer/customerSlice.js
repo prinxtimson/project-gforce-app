@@ -337,7 +337,10 @@ export const customerSlice = createSlice({
                 const newCustomers = state.customers.data.filter(
                     (prod) => prod.id !== action.payload
                 );
-                state.customers = { ...newCustomers };
+                state.customers = {
+                    ...state.customers,
+                    data: [...newCustomers],
+                };
             })
             .addCase(removeCustomer.rejected, (state, action) => {
                 state.isLoading = false;

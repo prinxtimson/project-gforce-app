@@ -208,9 +208,9 @@ export const paymentSlice = createSlice({
                 state.isLoading = false;
                 state.isSuccess = true;
                 const newPayments = state.payments.data.filter(
-                    (prod) => prod.id !== action.payload
+                    (val) => val.id !== action.payload
                 );
-                state.payments = { ...newPayments };
+                state.payments = { ...state.payments, data: [...newPayments] };
             })
             .addCase(removePayment.rejected, (state, action) => {
                 state.isLoading = false;

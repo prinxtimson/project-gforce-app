@@ -215,7 +215,10 @@ export const incedentSlice = createSlice({
                 const newincedents = state.incedents.data.filter(
                     (prod) => prod.id !== action.payload
                 );
-                state.incedents = { ...newincedents };
+                state.incedents = {
+                    ...state.incedents,
+                    data: [...newincedents],
+                };
             })
             .addCase(removeIncedent.rejected, (state, action) => {
                 state.isLoading = false;
