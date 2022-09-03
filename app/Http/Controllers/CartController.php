@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -27,20 +28,39 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $user = auth()->user();
+
         if($cart_id  = $request->input('cart_id')){
             $cart = Cart::find($cart_id);
             $cart_items = $request->input('cart_items');
             foreach($cart_items as $item){
-                $cart->cart_items()->updateOrCreate(['product_id' => $item['product_id']], $item);
+                $product = Product::find($item['product_id']);
+                $cart->cart_items()->updateOrCreate(['product_id' => $item['product_id']], [
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $product->price,
+                    'discount' => $product->discount,
+                    'allergies' => explode(',', $item['allergies']),
+                    'preference' => explode(',', $item['preference'])
+                ]);
             }
 
             return $cart->refresh()->load('cart_items');
         }else {
-            $cart = Cart::create([]);
+            $cart = Cart::create([
+                'user_id' => $user ? $user->id : null
+            ]);
             $cart_items = $request->input('cart_items');
-            foreach($cart_items as $cart_item){
-                $cart->cart_items()->updateOrCreate(['product_id'=> $cart_item['product_id']], $cart_item);
+            foreach($cart_items as $item){
+                $product = Product::find($item['product_id']);
+                $cart->cart_items()->updateOrCreate(['product_id'=> $item['product_id']], [
+                    'product_id' => $item['product_id'],
+                   'quantity' => $item['quantity'],
+                   'price' => $product->price,
+                   'discount' => $product->discount,
+                   'allergies' => explode(',', $item['allergies']),
+                   'preference' => explode(',', $item['preference'])
+                ]);
             }
 
             return $cart->refresh()->load('cart_items');
