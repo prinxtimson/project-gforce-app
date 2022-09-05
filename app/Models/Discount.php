@@ -23,4 +23,8 @@ class Discount extends Model
         'end_at' => 'date',
     ];
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
 }

@@ -31,7 +31,7 @@ class CartController extends Controller
     {
         $user = auth()->user();
 
-        if($cart_id  = $request->input('cart_id')){
+        if($cart_id  = $request->get('cart_id')){
             $cart = Cart::find($cart_id);
             $cart_items = $request->input('cart_items');
             foreach($cart_items as $item){
@@ -41,8 +41,8 @@ class CartController extends Controller
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
                     'discount' => $product->discount,
-                    'allergies' => explode(',', $item['allergies']),
-                    'preference' => explode(',', $item['preference'])
+                    'allergies' => array_key_exists('allergies', $item) ? explode(',', $item['allergies']) : null,
+                   'preferences' => array_key_exists('preference', $item) ? explode(',', $item['preferences']) : null
                 ]);
             }
 
@@ -60,8 +60,8 @@ class CartController extends Controller
                    'quantity' => $item['quantity'],
                    'price' => $product->price,
                    'discount' => $product->discount,
-                   'allergies' => explode(',', $item['allergies']),
-                   'preference' => explode(',', $item['preference'])
+                   'allergies' => array_key_exists('allergies', $item) ? explode(',', $item['allergies']) : null,
+                   'preferences' => array_key_exists('preference', $item) ? explode(',', $item['preferences']) : null
                 ]);
             }
 

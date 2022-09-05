@@ -27,14 +27,14 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['order_id' => 'required|string',]);
+        $request->validate(['order_id' => 'required|numeric',]);
 
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string',
             'phone' => 'required',
             'address' => 'required|string',
-            'status' => 'required|string',
+            'status' => 'string',
             'dispatcher_id' => 'required|numeric'
         ]);
 

@@ -29,7 +29,8 @@ class Order extends Model
 
     protected $cast = [
         'billing_address' => 'object',
-        'delivery_address' => 'object'
+        'delivery_address' => 'object',
+        'is_payment' => 'boolean'
     ];
 
     public function user()
@@ -45,5 +46,15 @@ class Order extends Model
     public function status()
     {
        return $this->belongsTo(Status::class);
+    }
+
+    public function payment()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function delivery()
+    {
+        return $this->hasOne(Delivery::class);
     }
 }

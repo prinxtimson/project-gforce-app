@@ -45,7 +45,6 @@ Route::get('cart/{id}', [CartController::class, 'show']);
 Route::post('cart', [CartController::class, 'store']);
 //Route::put('cart/{id}', [CartController::class, 'update']);
 
-Route::get('orders', [OrderController::class, 'index']);
 Route::get('orders/{id}', [OrderController::class, 'show']);
 Route::post('orders', [OrderController::class, 'store']);
 
@@ -59,15 +58,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('products', [ProductController::class, 'index']);
     Route::get('products/discount', [ProductController::class, 'discount']);
     Route::get('products/{id}', [ProductController::class, 'show']);
-    Route::put('products', [ProductController::class, 'store']);
-    Route::put('products/{id}', [ProductController::class, 'update']);
-    Route::delete('products/{id}', [ProductController::class, 'destroy']);
 
     Route::get('category', [CategoryController::class, 'index']);
     Route::get('category/{id}', [CategoryController::class, 'show']);
-    Route::post('category', [CategoryController::class, 'store']);
-    Route::put('category/{id}', [CategoryController::class, 'update']);
-    Route::delete('category/{id}', [CategoryController::class, 'destroy']);
 
     Route::get('complaint', [ComplaintController::class, 'index']);
     Route::get('complaint/{id}', [ComplaintController::class, 'show']);
@@ -89,9 +82,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('inventory', [InventoryController::class, 'index']);
     Route::get('inventory/{id}', [InventoryController::class, 'show']);
-    Route::post('inventory', [InventoryController::class, 'store']);
-    Route::put('inventory/{id}', [InventoryController::class, 'update']);
-    Route::delete('inventory/{id}', [InventoryController::class, 'destroy']);
 
     Route::get('quality-check', [QualityCheckController::class, 'index']);
     Route::get('quality-check/{id}', [QualityCheckController::class, 'show']);
@@ -113,11 +103,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('reservation', [ReservationsController::class, 'store']);
     Route::put('reservation/{id}', [ReservationsController::class, 'update']);
 
-    Route::get('payment', [PaymentController::class, 'index']);
+    Route::post('make-payment', [PaymentController::class, 'make_payment']);
     Route::get('payment/{id}', [PaymentController::class, 'show']);
-    Route::post('payment', [PaymentController::class, 'store']);
-    Route::put('payment/{id}', [PaymentController::class, 'update']);
-    Route::get('payment/refund/{id}', [PaymentController::class, 'refund']);
 
     Route::get('review', [ReviewController::class, 'index']);
     Route::get('review/{id}', [ReviewController::class, 'show']);
@@ -163,6 +150,20 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
     Route::get('cart', [CartController::class, 'index']);
     Route::delete('cart/{id}', [CartController::class, 'destroy']);
 
+    Route::put('products', [ProductController::class, 'store']);
+    Route::put('products/{id}', [ProductController::class, 'update']);
+    Route::delete('products/{id}', [ProductController::class, 'destroy']);
+
+    Route::post('category', [CategoryController::class, 'store']);
+    Route::put('category/{id}', [CategoryController::class, 'update']);
+    Route::delete('category/{id}', [CategoryController::class, 'destroy']);
+
+
+    Route::post('inventory', [InventoryController::class, 'store']);
+    Route::put('inventory/{id}', [InventoryController::class, 'update']);
+    Route::delete('inventory/{id}', [InventoryController::class, 'destroy']);
+
+    Route::get('orders', [OrderController::class, 'index']);
     Route::put('orders/{id}', [OrderController::class, 'update']);
     Route::get('orders/cancel/{id}', [OrderController::class, 'cancel']);
     Route::delete('orders/{id}', [OrderController::class, 'destroy']);
@@ -172,4 +173,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
     Route::post('dispatcher', [DispatcherController::class, 'store']);
     Route::put('dispatcher/{id}', [DispatcherController::class, 'update']);
     Route::delete('dispatcher/{id}', [DispatcherController::class, 'destroy']);
+
+    Route::get('payment', [PaymentController::class, 'index']);
+    Route::post('payment', [PaymentController::class, 'create']);
+    Route::get('payment/refund/{id}', [PaymentController::class, 'refund']);
 });

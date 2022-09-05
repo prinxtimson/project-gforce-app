@@ -17,7 +17,7 @@ class Cart extends Model
 
     public function discount()
     {
-        return $this->hasOne(Discount::class);
+        return $this->belongsTo(Discount::class);
     }
 
     public function cart_items()

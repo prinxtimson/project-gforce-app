@@ -13,7 +13,8 @@ class Payment extends Model
         'amount',
         'provider',
         'channel',
-        'status'
+        'status',
+        'stripe_payment_id'
     ];
 
     public function order()
