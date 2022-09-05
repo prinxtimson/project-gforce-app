@@ -26,8 +26,16 @@ class DispatcherController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $dispatcher = Dispatcher::create($request->all());
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'availability' => 'required|string',
+            'phone' => 'required|string',
+            'status' => 'required|string',
+            'description' => 'string',
+            'rating' => 'string'
+        ]);
+
+        $dispatcher = Dispatcher::create($fields);
 
         return $dispatcher;
     }
@@ -52,9 +60,18 @@ class DispatcherController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $fields = $request->validate([
+            'name' => 'string',
+            'availability' => 'string',
+            'phone' => 'string',
+            'status' => 'string',
+            'description' => 'string',
+            'rating' => 'string'
+        ]);
+
         $dispatcher = Dispatcher::find($id);
 
-        $dispatcher->update($request->all());
+        $dispatcher->update($fields);
 
         return $dispatcher;
     }

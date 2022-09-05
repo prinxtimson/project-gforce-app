@@ -81,12 +81,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('delivery/{id}', [DeliveryController::class, 'update']);
     Route::delete('delivery/{id}', [DeliveryController::class, 'destroy']);
 
-    Route::get('dispatcher', [DispatcherController::class, 'index']);
-    Route::get('dispatcher/{id}', [DispatcherController::class, 'show']);
-    Route::post('dispatcher', [DispatcherController::class, 'store']);
-    Route::put('dispatcher/{id}', [DispatcherController::class, 'update']);
-    Route::delete('dispatcher/{id}', [DispatcherController::class, 'destroy']);
-
     Route::get('incedent', [IncedentController::class, 'index']);
     Route::get('incedent/{id}', [IncedentController::class, 'show']);
     Route::post('incedent', [IncedentController::class, 'store']);
@@ -168,8 +162,14 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
 
     Route::get('cart', [CartController::class, 'index']);
     Route::delete('cart/{id}', [CartController::class, 'destroy']);
-    
+
     Route::put('orders/{id}', [OrderController::class, 'update']);
     Route::get('orders/cancel/{id}', [OrderController::class, 'cancel']);
     Route::delete('orders/{id}', [OrderController::class, 'destroy']);
+
+    Route::get('dispatcher', [DispatcherController::class, 'index']);
+    Route::get('dispatcher/{id}', [DispatcherController::class, 'show']);
+    Route::post('dispatcher', [DispatcherController::class, 'store']);
+    Route::put('dispatcher/{id}', [DispatcherController::class, 'update']);
+    Route::delete('dispatcher/{id}', [DispatcherController::class, 'destroy']);
 });
