@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\OrderStatus;
+use App\Models\Status;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -29,24 +31,98 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'total' => 'required|string',
-            'mode' => 'required|string',
-            'delivery_cost' => 'numeric',
-            'items' => 'array',
-            'loyalty_point' => 'numeric',
-        ]);
+        $user = User::find(auth()->user()->id)->load('profile');
 
-       // $status = OrderStatus::where('slu');
+        if(!$user){
+            $fields = $request->validate([
+                'firstname' => 'required|string',
+                'lastname' => 'required|string',
+                'email' => 'required|string',
+                'phone' => 'required|string', 
+            ]);
 
-        $order = Order::create($request->except(['items']));
-        $items = $request->only('items');
-        
-        foreach($items as $item){
-            $order->items()->create($item);
+            $billing_add = $request['billing_address']->validate([
+                'address1' => 'required|string',
+                'address2' => 'string',
+                'city' => 'required|string',
+                'postal_code' => 'required|stringh'
+            ]);
+
+            $delivery_add = $request->get('delivery_address');
+
+            $cart = Cart::find($request->get('cart_id'))->load(['discount', 'cart_items' => function ($q) {
+                return $q->load('product');
+            }]);
+
+            $status = Status::where('slug', 'new-order');
+
+            $order = Order::create([
+                'mode' => $cart->mode,
+                'status_id' => $status->id,
+                'discount' => $cart->discount->percentage,
+                'firstname' => $fields['firstname'],
+                'lastname' => $fields['lastname'],
+                'email' => $fields['email'],
+                'phone' => $fields['phone'],
+                'delivery_cost' => $cart->mode == 'Eat-Out' ? 20 : 0,
+                'billing_address' => json_encode($billing_add),
+                'delivery_address' => json_encode($delivery_add)
+            ]);
+
+            foreach($cart->cart_items as $item){
+                $order->order_items()->create([
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['discount'] ? $item['discount'] : $item['price'],
+                    'allergies' => $item['allergies'],
+                    'preferences' => $item['preference']
+                ]);
+            }
+
+            return $order;
+        }else {
+            $billing_add = $request['billing_address']->validate([
+                'address1' => 'required|string',
+                'address2' => 'string',
+                'city' => 'required|string',
+                'postal_code' => 'required|stringh'
+            ]);
+
+            $delivery_add = $request->get('delivery_address');
+
+            $cart = Cart::find($request->get('cart_id'))->load(['discount', 'cart_items' => function ($q) {
+                return $q->load('product');
+            }]);
+
+            $status = Status::where('slug', 'new-order');
+
+            $order = Order::create([
+                'mode' => $cart->mode,
+                'user_id' => $user->id,
+                'status_id' => $status->id,
+                'discount' => $cart->discount->percentage,
+                'firstname' => $user->profile->firstname,
+                'lastname' => $user->profile->lastname,
+                'email' => $user->email,
+                'phone' => $user->profile->phone,
+                'delivery_cost' => $cart->mode == 'Eat-Out' ? 20 : 0,
+                'billing_address' => json_encode($billing_add),
+                'delivery_address' => json_encode($delivery_add)
+            ]);
+
+            foreach($cart->cart_items as $item){
+                $order->order_items()->create([
+                    'product_id' => $item['product_id'],
+                    'quantity' => $item['quantity'],
+                    'price' => $item['discount'] ? $item['discount'] : $item['price'],
+                    'allergies' => $item['allergies'],
+                    'preferences' => $item['preference']
+                ]);
+            }
+
+            return $order;
         }
  
-        return $order;
     }
  
     public function search(Request $request)

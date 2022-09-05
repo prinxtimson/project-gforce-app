@@ -15,15 +15,20 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                  ->constrained()->onDelete('cascade');
-            $table->float('total');
+            $table->foreignId('user_id')->nullable();
             $table->string('mode');
-            $table->foreignId('status_id')
-                  ->constrained()->onDelete('cascade');
+            $table->string('firstname');
+            $table->string('lastname');
+            $table->string('email');
+            $table->string('phone');
+            $table->string('payment_mode')->nullable();
+            $table->tinyInteger('is_payment')->default(0);
+            $table->foreignId('status_id')->nullable();
             $table->float('delivery_cost')->default(0.00);
+            $table->double('discount')->nullable();
             $table->double('loyalty_point')->nullable();
-            $table->text('discount')->nullable();
+            $table->text('billing_address')->nullable();
+            $table->text('delivery_address')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

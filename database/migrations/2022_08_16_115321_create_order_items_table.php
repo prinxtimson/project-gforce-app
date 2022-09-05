@@ -18,14 +18,10 @@ return new class extends Migration
             $table->foreignId('order_id')
                   ->constrained()->onDelete('cascade');
             $table->foreignId('product_id');
-            $table->string('product_name');
-            $table->float('product_price')->default(0.00);
-            $table->string('product_desc');
-            $table->text('product_ingred');
-            $table->string('type');
             $table->integer('quantity');
-            $table->tinyText('allergies')->nullable();
-            $table->tinyText('preference')->nullable();
+            $table->float('price');
+            $table->text('allergies')->nullable();
+            $table->text('preferences')->nullable();
             $table->string('status')->nullable();
             $table->softDeletes();
             $table->timestamps();

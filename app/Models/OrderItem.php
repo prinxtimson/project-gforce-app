@@ -11,20 +11,17 @@ class OrderItem extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'product_name',
-        'type',
+        'product_id',
         'quantity',
-        'product_price',
-        'product_img',
-        'product_desc',
-        'product_ingred',
+        'price',
         'allergies',
-        'preference',
+        'preferences',
         'status'
     ];
 
-    protected $casts = [
-        'product' => 'array',
+    protected $cast = [
+        'allergies' => 'array',
+        'preferences' => 'array'
     ];
 
     public function order()

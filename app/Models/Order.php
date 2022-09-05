@@ -11,15 +11,25 @@ class Order extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'total',
+        'user_id',
+        'firstname',
+        'lastname',
+        'email',
+        'phone',
         'mode',
+        'status_id',
+        'payment_mode',
+        'is_payment',
         'delivery_cost',
         'loyalty_point',
-        'discount'
+        'discount',
+        'billing_address',
+        'delivery_address'
     ];
 
-    protected $casts = [
-        'discount' => 'array',
+    protected $cast = [
+        'billing_address' => 'object',
+        'delivery_address' => 'object'
     ];
 
     public function user()

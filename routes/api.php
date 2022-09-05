@@ -40,11 +40,14 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name('2fa.store');
 Route::get('two-factor-auth/resend', [TwoFactorAuthController::class, 'resend'])->name('2fa.resend');
 
-Route::get('cart', [CartController::class, 'index']);
+
 Route::get('cart/{id}', [CartController::class, 'show']);
 Route::post('cart', [CartController::class, 'store']);
 //Route::put('cart/{id}', [CartController::class, 'update']);
-Route::delete('cart/{id}', [CartController::class, 'destroy']);
+
+Route::get('orders', [OrderController::class, 'index']);
+Route::get('orders/{id}', [OrderController::class, 'show']);
+Route::post('orders', [OrderController::class, 'store']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('me', [AuthController::class, 'me']);
@@ -166,4 +169,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
     Route::get('reservation/disapprove/{id}', [ReservationsController::class, 'unapprove']);
     Route::delete('reservation/{id}', [ReservationsController::class, 'destroy']);
 
+    Route::get('cart', [CartController::class, 'index']);
+    Route::delete('cart/{id}', [CartController::class, 'destroy']);
 });

@@ -15,12 +15,12 @@ class CartItem extends Model
         'price',
         'discount',
         'allergies',
-        'preference',
+        'preferences',
     ];
 
     protected $cast = [
         'allergies' => 'array',
-        'preference' => 'array'
+        'preferences' => 'array'
     ];
 
     public function cart()

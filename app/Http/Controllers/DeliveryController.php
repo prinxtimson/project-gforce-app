@@ -26,8 +26,15 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
+        $fields = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|string',
+            'phone' => 'required',
+            'address' => 'required|string',
+            'status' => 'required|string',
+        ]);
         
-        $delivery = Delivery::create($request->all());
+        $delivery = Delivery::create($fields);
 
         return $delivery;
     }

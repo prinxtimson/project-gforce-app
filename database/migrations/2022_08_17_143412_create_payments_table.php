@@ -18,9 +18,11 @@ return new class extends Migration
             $table->foreignId('order_id')
             ->constrained()->onDelete('cascade');
             $table->float('amount');
+            $table->string('stripe_payment_id');
             $table->string('provider');
-            $table->string('channel');
-            $table->string('status');
+            $table->string('channel')->nullable();
+            $table->string('status')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

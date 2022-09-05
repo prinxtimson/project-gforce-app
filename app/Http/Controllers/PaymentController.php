@@ -19,7 +19,7 @@ class PaymentController extends Controller
     }
     
     public function checkout (Request $request) {
-        $stripe = new \Stripe\StripeClient('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+        $stripe = new Stripe\StripeClient('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
         $cart_items = Cart::find($request->get('cart_id'))->cart_items();
 
@@ -61,10 +61,10 @@ class PaymentController extends Controller
     {
         $order = Order::find($request->get('order_id'));
 
-        $stripe = new \Stripe\StripeClient('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+        $stripe = new Stripe\StripeClient('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
         $stripe->charge->create ([
-                "amount" => $order['amount'] * 100,
+                "amount" => $order['total'] * 100,
                 "currency" => "usd",
                 "source" => $request->stripeToken,
                 "description" => "This payment is tested purpose phpcodingstuff.com"

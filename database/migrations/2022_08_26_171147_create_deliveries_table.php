@@ -17,12 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')
             ->constrained()->onDelete('cascade');
-            $table->foreignId('dispatcher_id')
-            ->constrained()->onDelete('cascade');
+            $table->foreignId('dispatcher_id');
             $table->string('name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->string('address')->nullable();
             $table->string('status')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

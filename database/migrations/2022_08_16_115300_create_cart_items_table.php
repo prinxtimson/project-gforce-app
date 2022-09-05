@@ -17,12 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cart_id')
                   ->constrained()->onDelete('cascade');
-            $table->foreignId('product_id')
-                  ->constrained()->onDelete('cascade');
+            $table->foreignId('product_id');
             $table->integer('quantity');
             $table->float('price');
-            $table->tinyText('allergies')->nullable();
-            $table->tinyText('preference')->nullable();
+            $table->text('allergies')->nullable();
+            $table->text('preferences')->nullable();
             $table->timestamps();
         });
     }

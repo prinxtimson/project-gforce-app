@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\CartItem;
+use App\Models\Discount;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -48,7 +49,8 @@ class CartController extends Controller
             return $cart->refresh()->load('cart_items');
         }else {
             $cart = Cart::create([
-                'user_id' => $user ? $user->id : null
+                'user_id' => $user ? $user->id : null,
+                'mode' => 'Eat-Out'
             ]);
             $cart_items = $request->input('cart_items');
             foreach($cart_items as $item){
@@ -88,7 +90,58 @@ class CartController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $fields = $request->validate([
+            'mode' => 'required|string'
+        ]);
+
+        $cart = Cart::find($id);
+
+        if($cart){
+            $cart->update($fields);
+
+            $cart->refresh()->load(['cart_items', 'discount']);
+
+            return $cart;
+        }
+
+        return response(['message' => 'cart not find'], 400);
+    }
+
+
+    public function apply_discount(Request $request, $id)
+    {
+        $code = $request->get('discount_code');
+        $cart = Cart::find($id);
+        if($cart->discount){
+            return ['message' => 'discount already attached to cart'];
+        }
+        $discount = Discount::where('code', $code);
+
+        if($discount){
+            $cart->discount()->attach($discount);
+
+            $cart->refresh()->load(['cart_items', 'discount']);
+
+            return $cart;
+        }
+
+        return response(['message' => 'wrong discount code'], 400);
+    }
+
+
+    public function remove_discount($id)
+    {
+        $cart = Cart::find($id);
+
+        if(!$cart->discount){
+            return ['message' => 'no discount attached to cart'];
+        }
+        
+        $cart->discount()->delete();
+
+        $cart->refresh()->load(['cart_items', 'discount']);
+
+        return $cart;
     }
 
     /**
