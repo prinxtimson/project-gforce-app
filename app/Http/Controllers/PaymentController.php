@@ -32,6 +32,7 @@ class PaymentController extends Controller
                 'amount' => $fields['amount'],
                 'provider' => $fields['provider'],
                 'channel' => $fields['channel'],
+                'stripe_payment_id' => 'test',
                 'status' => 'successful'
             ]);
 
