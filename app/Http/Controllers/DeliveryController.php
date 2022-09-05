@@ -35,6 +35,7 @@ class DeliveryController extends Controller
             'phone' => 'required',
             'address' => 'required|string',
             'status' => 'required|string',
+            'dispatcher_id' => 'required|numeric'
         ]);
 
         $order = Order::find($request->get('order_id'));
@@ -70,6 +71,7 @@ class DeliveryController extends Controller
             'phone' => 'string',
             'address' => 'string',
             'status' => 'string',
+            'dispatcher_id' => 'numeric'
         ]);
 
         $delivery = Delivery::find($id);
