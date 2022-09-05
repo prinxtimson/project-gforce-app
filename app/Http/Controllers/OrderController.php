@@ -31,33 +31,33 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::find(auth()->user()->id)->load('profile');
+        $user = User::find(auth()->user()->id);
+        
+        $fields = $request->validate([
+            'firstname' => 'required|string',
+            'lastname' => 'required|string',
+            'email' => 'required|string',
+            'phone' => 'required|string', 
+        ]);
 
-        if(!$user){
-            $fields = $request->validate([
-                'firstname' => 'required|string',
-                'lastname' => 'required|string',
-                'email' => 'required|string',
-                'phone' => 'required|string', 
-            ]);
+        $billing_add = $request->get('billing_address')->validate([
+            'address1' => 'required|string',
+            'address2' => 'string',
+            'city' => 'required|string',
+            'postal_code' => 'required|stringh'
+        ]);
 
-            $billing_add = $request['billing_address']->validate([
-                'address1' => 'required|string',
-                'address2' => 'string',
-                'city' => 'required|string',
-                'postal_code' => 'required|stringh'
-            ]);
+        $delivery_add = $request->get('delivery_address');
 
-            $delivery_add = $request->get('delivery_address');
+        $cart = Cart::find($request->get('cart_id'))->load(['discount', 'cart_items' => function ($q) {
+            return $q->load('product');
+        }]);
 
-            $cart = Cart::find($request->get('cart_id'))->load(['discount', 'cart_items' => function ($q) {
-                return $q->load('product');
-            }]);
+        $status = Status::where('slug', 'new-order');
 
-            $status = Status::where('slug', 'new-order');
-
-            $order = Order::create([
+        $order = Order::create([
                 'mode' => $cart->mode,
+                'user_id' => $user ? $user->id : null,
                 'status_id' => $status->id,
                 'discount' => $cart->discount->percentage,
                 'firstname' => $fields['firstname'],
@@ -80,48 +80,6 @@ class OrderController extends Controller
             }
 
             return $order;
-        }else {
-            $billing_add = $request['billing_address']->validate([
-                'address1' => 'required|string',
-                'address2' => 'string',
-                'city' => 'required|string',
-                'postal_code' => 'required|stringh'
-            ]);
-
-            $delivery_add = $request->get('delivery_address');
-
-            $cart = Cart::find($request->get('cart_id'))->load(['discount', 'cart_items' => function ($q) {
-                return $q->load('product');
-            }]);
-
-            $status = Status::where('slug', 'new-order');
-
-            $order = Order::create([
-                'mode' => $cart->mode,
-                'user_id' => $user->id,
-                'status_id' => $status->id,
-                'discount' => $cart->discount->percentage,
-                'firstname' => $user->profile->firstname,
-                'lastname' => $user->profile->lastname,
-                'email' => $user->email,
-                'phone' => $user->profile->phone,
-                'delivery_cost' => $cart->mode == 'Eat-Out' ? 20 : 0,
-                'billing_address' => json_encode($billing_add),
-                'delivery_address' => json_encode($delivery_add)
-            ]);
-
-            foreach($cart->cart_items as $item){
-                $order->order_items()->create([
-                    'product_id' => $item['product_id'],
-                    'quantity' => $item['quantity'],
-                    'price' => $item['discount'] ? $item['discount'] : $item['price'],
-                    'allergies' => $item['allergies'],
-                    'preferences' => $item['preference']
-                ]);
-            }
-
-            return $order;
-        }
  
     }
  
