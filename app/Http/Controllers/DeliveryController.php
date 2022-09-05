@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Delivery;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class DeliveryController extends Controller
@@ -26,6 +27,8 @@ class DeliveryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate(['order_id' => 'required|string',]);
+
         $fields = $request->validate([
             'name' => 'required|string',
             'email' => 'required|string',
@@ -33,8 +36,10 @@ class DeliveryController extends Controller
             'address' => 'required|string',
             'status' => 'required|string',
         ]);
+
+        $order = Order::find($request->get('order_id'));
         
-        $delivery = Delivery::create($fields);
+        $delivery = $order->delivery()->create($fields);
 
         return $delivery;
     }
@@ -59,9 +64,17 @@ class DeliveryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $fields = $request->validate([
+            'name' => 'string',
+            'email' => 'string',
+            'phone' => 'string',
+            'address' => 'string',
+            'status' => 'string',
+        ]);
+
         $delivery = Delivery::find($id);
 
-        $delivery->update($request->all());
+        $delivery->update($fields);
 
         return $delivery;
     }

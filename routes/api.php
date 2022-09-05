@@ -134,9 +134,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('orders', [OrderController::class, 'index']);
     Route::get('orders/{id}', [OrderController::class, 'show']);
     Route::post('orders', [OrderController::class, 'store']);
-    Route::put('orders/{id}', [OrderController::class, 'update']);
-    Route::get('orders/cancel/{id}', [OrderController::class, 'cancel']);
-    Route::delete('orders/{id}', [OrderController::class, 'destroy']);
 
     Route::get('orders-items', [OrderItemController::class, 'index']);
     Route::get('orders-items/canceled', [OrderItemController::class, 'canceled']);
@@ -171,4 +168,8 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
 
     Route::get('cart', [CartController::class, 'index']);
     Route::delete('cart/{id}', [CartController::class, 'destroy']);
+    
+    Route::put('orders/{id}', [OrderController::class, 'update']);
+    Route::get('orders/cancel/{id}', [OrderController::class, 'cancel']);
+    Route::delete('orders/{id}', [OrderController::class, 'destroy']);
 });
