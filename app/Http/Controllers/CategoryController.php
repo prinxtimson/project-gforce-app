@@ -64,7 +64,7 @@ class CategoryController extends Controller
             'description' => 'string',
         ]);
 
-        $fields['slug'] = strtolower(preg_replace("/[\s]/", "-", $fields));
+        $fields['slug'] = strtolower(preg_replace("/[\s]/", "-", $fields['name']));
 
         $category = Category::find($id);
 

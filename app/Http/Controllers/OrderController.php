@@ -68,14 +68,17 @@ class OrderController extends Controller
                 'billing_address' => json_encode($billing_add),
                 'delivery_address' => $delivery_add ? json_encode($delivery_add) : json_encode($billing_add)
             ]);
+            $order->sub_total = 0;
 
             foreach($cart->cart_items as $item){
+                $order->sub_total = $order->sub_total + $item['quantity'] * (property_exists($item, 'discount') ? $item['discount'] : $item['price']);
+
                 $order->items()->create([
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                     'price' => property_exists($item, 'discount') ? $item['discount'] : $item['price'],
-                    'allergies' => property_exists($item, 'allergies') ? explode(',', $item['allergies']) : null,
-                    'preferences' => property_exists($item, 'preference') ? explode(',', $item['preferences']) : null
+                    'allergies' => property_exists($item, 'allergies') ? $item['allergies'] : null,
+                    'preferences' => property_exists($item, 'preference') ? $item['preferences'] : null
                 ]);
             }
 

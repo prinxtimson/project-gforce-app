@@ -41,8 +41,8 @@ class CartController extends Controller
                     'quantity' => $item['quantity'],
                     'price' => $product->price,
                     'discount' => $product->discount,
-                    'allergies' => array_key_exists('allergies', $item) ? explode(',', $item['allergies']) : null,
-                   'preferences' => array_key_exists('preference', $item) ? explode(',', $item['preferences']) : null
+                    'allergies' => array_key_exists('allergies', $item) ? json_encode(explode(',', $item['allergies'])) : null,
+                   'preferences' => array_key_exists('preferences', $item) ? json_encode(explode(',', $item['preferences'])) : null
                 ]);
             }
 
@@ -54,14 +54,15 @@ class CartController extends Controller
             ]);
             $cart_items = $request->input('cart_items');
             foreach($cart_items as $item){
+                
                 $product = Product::find($item['product_id']);
                 $cart->cart_items()->updateOrCreate(['product_id'=> $item['product_id']], [
                     'product_id' => $item['product_id'],
                    'quantity' => $item['quantity'],
                    'price' => $product->price,
                    'discount' => $product->discount,
-                   'allergies' => array_key_exists('allergies', $item) ? explode(',', $item['allergies']) : null,
-                   'preferences' => array_key_exists('preference', $item) ? explode(',', $item['preferences']) : null
+                   'allergies' => array_key_exists('allergies', $item) ? json_encode(explode(',', $item['allergies'])) : null,
+                   'preferences' => array_key_exists('preferences', $item) ? json_encode(explode(',', $item['preferences'])) : null
                 ]);
             }
 

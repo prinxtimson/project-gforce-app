@@ -121,6 +121,8 @@ class PaymentController extends Controller
 
         $user->refund($payment->stripe_payment_id);
 
+        $payment->update(['status' => 'refund']);
+
         return ['msg' => 'Refund Successful'];
     }
 }
