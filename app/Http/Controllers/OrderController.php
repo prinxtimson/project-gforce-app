@@ -23,6 +23,11 @@ class OrderController extends Controller
         return $orders;
     }
 
+    public function get_status()
+    {
+        return Status::all();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -114,7 +119,7 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        return Order::find($id)->with(['user', 'items', 'status']);
+        return Order::with('items.product')->find($id)->load(['user', 'status']);
     }
 
     /**
@@ -127,19 +132,18 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $fields = $request->validate([
-            'name' => 'required|string',
-            'sku' => 'string',
-            'description' => 'string',
-            'ingredents' => 'string',
-            'price' => 'numeric|required',
-            'quantity' => 'numeric|required'
+            'firstname' => 'string',
+            'lastname' => 'string',
+            'email' => 'string',
+            'phone' => 'string',
+            'status_id' => 'numeric'
         ]);
 
         $product = Order::find($id);
 
         $product->update($fields);
 
-        return $product;
+        return $product->refresh()->load('status');
     }
 
     /**

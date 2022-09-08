@@ -71,11 +71,6 @@ const DeliveryReport = () => {
                         }
                     >
                         <Column
-                            field="id"
-                            header="ID"
-                            style={{ minWidth: "4rem" }}
-                        />
-                        <Column
                             field="name"
                             header="Customer"
                             style={{ minWidth: "14rem" }}

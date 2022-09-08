@@ -136,11 +136,19 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/delivery/{id}', function () {
+        return view('welcome');
+    });
+
     Route::get('/dispatcher', function () {
         return view('welcome');
     });
 
     Route::get('/new-dispatcher', function () {
+        return view('welcome');
+    });
+
+    Route::get('/orders/{order_id}/delivery', function () {
         return view('welcome');
     });
 

@@ -4,7 +4,7 @@ import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { Column } from "primereact/column";
-import { Menu } from "primereact/menu";
+import { Link, useNavigate } from "react-router-dom";
 
 import Authenticated from "../Layouts/Authenticated";
 import {
@@ -37,16 +37,18 @@ const PaymentsTable = () => {
         }
     }, [payments]);
 
-    const columns = [
-        { field: "id", header: "ID", width: "3rem" },
-        { field: "name", header: "Name", width: "14rem" },
-        { field: "created_at", header: "Date", width: "10rem" },
-        { field: "payment_type", header: "Payment Type", width: "10rem" },
-        { field: "payment_method", header: "Payment Method", width: "10rem" },
-        { field: "amount", header: "Amount", width: "5rem" },
-        { field: "status", header: "Status", width: "5rem" },
-        { field: "menu", header: "", width: "3rem" },
-    ];
+    const formatDate = (value) => {
+        const d = new Date(value);
+        return d.toLocaleDateString("en-US", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+        });
+    };
+
+    const dateBodyTemplate = (rowData) => {
+        return formatDate(rowData.created_at);
+    };
 
     const onGlobalFilterChange = (e) => {
         const value = e.target.value;
@@ -73,63 +75,39 @@ const PaymentsTable = () => {
         );
     };
 
-    const dynamicColumns = columns.map((col, i) => {
-        let menu = null;
-        let items = [
-            { label: "Refund", icon: "pi pi-fw pi-check" },
-            { label: "Delete", icon: "pi pi-fw pi-trash" },
-        ];
-        // if (col.field === "status") {
-        //     return (
-        //         <Column
-        //             key={col.field}
-        //             //field={col.field}
-        //             header={col.header}
-        //             body={statusBodyTemplate}
-        //         />
-        //     );
-        // }
-
-        if (col.field === "menu") {
-            return (
-                <Column
-                    key={col.field}
-                    //field={col.field}
-                    body={() => (
-                        <span className="">
-                            <Menu
-                                model={items}
-                                popup
-                                ref={(ref) => (menu = ref)}
-                            />
-                            <button
-                                className="tw-border-0"
-                                onClick={(event) => menu.toggle(event)}
-                            >
-                                <i className="pi pi-ellipsis-v"></i>
-                            </button>
-                        </span>
-                    )}
-                    headerStyle={{ width: col.width, textAlign: "center" }}
-                    bodyStyle={{ textAlign: "center", overflow: "visible" }}
-                />
-            );
-        }
+    const statusBodyTemplate = (rowData) => {
         return (
-            <Column
-                key={col.field}
-                field={col.field}
-                header={col.header}
-                style={{ minWidth: col.width }}
-            />
+            <span
+                className={
+                    rowData.status == "succeeded"
+                        ? "tw-text-green-500"
+                        : rowData.status == "pending"
+                        ? "tw-text-yellow-500"
+                        : "tw-text-red-500"
+                }
+            >
+                {rowData.status}
+            </span>
         );
-    });
+    };
+
+    const amountBodyTemplate = (rowData) => {
+        return `£${rowData.amount.toFixed(2)}`;
+    };
 
     const header = renderHeader();
 
     return (
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
+                {/* <div className="tw-my-4">
+                    <Link
+                        to="/add-payment"
+                        className="tw-text-sky-500 tw-underline"
+                    >
+                        Add Payment
+                    </Link>
+                </div> */}
                 <DataTable
                     value={payments?.data}
                     className="p-datatable-customers"
@@ -137,24 +115,56 @@ const PaymentsTable = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
                     rowHover
-                    selection={selectedPayments}
                     emptyMessage="No payments found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={isLoading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedPayments(e.value)}
                     paginator
                     rows={20}
                     first={first}
                     onPage={(e) => dispatch(getPaymentsByPage(e.first + 1))}
                 >
                     <Column
-                        selectionMode="multiple"
-                        headerStyle={{ width: "3em" }}
-                    ></Column>
-                    {dynamicColumns}
+                        field="id"
+                        header="ID"
+                        style={{ minWidth: "5rem" }}
+                    />
+                    <Column
+                        field="name"
+                        header="Customer Name"
+                        sortable
+                        style={{ minWidth: "12rem" }}
+                    />
+                    <Column
+                        field="date"
+                        header="Date"
+                        style={{ minWidth: "10rem" }}
+                        body={dateBodyTemplate}
+                    />
+                    <Column
+                        field="provider"
+                        header="Payment Type"
+                        style={{ minWidth: "10rem" }}
+                    />
+                    <Column
+                        field="channel"
+                        header="Payment Detail"
+                        style={{ minWidth: "10rem" }}
+                    />
+                    <Column
+                        field="amount"
+                        header="Amount"
+                        style={{ minWidth: "8rem" }}
+                        body={amountBodyTemplate}
+                    />
+                    <Column
+                        field="status"
+                        header="Status"
+                        style={{ minWidth: "8rem" }}
+                        body={statusBodyTemplate}
+                    />
                 </DataTable>
             </div>
         </Authenticated>

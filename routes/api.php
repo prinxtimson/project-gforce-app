@@ -126,6 +126,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('reports/order', [ReportController::class, 'get_order_report']);
     Route::get('reports/most-selling', [ReportController::class, 'get_order_report']);
 
+    Route::get('status', [OrderController::class, 'get_status']);
+
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], function () { 
@@ -169,6 +171,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
     Route::delete('orders/{id}', [OrderController::class, 'destroy']);
 
     Route::get('dispatcher', [DispatcherController::class, 'index']);
+    Route::get('dispatcher/search/{name}', [DispatcherController::class, 'search']);
     Route::get('dispatcher/{id}', [DispatcherController::class, 'show']);
     Route::post('dispatcher', [DispatcherController::class, 'store']);
     Route::put('dispatcher/{id}', [DispatcherController::class, 'update']);
@@ -177,4 +180,5 @@ Route::group(['middleware' => ['auth:sanctum', 'role:admin|super-admin']], funct
     Route::get('payment', [PaymentController::class, 'index']);
     Route::post('payment', [PaymentController::class, 'create']);
     Route::get('payment/refund/{id}', [PaymentController::class, 'refund']);
+    
 });

@@ -21,6 +21,7 @@ class PaymentController extends Controller
     
     public function create (Request $request) {
         $fields = $request->validate([
+            'name' => 'required|string',
             'amount' => 'required',
             'provider' => 'required',
             'channel' => 'required'
@@ -29,6 +30,7 @@ class PaymentController extends Controller
         $order = Order::find($request->get('order_id'))->load('order_items');
 
             $payment = $order->payment()->create([
+                'name' => $fields['name'],
                 'amount' => $fields['amount'],
                 'provider' => $fields['provider'],
                 'channel' => $fields['channel'],
@@ -85,6 +87,7 @@ class PaymentController extends Controller
             $order->update(['is_payment' => true]);
 
             $payment = $order->payment()->create([
+                'name' => $charge->charges->data[0]->billing_details->name,
                 'amount' => $total,
                 'provider' => $charge->charges->data[0]->payment_method_details->type,
                 'stripe_payment_id' => $charge->id,

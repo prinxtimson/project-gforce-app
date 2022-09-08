@@ -4,7 +4,6 @@ import { toast } from "react-toastify";
 import { InputText } from "primereact/inputtext";
 import { InputNumber } from "primereact/inputnumber";
 import { Image } from "primereact/image";
-import { Dropdown } from "primereact/dropdown";
 import { InputTextarea } from "primereact/inputtextarea";
 import { MultiSelect } from "primereact/multiselect";
 import { Button } from "primereact/button";
@@ -242,7 +241,7 @@ const AddProduct = () => {
                                             htmlFor="ingredents"
                                             className=""
                                         >
-                                            Ingredents
+                                            Ingredients
                                         </label>
                                     </span>
                                 </div>
@@ -250,7 +249,7 @@ const AddProduct = () => {
                                     <span className="p-float-label ">
                                         <InputNumber
                                             name="price"
-                                            inputId="integeronly"
+                                            mode="decimal"
                                             prefix="£"
                                             className="tw-w-full"
                                             value={data.price}
@@ -272,7 +271,7 @@ const AddProduct = () => {
                                         <InputNumber
                                             name="discount"
                                             prefix="£"
-                                            inputId="integeronly"
+                                            mode="decimal"
                                             className="tw-w-full "
                                             value={data.discount}
                                             onChange={(e) =>

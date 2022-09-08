@@ -204,13 +204,13 @@ const KitchenOrder = () => {
                             style={{ minWidth: "12rem" }}
                         />
                         <Column
-                            field="preference"
-                            header="Customer Preference"
+                            field="preferences"
+                            header="Customer Preferences"
                             style={{ minWidth: "18rem" }}
                         />
                         <Column
-                            field="allergie"
-                            header="Customer Allergie"
+                            field="allergies"
+                            header="Customer Allergies"
                             style={{ minWidth: "14rem" }}
                         />
                         <Column

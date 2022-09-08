@@ -4,6 +4,7 @@ import orderService from "./orderService";
 const initialState = {
     orders: null,
     order: null,
+    status: [],
     orderItems: null,
     isError: false,
     isSuccess: false,
@@ -14,6 +15,19 @@ const initialState = {
 export const getOrders = createAsyncThunk("order/get", async (thunkAPI) => {
     try {
         return await orderService.getOrders();
+    } catch (err) {
+        const msg =
+            (err.response && err.response.data && err.response.data.message) ||
+            err.message ||
+            err.toString();
+
+        return thunkAPI.rejectWithValue(msg);
+    }
+});
+
+export const getStatus = createAsyncThunk("order/status", async (thunkAPI) => {
+    try {
+        return await orderService.getStatus();
     } catch (err) {
         const msg =
             (err.response && err.response.data && err.response.data.message) ||
@@ -65,6 +79,24 @@ export const getOrderById = createAsyncThunk(
     async (id, thunkAPI) => {
         try {
             return await orderService.getOrderById(id);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
+export const cancelOrder = createAsyncThunk(
+    "order/cancel-order",
+    async (id, thunkAPI) => {
+        try {
+            return await orderService.cancelOrder(id);
         } catch (err) {
             const msg =
                 (err.response &&
@@ -180,6 +212,18 @@ export const orderSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
             })
+            .addCase(getStatus.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getStatus.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.status = action.payload;
+            })
+            .addCase(getStatus.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
             .addCase(getOrderItems.pending, (state) => {
                 state.isLoading = true;
             })
@@ -218,13 +262,31 @@ export const orderSlice = createSlice({
                 state.isError = true;
                 state.message = action.payload;
             })
+            .addCase(cancelOrder.pending, (state) => {
+                //state.isLoading = true;
+            })
+            .addCase(cancelOrder.fulfilled, (state, action) => {
+                //state.isLoading = false;
+                state.isSuccess = true;
+                state.message = "Order had been cancel";
+            })
+            .addCase(cancelOrder.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
             .addCase(updateOrder.pending, (state) => {
                 state.isLoading = true;
             })
             .addCase(updateOrder.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.isSuccess = true;
                 state.order = action.payload;
+                const ind = state.orders.data.findIndex(
+                    (val) => val.id === action.payload.id
+                );
+
+                state.orders.data.splice(ind, 1, action.payload);
+                state.orders = { ...state.orders };
             })
             .addCase(updateOrder.rejected, (state, action) => {
                 state.isLoading = false;

@@ -213,7 +213,7 @@ const Sidebar = () => {
                                 size={20}
                                 className="tw-mr-2"
                             />
-                            Staffs
+                            Staff
                         </Link>
                     </li>
                     <li>

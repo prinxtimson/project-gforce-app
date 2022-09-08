@@ -49,6 +49,7 @@ import DeliveryTable from "./Pages/DeliveryTable";
 import DispatcherTable from "./Pages/DispatcherTable";
 import NewDispatcher from "./Pages/NewDispatcher";
 import NewTask from "./Pages/NewTask";
+import Delivery from "./Pages/Delivery";
 
 const App = () => {
     return (
@@ -101,6 +102,11 @@ const App = () => {
                     </Route>
                     <Route path="/inventory" element={<InventoryTable />} />
                     <Route path="/delivery" element={<DeliveryTable />} />
+                    <Route
+                        path="/orders/:order_id/delivery"
+                        element={<Delivery />}
+                    />
+                    <Route path="/delivery/:id" element={<Delivery />} />
                     <Route path="/dispatcher" element={<DispatcherTable />} />
                     <Route path="/new-dispatcher" element={<NewDispatcher />} />
                     <Route

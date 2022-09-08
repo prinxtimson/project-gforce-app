@@ -8,6 +8,12 @@ const getOrders = async () => {
     return res.data;
 };
 
+const getStatus = async () => {
+    const res = await axios.get("/api/status");
+
+    return res.data;
+};
+
 const getOrderItems = async () => {
     const res = await axios.get("/api/orders-items");
 
@@ -22,6 +28,12 @@ const getOrdersByPage = async (page) => {
 
 const getOrderById = async (id) => {
     const res = await axios.get(API_URL + "/" + id);
+
+    return res.data;
+};
+
+const cancelOrder = async (id) => {
+    const res = await axios.get(API_URL + "/cancel/" + id);
 
     return res.data;
 };
@@ -49,6 +61,8 @@ const orderService = {
     getOrderItems,
     getOrderById,
     getOrdersByPage,
+    getStatus,
+    cancelOrder,
     saveOrder,
     updateOrder,
     removeOrder,

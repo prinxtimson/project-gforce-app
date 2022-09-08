@@ -8,6 +8,12 @@ const getDispatchers = async () => {
     return res.data;
 };
 
+const searchDispatchers = async (query) => {
+    const res = await axios.get(`${API_URL}/search/${query}`);
+
+    return res.data;
+};
+
 const getDispatcherByPage = async (page) => {
     const res = await axios.get("/api/dispatcher?page=" + page);
 
@@ -42,6 +48,7 @@ const dispatcherService = {
     getDispatchers,
     getDispatcherById,
     getDispatcherByPage,
+    searchDispatchers,
     saveDispatcher,
     updateDispatcher,
     removeDispatcher,

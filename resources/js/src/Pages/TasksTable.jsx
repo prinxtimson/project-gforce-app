@@ -17,7 +17,6 @@ import Authenticated from "../Layouts/Authenticated";
 import { Link, useNavigate } from "react-router-dom";
 
 const TasksTable = () => {
-    const [selectedTask, setSelectedTask] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
@@ -144,23 +143,17 @@ const TasksTable = () => {
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         dataKey="id"
                         rowHover
-                        selection={selectedTask}
                         emptyMessage="No Task found."
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         filters={filters}
                         filterDisplay="menu"
                         loading={isLoading}
                         responsiveLayout="scroll"
-                        onSelectionChange={(e) => setSelectedTask(e.value)}
                         paginator
                         rows={20}
                         first={first}
                         onPage={(e) => dispatch(getTasksByPage(e.first + 1))}
                     >
-                        <Column
-                            selectionMode="multiple"
-                            headerStyle={{ width: "3em" }}
-                        ></Column>
                         <Column
                             field="id"
                             header="ID"

@@ -18,6 +18,13 @@ class DispatcherController extends Controller
         return $dispatchers;
     }
 
+
+    public function search($name)
+    {
+        //$search = collect();
+        return Dispatcher::where('name', 'like', '%'.$name.'%')->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *

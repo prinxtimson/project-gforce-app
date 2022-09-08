@@ -48,6 +48,8 @@ class ProductController extends Controller
 
         if($request->hasFile('featured_img')){
             $product->addMediaFromRequest('featured_img')->toMediaCollection('images');
+            $featureImg = $product->getFirstMediaUrl('images', 'thumb');
+            $product->update(['featured_image' => $featureImg]);
         }
 
         if($categories = $request->input('categories')){

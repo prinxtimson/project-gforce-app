@@ -22,8 +22,8 @@ class OrderStatusSeeder extends Seeder
                 'description' => 'New Order received',
             ],
             [
-                'name' => 'Prepering',
-                'slug' => 'prepering',
+                'name' => 'Processing',
+                'slug' => 'processing',
                 'description' => 'Order is under preperation',
             ],
             [
@@ -45,6 +45,11 @@ class OrderStatusSeeder extends Seeder
                 'name' => 'Delivered',
                 'slug' => 'delivered',
                 'description' => 'Order is delivered',
+            ],
+            [
+                'name' => 'Canceled',
+                'slug' => 'canceled',
+                'description' => 'Order Canceled',
             ]
         ];
 

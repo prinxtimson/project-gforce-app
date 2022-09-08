@@ -15,7 +15,7 @@ class DeliveryController extends Controller
      */
     public function index()
     {
-        $deliveries = Delivery::with(['dispatcher'])->orderBy('id', 'DESC')->paginate(20);
+        $deliveries = Delivery::with('dispatcher')->orderBy('id', 'DESC')->paginate(20);
         return $deliveries;
     }
 
@@ -53,7 +53,7 @@ class DeliveryController extends Controller
      */
     public function show($id)
     {
-        return Delivery::find($id)->with(['order', 'dispatcher']);
+        return Delivery::find($id)->load(['order', 'dispatcher']);
     }
 
     /**

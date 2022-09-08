@@ -28,6 +28,24 @@ export const getDispatchers = createAsyncThunk(
     }
 );
 
+export const searchDispatchers = createAsyncThunk(
+    "dispatcher/search",
+    async (query, thunkAPI) => {
+        try {
+            return await dispatcherService.searchDispatchers(query);
+        } catch (err) {
+            const msg =
+                (err.response &&
+                    err.response.data &&
+                    err.response.data.message) ||
+                err.message ||
+                err.toString();
+
+            return thunkAPI.rejectWithValue(msg);
+        }
+    }
+);
+
 export const getDispatchersByPage = createAsyncThunk(
     "dispatcher/by-page",
     async (page, thunkAPI) => {
@@ -161,6 +179,21 @@ export const dispatcherSlice = createSlice({
                 state.dispatchers = action.payload;
             })
             .addCase(getDispatchers.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.message = action.payload;
+            })
+            .addCase(searchDispatchers.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(searchDispatchers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.dispatchers = {
+                    ...state.dispatchers,
+                    data: action.payload,
+                };
+            })
+            .addCase(searchDispatchers.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.message = action.payload;

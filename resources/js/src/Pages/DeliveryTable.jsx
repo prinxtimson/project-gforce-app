@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { FilterMatchMode } from "primereact/api";
 import { DataTable } from "primereact/datatable";
@@ -18,7 +18,6 @@ import {
 } from "../features/delivery/deliverySlice";
 
 const DeliveryTable = () => {
-    const [selectedDeliveries, setSelectedDeliveries] = useState(null);
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     });
@@ -94,17 +93,13 @@ const DeliveryTable = () => {
         return formatDate(rowData.created_at);
     };
 
-    const statusBodyTemplate = (rowData) => {
-        return rowData.is_approved ? "Approved" : "Unapproved";
-    };
-
     const actionBodyTemplate = (rowData) => {
         let menu = null;
         let items = [
             {
                 label: "Edit",
                 icon: "pi pi-fw pi-pencil",
-                command: () => navigate(`#`),
+                command: () => navigate(`./${rowData.id}`),
             },
             {
                 label: "Delete",
@@ -125,19 +120,13 @@ const DeliveryTable = () => {
         );
     };
 
+    const dispatcherBodyTemplate = (rowData) => rowData.dispatcher.name;
+
     const header = renderHeader();
 
     return (
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
-                <div className="tw-my-4">
-                    {/* <Link
-                        to="#"
-                        className="tw-text-sky-500 tw-underline"
-                    >
-                        Add Delivery
-                    </Link> */}
-                </div>
                 <DataTable
                     value={deliveries?.data}
                     className="p-datatable-customers"
@@ -145,14 +134,12 @@ const DeliveryTable = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
                     rowHover
-                    selection={selectedDeliveries}
                     emptyMessage="No delivery found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={isLoading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedDeliveries(e.value)}
                     paginator
                     rows={20}
                     first={first}
@@ -160,10 +147,6 @@ const DeliveryTable = () => {
                         dispatch(getDeliveriesByPage(e.first + 1));
                     }}
                 >
-                    <Column
-                        selectionMode="multiple"
-                        headerStyle={{ width: "3em" }}
-                    ></Column>
                     <Column
                         field="id"
                         header="ID"
@@ -194,7 +177,12 @@ const DeliveryTable = () => {
                         field="status"
                         header="Status"
                         style={{ minWidth: "8rem" }}
-                        body={statusBodyTemplate}
+                    />
+                    <Column
+                        field="dispatcher_id"
+                        header="Dispatcher"
+                        style={{ minWidth: "8rem" }}
+                        body={dispatcherBodyTemplate}
                     />
                     <Column
                         field="created_at"

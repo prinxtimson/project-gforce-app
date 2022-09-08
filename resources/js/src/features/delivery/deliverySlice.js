@@ -158,7 +158,7 @@ export const deliverySlice = createSlice({
             })
             .addCase(getDeliveries.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.deliverys = action.payload;
+                state.deliveries = action.payload;
             })
             .addCase(getDeliveries.rejected, (state, action) => {
                 state.isLoading = false;
@@ -170,7 +170,7 @@ export const deliverySlice = createSlice({
             })
             .addCase(getDeliveriesByPage.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.deliverys = action.payload;
+                state.deliveries = action.payload;
             })
             .addCase(getDeliveriesByPage.rejected, (state, action) => {
                 state.isLoading = false;

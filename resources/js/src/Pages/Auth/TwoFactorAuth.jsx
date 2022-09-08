@@ -98,6 +98,7 @@ const TwoFactorAuth = () => {
                                     type="submit"
                                     label="Verify Code"
                                     disabled={isLoading}
+                                    loading={isLoading}
                                 />
                                 <Button
                                     type="button"
@@ -105,6 +106,8 @@ const TwoFactorAuth = () => {
                                     className="p-button-link"
                                     style={{ marginTop: 10 }}
                                     onClick={() => dispatch(resendCode())}
+                                    disabled={isLoading}
+                                    loading={isLoading}
                                 />
                             </form>
                         </div>
