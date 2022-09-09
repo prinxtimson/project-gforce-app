@@ -81,6 +81,7 @@ class OrderController extends Controller
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                     'price' => property_exists($item, 'discount') ? $item['discount'] : $item['price'],
+                    'status' => $status->name,
                     'allergies' => property_exists($item, 'allergies') ? $item['allergies'] : null,
                     'preferences' => property_exists($item, 'preference') ? $item['preferences'] : null
                 ]);

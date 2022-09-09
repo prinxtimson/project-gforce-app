@@ -96,25 +96,6 @@ const KitchenOrder = () => {
         );
     };
 
-    const customerBodyTemplate = (rowData) => {
-        return (
-            <div className="">
-                <div className="tw-flex tw-items-center">
-                    <div className="tw-mr-2">
-                        <Avatar
-                            image="/images/no_img.png"
-                            size="xlarge"
-                            shape="circle"
-                        />
-                    </div>
-                    <div className="">
-                        <p>{rowData.customer_name}</p>
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
     const ratingBodyTemplate = (rowData) => {
         return (
             <div className="tw-flex tw-flex-col tw-justify-center">
@@ -178,6 +159,11 @@ const KitchenOrder = () => {
                         }
                     >
                         <Column
+                            field="id"
+                            header="ID"
+                            style={{ minWidth: "5rem" }}
+                        />
+                        <Column
                             field="name"
                             header="Meal Ordered"
                             style={{ minWidth: "14rem" }}
@@ -190,8 +176,8 @@ const KitchenOrder = () => {
                             body={(rowData) => rowData.order?.mode}
                         />
                         <Column
-                            field="table_no"
-                            header="Table"
+                            field="order_id"
+                            header="Order ID"
                             style={{ minWidth: "8rem" }}
                         />
                         <Column
@@ -206,16 +192,27 @@ const KitchenOrder = () => {
                             field="preferences"
                             header="Customer Preferences"
                             style={{ minWidth: "18rem" }}
+                            body={(rowData) =>
+                                rowData.preferences
+                                    ? JSON.parse(rowData.preferences).toString()
+                                    : "Not Available"
+                            }
                         />
                         <Column
                             field="allergies"
                             header="Customer Allergies"
                             style={{ minWidth: "14rem" }}
+                            body={(rowData) =>
+                                rowData.allergies
+                                    ? JSON.parse(rowData.allergies).toString()
+                                    : "Not Available"
+                            }
                         />
                         <Column
                             field="status"
                             header="Order Status"
                             style={{ minWidth: "12rem" }}
+                            body={(rowData) => rowData.order?.status}
                         />
                         <Column
                             field="notify"
@@ -246,33 +243,3 @@ const KitchenOrder = () => {
 };
 
 export default KitchenOrder;
-
-const exmples = [
-    {
-        id: "5",
-        created_at: "01/01/21 13PM",
-        customer_name: "Hunter Bidden",
-        comment:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl turpis, luctus quis convallis at, interdum vitae dui. Donec mattis nulla massa, in vehicula ante maximus a. Quisque sit amet quam lacus. Morbi ullamcorper diam nec tortor interdum sodales eu sit amet lacus.",
-        rating: 3.4,
-        menu_name: "Salted Beef",
-    },
-    {
-        id: "6",
-        created_at: "01/01/21 13PM",
-        customer_name: "Hunter Bidden",
-        comment:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl turpis, luctus quis convallis at, interdum vitae dui. Donec mattis nulla massa, in vehicula ante maximus a. Quisque sit amet quam lacus. Morbi ullamcorper diam nec tortor interdum sodales eu sit amet lacus.",
-        rating: 4.5,
-        menu_name: "Salted Beef",
-    },
-    {
-        id: "1",
-        created_at: "01/01/21 13PM",
-        customer_name: "Hunter Bidden",
-        comment:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nisl turpis, luctus quis convallis at, interdum vitae dui. Donec mattis nulla massa, in vehicula ante maximus a. Quisque sit amet quam lacus. Morbi ullamcorper diam nec tortor interdum sodales eu sit amet lacus.",
-        rating: 4.0,
-        menu_name: "Salted Beef",
-    },
-];
