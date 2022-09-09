@@ -100,14 +100,6 @@ const PaymentsTable = () => {
     return (
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
-                {/* <div className="tw-my-4">
-                    <Link
-                        to="/add-payment"
-                        className="tw-text-sky-500 tw-underline"
-                    >
-                        Add Payment
-                    </Link>
-                </div> */}
                 <DataTable
                     value={payments?.data}
                     className="p-datatable-customers"

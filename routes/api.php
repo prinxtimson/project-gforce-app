@@ -34,7 +34,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/login', [AuthController::class, 'api_login']);
-Route::post('/forgot-password', [AuthController::class, 'forgotPass']);
+Route::post('/forgot-password', [AuthController::class, 'apiForgotPass']);
 Route::post('/reset-password', [AuthController::class, 'resetPass']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('two-factor-auth', [TwoFactorAuthController::class, 'store'])->name('2fa.store');

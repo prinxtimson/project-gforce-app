@@ -50,6 +50,8 @@ import DispatcherTable from "./Pages/DispatcherTable";
 import NewDispatcher from "./Pages/NewDispatcher";
 import NewTask from "./Pages/NewTask";
 import Delivery from "./Pages/Delivery";
+import Payment from "./Pages/Payment";
+import AddOrder from "./Pages/AddOrder";
 
 const App = () => {
     return (
@@ -102,9 +104,22 @@ const App = () => {
                     </Route>
                     <Route path="/inventory" element={<InventoryTable />} />
                     <Route path="/delivery" element={<DeliveryTable />} />
+                    <Route path="/new-order" element={<AddOrder />} />
                     <Route
                         path="/orders/:order_id/delivery"
                         element={<Delivery />}
+                    />
+                    <Route
+                        path="/orders/:order_id/payment"
+                        element={<Payment />}
+                    />
+                    <Route
+                        path="/orders/:order_id/delivery/:id"
+                        element={<Delivery />}
+                    />
+                    <Route
+                        path="/orders/:order_id/payment/:id"
+                        element={<Payment />}
                     />
                     <Route path="/delivery/:id" element={<Delivery />} />
                     <Route path="/dispatcher" element={<DispatcherTable />} />
@@ -132,6 +147,7 @@ const App = () => {
                         element={<NewInventory />}
                     />
                     <Route path="/payments" element={<PaymentsTable />} />
+                    <Route path="/payment/:id" element={<Payment />} />
                     <Route path="/orders/:id" element={<SingleOrder />} />
                     <Route path="/staffs" element={<UsersTable />} />
                     <Route path="/products" element={<ProductInventory />} />

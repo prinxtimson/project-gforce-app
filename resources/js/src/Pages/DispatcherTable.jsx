@@ -141,14 +141,12 @@ const DispatcherTable = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
                     rowHover
-                    selection={selectedDispatchers}
                     emptyMessage="No dispatcher found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={isLoading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedDispatchers(e.value)}
                     paginator
                     rows={20}
                     first={first}
@@ -156,10 +154,6 @@ const DispatcherTable = () => {
                         dispatch(getDispatchersByPage(e.first + 1));
                     }}
                 >
-                    <Column
-                        selectionMode="multiple"
-                        headerStyle={{ width: "3em" }}
-                    ></Column>
                     <Column
                         field="id"
                         header="ID"

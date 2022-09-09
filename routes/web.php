@@ -21,7 +21,7 @@ Route::middleware(['auth:sanctum', 'n2fa'])->get('/two-factor-auth', function ()
 })->name('2fa.index');
 
 Route::post('/login', [AuthController::class, 'login']);
-
+Route::post('/forgot-password', [AuthController::class, 'forgotPass']);
 
 Route::middleware(['guest'])->group(function () {
     
@@ -84,6 +84,10 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
         return view('welcome');
     });
 
+    Route::get('/new-order', function () {
+        return view('welcome');
+    });
+
     Route::get('/reports', function () {
         return view('welcome');
     });
@@ -103,6 +107,11 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
     Route::get('/payments', function () {
         return view('welcome');
     });
+
+    Route::get('/payments/{id}', function () {
+        return view('welcome');
+    });
+
 
     Route::get('/products', function () {
         return view('welcome');
@@ -151,6 +160,19 @@ Route::middleware(['auth:sanctum', '2fa'])->group(function () {
     Route::get('/orders/{order_id}/delivery', function () {
         return view('welcome');
     });
+
+    Route::get('/orders/{order_id}/payment', function () {
+        return view('welcome');
+    });
+
+    Route::get('/orders/{order_id}/delivery/{id}', function () {
+        return view('welcome');
+    });
+
+    Route::get('/orders/{order_id}/payment{id}', function () {
+        return view('welcome');
+    });
+
 
     Route::get('/update-dispatcher/{id}', function () {
         return view('welcome');

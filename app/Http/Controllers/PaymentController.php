@@ -35,7 +35,7 @@ class PaymentController extends Controller
                 'provider' => $fields['provider'],
                 'channel' => $fields['channel'],
                 'stripe_payment_id' => 'test',
-                'status' => 'successful'
+                'status' => 'succeeded'
             ]);
 
             $order->update(['is_payment' => true]);

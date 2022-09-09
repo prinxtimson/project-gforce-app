@@ -167,14 +167,12 @@ const ProductInventory = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
                     rowHover
-                    selection={selectedProducts}
                     emptyMessage="No product found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={isLoading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedProducts(e.value)}
                     paginator
                     rows={20}
                     first={first}
@@ -183,13 +181,8 @@ const ProductInventory = () => {
                     }}
                 >
                     <Column
-                        selectionMode="multiple"
-                        headerStyle={{ width: "3em" }}
-                    ></Column>
-                    <Column
                         field="id"
                         header="ID"
-                        sortable
                         style={{ minWidth: "5rem" }}
                     />
                     <Column
@@ -226,7 +219,6 @@ const ProductInventory = () => {
                     <Column
                         field="created_at"
                         header="Date"
-                        sortable
                         //dataType="date"
                         style={{ minWidth: "10rem" }}
                         body={dateBodyTemplate}

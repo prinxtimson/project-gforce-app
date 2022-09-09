@@ -255,6 +255,20 @@ class AuthController extends Controller
                     : response($status, 401);
     }
 
+    public function apiForgotPass(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->get('email'))->first();
+
+        $token = Password::createToken($user);
+
+        return [
+            'email' => $request->get('email'),
+            'token' => $token
+        ];
+    }
+
     public function resetPass(Request $request)
     {
         $request->validate([

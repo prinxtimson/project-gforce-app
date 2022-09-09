@@ -31,7 +31,7 @@ const KitchenOrder = () => {
     const dispatch = useDispatch();
 
     const { orders, isLoading } = useSelector((state) => state.kitchen);
-
+    //console.log(orders);
     useEffect(() => {
         dispatch(getKitchenOrder());
 
@@ -164,14 +164,12 @@ const KitchenOrder = () => {
                         paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                         dataKey="id"
                         rowHover
-                        selection={selectedOrder}
                         emptyMessage="No order found."
                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                         filters={filters}
                         filterDisplay="menu"
                         loading={isLoading}
                         responsiveLayout="scroll"
-                        onSelectionChange={(e) => setSelectedOrder(e.value)}
                         paginator
                         rows={20}
                         first={first}
@@ -180,18 +178,16 @@ const KitchenOrder = () => {
                         }
                     >
                         <Column
-                            selectionMode="multiple"
-                            headerStyle={{ width: "3em" }}
-                        ></Column>
-                        <Column
                             field="name"
                             header="Meal Ordered"
                             style={{ minWidth: "14rem" }}
+                            body={(rowData) => rowData.product.name}
                         />
                         <Column
                             field="type"
                             header="Delivery/Takeout"
                             style={{ minWidth: "10rem" }}
+                            body={(rowData) => rowData.order?.mode}
                         />
                         <Column
                             field="table_no"
@@ -202,6 +198,9 @@ const KitchenOrder = () => {
                             field="customer_name"
                             header="Customer Name"
                             style={{ minWidth: "12rem" }}
+                            body={(rowData) =>
+                                `${rowData.order?.firstname} ${rowData.order?.lastname}`
+                            }
                         />
                         <Column
                             field="preferences"

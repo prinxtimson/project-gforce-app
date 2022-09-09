@@ -36,14 +36,13 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
+        $request->validate(['cart_id' => 'required']);
         $fields = $request->validate([
             'firstname' => 'required|string',
             'lastname' => 'required|string',
             'email' => 'required|string',
             'phone' => 'required|string',
             'billing_address.address1' => 'required|string', 
-            'billing_address.address2' => 'string', 
             'billing_address.city' => 'required|string', 
             'billing_address.postal_code' => 'required|string', 
         ]);
@@ -61,7 +60,7 @@ class OrderController extends Controller
         $status = Status::where('slug', 'new-order')->first();
 
         $order = Order::create([
-                'mode' => $cart->mode,
+                'mode' => $request->get('mode') ? $request->get('mode') : $cart->mode,
                 'user_id' => $user ? $user->id : null,
                 'status_id' => $status->id,
                 'discount' => $cart->discount ? $cart->discount->percentage : null,
@@ -69,7 +68,7 @@ class OrderController extends Controller
                 'lastname' => $fields['lastname'],
                 'email' => $fields['email'],
                 'phone' => $fields['phone'],
-                'delivery_cost' => $cart->mode == 'Eat-Out' ? 20 : 0,
+                'delivery_cost' => $request->get('mode') == 'Eat-Out' ? 20 : 0,
                 'billing_address' => json_encode($billing_add),
                 'delivery_address' => $delivery_add ? json_encode($delivery_add) : json_encode($billing_add)
             ]);

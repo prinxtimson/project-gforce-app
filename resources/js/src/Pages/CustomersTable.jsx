@@ -105,14 +105,12 @@ const CustomersTable = () => {
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     dataKey="id"
                     rowHover
-                    selection={selectedCustomers}
                     emptyMessage="No customers found."
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
                     filters={filters}
                     filterDisplay="menu"
                     loading={isLoading}
                     responsiveLayout="scroll"
-                    onSelectionChange={(e) => setSelectedCustomers(e.value)}
                     paginator
                     rows={20}
                     first={first}
@@ -120,10 +118,6 @@ const CustomersTable = () => {
                         dispatch(getCustomersByPage(e.first + 1));
                     }}
                 >
-                    <Column
-                        selectionMode="multiple"
-                        headerStyle={{ width: "3em" }}
-                    ></Column>
                     <Column
                         field="id"
                         header="ID"
@@ -147,19 +141,16 @@ const CustomersTable = () => {
                     <Column
                         field="address"
                         header="Location"
-                        sortable
                         style={{ minWidth: "14rem" }}
                     />
                     <Column
                         field="total_spent"
                         header="Total Spent"
-                        sortable
                         style={{ minWidth: "10rem" }}
                     />
                     <Column
                         field="last_spent"
                         header="Last Spent"
-                        sortable
                         style={{ minWidth: "10rem" }}
                     />
                     <Column

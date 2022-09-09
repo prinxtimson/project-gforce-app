@@ -14,7 +14,7 @@ class OrderItemController extends Controller
      */
     public function index()
     {
-        $orders = OrderItem::withTrashed()->with(['reviews'])->orderBy('id', 'DESC')->paginate(20);
+        $orders = OrderItem::withTrashed()->with(['product', 'order'])->orderBy('id', 'DESC')->paginate(20);
 
         return $orders;
     }

@@ -165,7 +165,7 @@ const AddProduct = () => {
     return (
         <Authenticated>
             <div className="tw-bg-white tw-shadow-md tw-p-4">
-                <div className="tw-py-10 tw-grid tw-grid-cols-1 xl:tw-grid-cols-3 tw-gap-4">
+                <div className="tw-py-10 tw-grid tw-grid-cols-1 lg:tw-grid-cols-3 tw-gap-4">
                     <div className="tw-col-span-2 tw-bg-white tw-shadow-md tw-p-4">
                         <div className="tw-text-center tw-mb-5">
                             <div className="tw-text-900 tw-text-xl tw-font-medium tw-mb-12">

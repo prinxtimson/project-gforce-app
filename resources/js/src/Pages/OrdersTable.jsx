@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { FilterMatchMode, FilterOperator } from "primereact/api";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
@@ -141,6 +141,14 @@ const OrdersTable = () => {
     return (
         <Authenticated>
             <div className="tw-shadow-lg tw-rounded-md tw-p-4  tw-bg-white">
+                <div className="tw-my-4">
+                    <Link
+                        to="/new-order"
+                        className="tw-text-sky-500 tw-underline"
+                    >
+                        Add Order
+                    </Link>
+                </div>
                 <DataTable
                     value={orders?.data}
                     className="p-datatable-customers"

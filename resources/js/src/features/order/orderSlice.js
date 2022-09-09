@@ -255,6 +255,7 @@ export const orderSlice = createSlice({
             .addCase(saveOrder.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
+                state.message = "Order had been added";
                 state.order = action.payload;
             })
             .addCase(saveOrder.rejected, (state, action) => {

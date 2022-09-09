@@ -36,6 +36,6 @@ class OrderItem extends Model
 
     public function reviews()
     {
-        return $this->hasManyThrough(ProductReview::class, Product::class);
+        return $this->hasManyThrough(Product::class, ProductReview::class);
     }
 }

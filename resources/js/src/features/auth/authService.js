@@ -29,7 +29,7 @@ const login = async (userData) => {
 };
 
 const forgotPass = async (email) => {
-    const res = await axios.post(API_URL + "/forgot-password", email);
+    const res = await axios.post("/forgot-password", email);
 
     return res.data;
 };
